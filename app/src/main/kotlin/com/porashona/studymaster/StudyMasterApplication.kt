@@ -5,11 +5,16 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.porashona.studymaster.data.database.StudyDatabase
+import com.porashona.studymaster.data.preferences.PreferencesManager
 
 class StudyMasterApplication : Application() {
 
     val database: StudyDatabase by lazy {
         StudyDatabase.getDatabase(this)
+    }
+
+    val preferencesManager: PreferencesManager by lazy {
+        PreferencesManager(this)
     }
 
     override fun onCreate() {
@@ -45,9 +50,20 @@ class StudyMasterApplication : Application() {
                 description = "রুটিন অনুস্মারক"
             }
 
+            // ADD MUSIC CHANNEL
+            val musicChannel = NotificationChannel(
+                MUSIC_CHANNEL_ID,
+                "মিউজিক",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "পড়াশোনার মিউজিক প্লেয়ার"
+                setShowBadge(false)
+                setSound(null, null)
+            }
+
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannels(
-                listOf(timerChannel, alertChannel, routineChannel)
+                listOf(timerChannel, alertChannel, routineChannel, musicChannel)
             )
         }
     }
@@ -56,5 +72,21 @@ class StudyMasterApplication : Application() {
         const val TIMER_CHANNEL_ID = "timer_channel"
         const val ALERT_CHANNEL_ID = "alert_channel"
         const val ROUTINE_CHANNEL_ID = "routine_channel"
+        const val MUSIC_CHANNEL_ID = "music_channel"  //
+    }
+    //
+    val extendedRepository: com.porashona.studymaster.data.repository.ExtendedRepository by lazy {
+        com.porashona.studymaster.data.repository.ExtendedRepository(
+            database.goalDao(),
+            database.taskDao(),
+            database.noteDao(),
+            database.examDao(),
+            database.challengeDao(),
+            database.blockedAppDao(),
+            database.quoteDao(),
+            database.studyResourceDao(),
+            database.academicEventDao(),
+            database.userProfileDao()
+        )
     }
 }

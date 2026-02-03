@@ -1,0 +1,206 @@
+[
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/activity_main.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_study_session_dao.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_study_session_dao.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_exam.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_exam.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_subject_dao.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_subject_dao.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_profile.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_timer.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_timer.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_subject.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_subject.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_routine.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_routine.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_exams.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_exams.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_timer_service.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_timer_service.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_goal.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_goal.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/activity_settings.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_study_master_application.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_study_master_application.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_note.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_note.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_user_profile_dao.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_user_profile_dao.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_randomizer.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_randomizer.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_music.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_music.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_resources.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_resources.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_stats_view_model.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_stats_view_model.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_routine.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_routine.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_tasks.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_tasks.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/widget_stats.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/widget_stats.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_routine_dao.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_routine_dao.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_blocked_app.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_blocked_app.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_user_profile.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_user_profile.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_achievement_dao.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_achievement_dao.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_task.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_task.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_resource.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_resource.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_profile_view_model.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_profile_view_model.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_study_repository.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_study_repository.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_alarm_receiver.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_alarm_receiver.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_exam.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_exam.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_routine.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_routine.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_routine_adapter.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_routine_adapter.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_timer_view_model.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_timer_view_model.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_edit_name.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_edit_name.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/activity_block_overlay.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/activity_block_overlay.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_stats.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_stats.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_goals.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_goals.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_resource.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_resource.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_note.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_note.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_subject.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_subject.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_achievement.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_achievement.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_routine_view_model.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_routine_view_model.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/activity_focus_mode.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/activity_focus_mode.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_notes.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_notes.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/item_music_track.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/item_music_track.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/layout_achievement_adapter.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/layout_achievement_adapter.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_task.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_task.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/dialog_add_goal.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/dialog_add_goal.xml"
+    },
+    {
+        "merged": "com.porashona.studymaster.app-mergeDebugResources-62:/layout/fragment_blocker.xml",
+        "source": "com.porashona.studymaster.app-main-65:/layout/fragment_blocker.xml"
+    }
+]

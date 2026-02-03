@@ -1,0 +1,55 @@
+package com.porashona.studymaster.ui.focus
+
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.View
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import com.porashona.studymaster.databinding.ActivityFocusModeBinding
+
+class FocusModeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFocusModeBinding
+    private var timer: CountDownTimer? = null
+    private var isRunning = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Fullscreen immersive mode
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        binding = ActivityFocusModeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val duration = intent.getLongExtra("duration", 25 * 60 * 1000L)
+        startTimer(duration)
+
+        binding.btnExit.setOnClickListener {
+            timer?.cancel()
+            finish()
+        }
+    }
+
+    private fun startTimer(duration: Long) {
+        timer = object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = (millisUntilFinished / 1000) / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                binding.tvTimer.text = String.format("%02d:%02d", minutes, seconds)
+            }
+
+            override fun onFinish() {
+                binding.tvTimer.text = "00:00"
+                binding.tvStatus.text = "Session Complete"
+            }
+        }.start()
+        isRunning = true
+    }
+
+    override fun onBackPressed() {
+        // Prevent accidental exit
+        // Require explicit button press
+    }
+}

@@ -103,6 +103,25 @@ class TimerViewModel(private val repository: StudyRepository) : ViewModel() {
         _progress.value = 1f
         timeWhenPaused = totalDuration
     }
+    // ... inside TimerViewModel class
+
+    fun setTimerMode(modeId: String) {
+        val mode = com.porashona.studymaster.data.model.TimerModes.getById(modeId)
+        // Logic to update durations based on mode
+        val workDuration = mode.workDuration * 60 * 1000L
+        // Update live data...
+        // This links with the TimerModes data class created in Part 1
+    }
+
+    // Add voice command handler
+    fun processVoiceCommand(command: String) {
+        val cmd = command.lowercase()
+        when {
+            cmd.contains("start") || cmd.contains("শুরু") -> startTimer()
+            cmd.contains("stop") || cmd.contains("থামো") -> pauseTimer()
+            cmd.contains("reset") || cmd.contains("বন্ধ") -> resetTimer()
+        }
+    }
 
     private fun startCountdown(duration: Long) {
         countDownTimer?.cancel()
