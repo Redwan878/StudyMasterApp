@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">পড়াশোনা</string>
+
+    <!-- Navigation -->
+    <string name="nav_timer">টাইমার</string>
+    <string name="nav_stats">পরিসংখ্যান</string>
+    <string name="nav_routine">রুটিন</string>
+    <string name="nav_profile">প্রোফাইল</string>
+
+    <!-- Timer -->
+    <string name="study_time">চলো পড়া শুরু করি</string>
+    <string name="short_break">ছোট বিরতি</string>
+    <string name="long_break">দীর্ঘ বিরতি</string>
+    <string name="start">শুরু</string>
+    <string name="pause">বিরতি</string>
+    <string name="resume">আবার শুরু</string>
+    <string name="reset">বন্ধ</string>
+    <string name="select_subject">বিষয় নির্বাচন করুন</string>
+    <string name="add_subject">বিষয় যোগ করুন</string>
+
+    <!-- Statistics -->
+    <string name="stats_title">আপনার অগ্রগতি</string>
+    <string name="total_study_time">মোট পড়াশোনা</string>
+    <string name="current_streak">বর্তমান স্ট্রিক</string>
+    <string name="longest_streak">সর্বোচ্চ স্ট্রিক</string>
+    <string name="total_sessions">মোট সেশন</string>
+    <string name="today">আজ</string>
+    <string name="this_week">এই সপ্তাহ</string>
+    <string name="subject_breakdown">বিষয়ভিত্তিক সময়</string>
+    <string name="productivity_score">প্রোডাক্টিভিটি স্কোর</string>
+    <string name="weekly_report">সাপ্তাহিক রিপোর্ট</string>
+
+    <!-- Routine -->
+    <string name="routine_title">পড়াশোনার রুটিন</string>
+    <string name="create_routine">নতুন রুটিন</string>
+    <string name="edit_routine">রুটিন সম্পাদনা</string>
+    <string name="delete_routine">রুটিন মুছুন</string>
+    <string name="no_routines">কোন রুটিন নেই</string>
+    <string name="add_first_routine">প্রথম রুটিন যোগ করুন</string>
+
+    <!-- Profile -->
+    <string name="achievements">অর্জনসমূহ</string>
+    <string name="settings">সেটিংস</string>
+    <string name="about">সম্পর্কে</string>
+
+    <!-- Common -->
+    <string name="save">সংরক্ষণ</string>
+    <string name="cancel">বাতিল</string>
+    <string name="delete">মুছুন</string>
+    <string name="edit">সম্পাদনা</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="close">বন্ধ</string>
+    <string name="no_data">কোন তথ্য নেই</string>
+    <string name="delete_confirmation">আপনি কি নিশ্চিত?</string>
+</resources>
