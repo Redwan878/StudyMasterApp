@@ -139,6 +139,12 @@
             </intent-filter>
         </receiver>
 
+        <!-- Daily Study Reminder -->
+        <receiver
+            android:name=".utils.DailyReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Language Change Receiver -->
         <receiver
             android:name=".receiver.LocaleChangeReceiver"

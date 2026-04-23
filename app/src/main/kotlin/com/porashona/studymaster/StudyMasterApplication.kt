@@ -34,6 +34,20 @@ class StudyMasterApplication : Application() {
         installCrashHandler()
         createNotificationChannels()
         applyStoredThemeMode()
+        observeSessionChangesForWidget()
+    }
+
+    /**
+     * Repaints the home-screen stats widget whenever study time or streak
+     * changes. Cheap: the widget fires RemoteViews updates only when it has
+     * pinned instances.
+     */
+    private fun observeSessionChangesForWidget() {
+        CoroutineScope(Dispatchers.Default).launch {
+            studyRepository.totalStudyTime.collect {
+                com.porashona.studymaster.widget.StatsWidget.requestUpdate(this@StudyMasterApplication)
+            }
+        }
     }
 
     /**

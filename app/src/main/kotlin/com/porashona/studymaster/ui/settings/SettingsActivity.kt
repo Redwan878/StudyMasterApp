@@ -213,7 +213,15 @@ class SettingsActivity : AppCompatActivity() {
         bindSwitch(binding.switchNotifications, prefs.notificationEnabled) { prefs.setNotificationEnabled(it) }
         bindSwitch(binding.switchSound, prefs.soundEnabled) { prefs.setSoundEnabled(it) }
         bindSwitch(binding.switchVibration, prefs.vibrationEnabled) { prefs.setVibrationEnabled(it) }
-        bindSwitch(binding.switchDailyReminder, prefs.dailyReminderEnabled) { prefs.setDailyReminderEnabled(it) }
+        bindSwitch(binding.switchDailyReminder, prefs.dailyReminderEnabled) { enabled ->
+            prefs.setDailyReminderEnabled(enabled)
+            val hhmm = prefs.dailyReminderTime.first()
+            if (enabled) {
+                com.porashona.studymaster.utils.DailyReminderScheduler.schedule(applicationContext, hhmm)
+            } else {
+                com.porashona.studymaster.utils.DailyReminderScheduler.cancel(applicationContext)
+            }
+        }
         bindSwitch(binding.switchStreakReminder, prefs.streakReminderEnabled) { prefs.setStreakReminderEnabled(it) }
         bindSwitch(binding.switchBreakReminder, prefs.breakReminderEnabled) { prefs.setBreakReminderEnabled(it) }
         bindSwitch(binding.switchQuoteNotification, prefs.quoteNotificationEnabled) { prefs.setQuoteNotificationEnabled(it) }

@@ -551,4 +551,11 @@
     <string name="music_cat_classical">Classical</string>
     <string name="music_cat_ambient">Ambient</string>
     <string name="music_cat_jazz">Jazz</string>
+    <string name="exam_done">Done</string>
+    <string name="exam_today">Today</string>
+    <string name="exam_days_left">%1$d days left</string>
+    <string name="widget_today">Today</string>
+    <string name="widget_level">Level</string>
+    <string name="daily_reminder_notif_title">Time to study</string>
+    <string name="daily_reminder_notif_body">Tap to jump into a focus session.</string>
 </resources>
