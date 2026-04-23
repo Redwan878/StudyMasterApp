@@ -37,6 +37,7 @@ class PreferencesManager(private val context: Context) {
         val STREAK_REMINDER_ENABLED = booleanPreferencesKey("streak_reminder_enabled")
         val BREAK_REMINDER_ENABLED = booleanPreferencesKey("break_reminder_enabled")
         val QUOTE_NOTIFICATION_ENABLED = booleanPreferencesKey("quote_notification_enabled")
+        val WEEKLY_SUMMARY_ENABLED = booleanPreferencesKey("weekly_summary_enabled")
 
         // Theme Settings
         val DARK_MODE = stringPreferencesKey("dark_mode") // "light", "dark", "system", "amoled"
@@ -175,6 +176,9 @@ class PreferencesManager(private val context: Context) {
     val quoteNotificationEnabled: Flow<Boolean> = context.dataStore.data
         .map { it[QUOTE_NOTIFICATION_ENABLED] ?: false }
 
+    val weeklySummaryEnabled: Flow<Boolean> = context.dataStore.data
+        .map { it[WEEKLY_SUMMARY_ENABLED] ?: true }
+
     suspend fun setSoundEnabled(enabled: Boolean) {
         context.dataStore.edit { it[SOUND_ENABLED] = enabled }
     }
@@ -205,6 +209,10 @@ class PreferencesManager(private val context: Context) {
 
     suspend fun setQuoteNotificationEnabled(enabled: Boolean) {
         context.dataStore.edit { it[QUOTE_NOTIFICATION_ENABLED] = enabled }
+    }
+
+    suspend fun setWeeklySummaryEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[WEEKLY_SUMMARY_ENABLED] = enabled }
     }
 
     // ==================== THEME ====================

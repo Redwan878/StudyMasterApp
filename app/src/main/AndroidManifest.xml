@@ -145,6 +145,18 @@
             android:enabled="true"
             android:exported="false" />
 
+        <!-- Daily Quote Notification -->
+        <receiver
+            android:name=".utils.QuoteNotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Weekly Summary Notification -->
+        <receiver
+            android:name=".utils.WeeklySummaryReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Language Change Receiver -->
         <receiver
             android:name=".receiver.LocaleChangeReceiver"

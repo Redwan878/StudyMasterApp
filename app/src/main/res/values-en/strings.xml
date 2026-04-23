@@ -558,4 +558,9 @@
     <string name="widget_level">Level</string>
     <string name="daily_reminder_notif_title">Time to study</string>
     <string name="daily_reminder_notif_body">Tap to jump into a focus session.</string>
+    <string name="setting_weekly_summary">Weekly summary (Sundays 8pm)</string>
+    <string name="quote_notif_title">Today\'s quote</string>
+    <string name="quote_notif_fallback">Great things take time — keep showing up.</string>
+    <string name="weekly_summary_title">Your week in study</string>
+    <string name="weekly_summary_body">Last 7 days: %1$dh %2$dm across %3$d sessions.</string>
 </resources>

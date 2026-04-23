@@ -577,4 +577,9 @@
     <string name="widget_level">লেভেল</string>
     <string name="daily_reminder_notif_title">পড়াশোনার সময়</string>
     <string name="daily_reminder_notif_body">ট্যাপ করে একটি ফোকাস সেশন শুরু করুন।</string>
+    <string name="setting_weekly_summary">সাপ্তাহিক সারসংক্ষেপ (রবি রাত ৮টা)</string>
+    <string name="quote_notif_title">আজকের উদ্ধৃতি</string>
+    <string name="quote_notif_fallback">বড় কিছু তৈরি হতে সময় লাগে — চালিয়ে যান।</string>
+    <string name="weekly_summary_title">এই সপ্তাহের পড়াশোনা</string>
+    <string name="weekly_summary_body">গত ৭ দিন: %1$d ঘণ্টা %2$d মিনিট · %3$dটি সেশন।</string>
 </resources>

@@ -224,7 +224,22 @@ class SettingsActivity : AppCompatActivity() {
         }
         bindSwitch(binding.switchStreakReminder, prefs.streakReminderEnabled) { prefs.setStreakReminderEnabled(it) }
         bindSwitch(binding.switchBreakReminder, prefs.breakReminderEnabled) { prefs.setBreakReminderEnabled(it) }
-        bindSwitch(binding.switchQuoteNotification, prefs.quoteNotificationEnabled) { prefs.setQuoteNotificationEnabled(it) }
+        bindSwitch(binding.switchQuoteNotification, prefs.quoteNotificationEnabled) { enabled ->
+            prefs.setQuoteNotificationEnabled(enabled)
+            if (enabled) {
+                com.porashona.studymaster.utils.QuoteNotificationScheduler.schedule(applicationContext)
+            } else {
+                com.porashona.studymaster.utils.QuoteNotificationScheduler.cancel(applicationContext)
+            }
+        }
+        bindSwitch(binding.switchWeeklySummary, prefs.weeklySummaryEnabled) { enabled ->
+            prefs.setWeeklySummaryEnabled(enabled)
+            if (enabled) {
+                com.porashona.studymaster.utils.WeeklySummaryScheduler.schedule(applicationContext)
+            } else {
+                com.porashona.studymaster.utils.WeeklySummaryScheduler.cancel(applicationContext)
+            }
+        }
     }
 
     // ============================ FOCUS ============================

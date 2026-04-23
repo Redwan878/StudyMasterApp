@@ -61,12 +61,17 @@ class AlarmReceiver : BroadcastReceiver() {
                 val routines = app.database.routineDao().getEnabledRoutines().first()
                 routines.forEach { helper.scheduleRoutineAlarm(it) }
 
-                // Re-arm daily reminder if the user had it enabled.
-                val enabled = app.preferencesManager.dailyReminderEnabled.first()
-                if (enabled) {
+                // Re-arm daily reminder / quote / weekly summary if the user had them on.
+                val ctx = context.applicationContext
+                if (app.preferencesManager.dailyReminderEnabled.first()) {
                     val hhmm = app.preferencesManager.dailyReminderTime.first()
-                    com.porashona.studymaster.utils.DailyReminderScheduler
-                        .schedule(context.applicationContext, hhmm)
+                    com.porashona.studymaster.utils.DailyReminderScheduler.schedule(ctx, hhmm)
+                }
+                if (app.preferencesManager.quoteNotificationEnabled.first()) {
+                    com.porashona.studymaster.utils.QuoteNotificationScheduler.schedule(ctx)
+                }
+                if (app.preferencesManager.weeklySummaryEnabled.first()) {
+                    com.porashona.studymaster.utils.WeeklySummaryScheduler.schedule(ctx)
                 }
             } finally {
                 pending.finish()
