@@ -148,8 +148,12 @@ class StudyRepository(
     val unlockedAchievements: Flow<List<Achievement>> = achievementDao.getUnlockedAchievements()
     val unlockedCount: Flow<Int> = achievementDao.getUnlockedCount()
 
-    /** Fires the newly-unlocked achievement after each successful `insertSession`. */
-    private val _achievementUnlocks = MutableSharedFlow<Achievement>(extraBufferCapacity = 4)
+    /**
+     * Fires the newly-unlocked achievement after each successful `insertSession`.
+     * Buffer is generous so the collector never drops events if many achievements
+     * unlock in the same tick (e.g. hours + sessions + streak all tripping at once).
+     */
+    private val _achievementUnlocks = MutableSharedFlow<Achievement>(extraBufferCapacity = 16)
     val achievementUnlocks: SharedFlow<Achievement> = _achievementUnlocks.asSharedFlow()
 
     private suspend fun unlockIfNew(id: String) {
@@ -157,7 +161,10 @@ class StudyRepository(
         if (a.isUnlocked) return
         achievementDao.unlockAchievement(id)
         profileDao.addXp(a.xpReward)
-        _achievementUnlocks.tryEmit(a.copy(isUnlocked = true))
+        // Suspending emit so the UI collector never misses a pop — even if many
+        // achievements unlock in the same tick the emit back-pressures rather
+        // than silently dropping.
+        _achievementUnlocks.emit(a.copy(isUnlocked = true))
     }
 
     suspend fun initializeAchievements() {

@@ -19,6 +19,9 @@
     <string name="study_time">Let\'s Start Studying</string>
     <string name="short_break">Short Break</string>
     <string name="long_break">Long Break</string>
+    <string name="session_work">Focus</string>
+    <string name="session_short_break">Short</string>
+    <string name="session_long_break">Long</string>
     <string name="start">Start</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>

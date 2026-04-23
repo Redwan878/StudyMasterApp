@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
@@ -132,7 +133,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigate(destinationId: Int): Boolean {
         if (navController.currentDestination?.id == destinationId) return true
-        return runCatching { navController.navigate(destinationId) }.isSuccess
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.nav_enter)
+            .setExitAnim(R.anim.nav_exit)
+            .setPopEnterAnim(R.anim.nav_pop_enter)
+            .setPopExitAnim(R.anim.nav_pop_exit)
+            .build()
+        return runCatching { navController.navigate(destinationId, null, options) }.isSuccess
     }
 
     private fun requestNotificationPermission() {

@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Brand kept saturated but lightened for dark surface contrast. -->
+    <color name="primary">#A29BFF</color>
+    <color name="primary_dark">#7B74F0</color>
+    <color name="primary_light">#CBC6FF</color>
 
+    <color name="secondary">#FF8FA3</color>
+    <color name="secondary_dark">#E86B84</color>
+    <color name="secondary_light">#FFBFC9</color>
+
+    <color name="accent">#FFD54F</color>
+    <color name="accent_light">#FFE29A</color>
+
+    <color name="background">#0F1117</color>
+    <color name="surface">#1A1D26</color>
+
+    <color name="text_primary">#E2E8F0</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_hint">#64748B</color>
+
+    <color name="success">#68D89B</color>
+    <color name="error">#FB7185</color>
+    <color name="warning">#FBBF77</color>
+    <color name="info">#60A5FA</color>
+
+    <color name="card_background">#1F2330</color>
+    <color name="divider">#2A2F3D</color>
+
+    <!-- Material 3 container tokens (dark) -->
+    <color name="primary_container">#2C2680</color>
+    <color name="on_primary_container">#E7E5FF</color>
+    <color name="secondary_container">#7A2941</color>
+    <color name="on_secondary_container">#FFE1E6</color>
+    <color name="surface_variant">#2A2E3A</color>
+    <color name="on_surface_variant">#C4C7CF</color>
+    <color name="outline">#8D9199</color>
+    <color name="outline_variant">#2A2F3D</color>
 </resources>
