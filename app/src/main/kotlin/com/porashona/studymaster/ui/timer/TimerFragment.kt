@@ -52,16 +52,8 @@ class TimerFragment : Fragment() {
         loadSubjects()
     }
 
-    private fun getRepository(): StudyRepository {
-        val database = (requireActivity().application as StudyMasterApplication).database
-        return StudyRepository(
-            database.studySessionDao(),
-            database.subjectDao(),
-            database.routineDao(),
-            database.achievementDao(),
-            database.userProfileDao()
-        )
-    }
+    private fun getRepository(): StudyRepository =
+        (requireActivity().application as StudyMasterApplication).studyRepository
 
     private fun setupUI() {
         // Session type buttons

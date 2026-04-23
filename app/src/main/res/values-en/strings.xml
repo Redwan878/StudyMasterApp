@@ -347,6 +347,27 @@
     <string name="resources_title">Resources</string>
     <string name="calendar_title">Calendar</string>
 
+    <!-- Blocker permissions -->
+    <string name="usage_stats_required">Usage access required</string>
+    <string name="usage_stats_description">The app blocker needs Usage access to detect which app is in the foreground. Please grant this in system settings.</string>
+    <string name="grant_permission">Grant permission</string>
+
+    <!-- Exact alarm permission -->
+    <string name="exact_alarm_required">Alarm permission required</string>
+    <string name="exact_alarm_description">Routine reminders need exact alarm permission to fire on time.</string>
+
+    <!-- AI Assistant -->
+    <string name="assistant_title">Study Assistant</string>
+    <string name="assistant_menu">Study Assistant</string>
+    <string name="assistant_header">Personalised suggestions</string>
+    <string name="assistant_no_data">Not enough data yet. Study for a few days and suggestions will appear here.</string>
+    <string name="assistant_refresh">Refresh</string>
+    <string name="assistant_section_next">What to study next</string>
+    <string name="assistant_section_insights">Insights</string>
+
+    <!-- Achievement -->
+    <string name="achievement_unlocked">Achievement unlocked: %1$s</string>
+
     <!-- Notes screen -->
     <string name="notes_search_hint">Search notes</string>
     <string name="notes_empty">No notes yet. Tap + to add one.</string>

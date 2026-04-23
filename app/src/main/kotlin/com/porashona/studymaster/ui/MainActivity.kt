@@ -1,17 +1,24 @@
 package com.porashona.studymaster.ui
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.porashona.studymaster.R
 import com.porashona.studymaster.StudyMasterApplication
 import com.porashona.studymaster.data.repository.StudyRepository
@@ -43,17 +50,46 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         setupToolbarMenu()
         requestNotificationPermission()
+        observeAchievementUnlocks()
+    }
+
+    private fun observeAchievementUnlocks() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                repository.achievementUnlocks.collect { a ->
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.achievement_unlocked, a.title),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    vibrateForAchievement()
+                }
+            }
+        }
+    }
+
+    private fun vibrateForAchievement() {
+        val vibrator: Vibrator? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vm = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
+            vm?.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+        }
+        vibrator?.takeIf { it.hasVibrator() }?.let {
+            // Short two-pulse pattern so the phone "double-taps" — distinctive
+            // enough to stand out from a normal notification buzz.
+            val effect = VibrationEffect.createWaveform(
+                longArrayOf(0, 80, 60, 80),
+                intArrayOf(0, 255, 0, 255),
+                -1
+            )
+            runCatching { it.vibrate(effect) }
+        }
     }
 
     private fun setupRepository() {
-        val database = (application as StudyMasterApplication).database
-        repository = StudyRepository(
-            database.studySessionDao(),
-            database.subjectDao(),
-            database.routineDao(),
-            database.achievementDao(),
-            database.userProfileDao()
-        )
+        repository = (application as StudyMasterApplication).studyRepository
 
         lifecycleScope.launch {
             repository.initializeProfile()
@@ -80,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_calendar -> navigate(R.id.calendarFragment)
                 R.id.menu_randomizer -> navigate(R.id.randomizerFragment)
                 R.id.menu_resources -> navigate(R.id.resourcesFragment)
+                R.id.menu_assistant -> navigate(R.id.assistantFragment)
                 R.id.menu_focus_mode -> {
                     startActivity(Intent(this, FocusModeActivity::class.java))
                     true

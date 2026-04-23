@@ -3,6 +3,9 @@ package com.porashona.studymaster.data.repository
 import com.porashona.studymaster.data.dao.*
 import com.porashona.studymaster.data.model.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import java.util.*
 
@@ -145,6 +148,18 @@ class StudyRepository(
     val unlockedAchievements: Flow<List<Achievement>> = achievementDao.getUnlockedAchievements()
     val unlockedCount: Flow<Int> = achievementDao.getUnlockedCount()
 
+    /** Fires the newly-unlocked achievement after each successful `insertSession`. */
+    private val _achievementUnlocks = MutableSharedFlow<Achievement>(extraBufferCapacity = 4)
+    val achievementUnlocks: SharedFlow<Achievement> = _achievementUnlocks.asSharedFlow()
+
+    private suspend fun unlockIfNew(id: String) {
+        val a = achievementDao.getAchievementById(id) ?: return
+        if (a.isUnlocked) return
+        achievementDao.unlockAchievement(id)
+        profileDao.addXp(a.xpReward)
+        _achievementUnlocks.tryEmit(a.copy(isUnlocked = true))
+    }
+
     suspend fun initializeAchievements() {
         val existing = achievementDao.getAllAchievements().first()
         if (existing.isEmpty()) {
@@ -170,78 +185,29 @@ class StudyRepository(
         val totalSessions = profile.totalSessions
         val currentStreak = profile.currentStreak
 
-        // Check streak achievements
-        if (currentStreak >= 7) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.STREAK_7)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.STREAK_7)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        // Streak
+        if (currentStreak >= 7) unlockIfNew(AchievementTypes.STREAK_7)
         achievementDao.updateProgress(AchievementTypes.STREAK_7, minOf(currentStreak, 7))
-
-        if (currentStreak >= 30) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.STREAK_30)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.STREAK_30)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        if (currentStreak >= 30) unlockIfNew(AchievementTypes.STREAK_30)
         achievementDao.updateProgress(AchievementTypes.STREAK_30, minOf(currentStreak, 30))
 
-        // Check hours achievements
-        if (totalHours >= 10) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.HOURS_10)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.HOURS_10)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        // Hours
+        if (totalHours >= 10) unlockIfNew(AchievementTypes.HOURS_10)
         achievementDao.updateProgress(AchievementTypes.HOURS_10, minOf(totalHours, 10))
-
-        if (totalHours >= 100) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.HOURS_100)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.HOURS_100)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        if (totalHours >= 100) unlockIfNew(AchievementTypes.HOURS_100)
         achievementDao.updateProgress(AchievementTypes.HOURS_100, minOf(totalHours, 100))
+        if (totalHours >= 500) unlockIfNew(AchievementTypes.HOURS_500)
+        achievementDao.updateProgress(AchievementTypes.HOURS_500, minOf(totalHours, 500))
 
-        // Check session achievements
-        if (totalSessions >= 10) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.SESSIONS_10)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.SESSIONS_10)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        // Sessions
+        if (totalSessions >= 10) unlockIfNew(AchievementTypes.SESSIONS_10)
         achievementDao.updateProgress(AchievementTypes.SESSIONS_10, minOf(totalSessions, 10))
-
-        if (totalSessions >= 100) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.SESSIONS_100)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.SESSIONS_100)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        if (totalSessions >= 100) unlockIfNew(AchievementTypes.SESSIONS_100)
         achievementDao.updateProgress(AchievementTypes.SESSIONS_100, minOf(totalSessions, 100))
 
-        // Check time-based achievements
+        // Time-of-day
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        if (currentHour < 6) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.EARLY_BIRD)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.EARLY_BIRD)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
-        if (currentHour >= 0 && currentHour < 4) {
-            val achievement = achievementDao.getAchievementById(AchievementTypes.NIGHT_OWL)
-            if (achievement?.isUnlocked == false) {
-                achievementDao.unlockAchievement(AchievementTypes.NIGHT_OWL)
-                profileDao.addXp(achievement.xpReward)
-            }
-        }
+        if (currentHour < 6) unlockIfNew(AchievementTypes.EARLY_BIRD)
+        if (currentHour in 0 until 4) unlockIfNew(AchievementTypes.NIGHT_OWL)
     }
 }

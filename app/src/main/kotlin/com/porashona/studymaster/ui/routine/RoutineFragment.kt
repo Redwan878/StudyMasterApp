@@ -18,6 +18,7 @@ import com.porashona.studymaster.data.model.Subject
 import com.porashona.studymaster.data.repository.StudyRepository
 import com.porashona.studymaster.databinding.DialogAddRoutineBinding
 import com.porashona.studymaster.databinding.FragmentRoutineBinding
+import com.porashona.studymaster.utils.NotificationHelper
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -50,16 +51,8 @@ class RoutineFragment : Fragment() {
         observeViewModel()
     }
 
-    private fun getRepository(): StudyRepository {
-        val database = (requireActivity().application as StudyMasterApplication).database
-        return StudyRepository(
-            database.studySessionDao(),
-            database.subjectDao(),
-            database.routineDao(),
-            database.achievementDao(),
-            database.userProfileDao()
-        )
-    }
+    private fun getRepository(): StudyRepository =
+        (requireActivity().application as StudyMasterApplication).studyRepository
 
     private fun setupRecyclerView() {
         adapter = RoutineAdapter(
@@ -82,8 +75,29 @@ class RoutineFragment : Fragment() {
 
     private fun setupFab() {
         binding.fabAddRoutine.setOnClickListener {
+            // Before adding a new routine, make sure we can actually fire exact
+            // alarms on Android 12+ — otherwise reminders would silently be
+            // downgraded to inexact and could fire hours late.
+            val helper = NotificationHelper(requireContext().applicationContext)
+            if (!helper.canScheduleExactAlarms()) {
+                showExactAlarmDialog()
+                return@setOnClickListener
+            }
             showAddRoutineDialog()
         }
+    }
+
+    private fun showExactAlarmDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.exact_alarm_required)
+            .setMessage(R.string.exact_alarm_description)
+            .setPositiveButton(R.string.grant_permission) { _, _ ->
+                runCatching {
+                    startActivity(NotificationHelper.exactAlarmSettingsIntent(requireContext()))
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun observeViewModel() {

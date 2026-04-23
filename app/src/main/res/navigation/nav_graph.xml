@@ -82,4 +82,10 @@
         android:label="@string/resources_title"
         tools:layout="@layout/fragment_resources" />
 
+    <fragment
+        android:id="@+id/assistantFragment"
+        android:name="com.porashona.studymaster.ui.assistant.AssistantFragment"
+        android:label="@string/assistant_title"
+        tools:layout="@layout/fragment_assistant" />
+
 </navigation>

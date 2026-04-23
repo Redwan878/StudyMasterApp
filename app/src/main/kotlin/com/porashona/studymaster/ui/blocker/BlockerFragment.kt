@@ -1,11 +1,15 @@
 package com.porashona.studymaster.ui.blocker
 
 import android.accessibilityservice.AccessibilityServiceInfo
+import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Process
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -247,17 +251,77 @@ class BlockerFragment : Fragment() {
 
     private fun checkPermissions() {
         val isAccessibilityEnabled = isAccessibilityServiceEnabled()
-        binding.cardAccessibility.visibility = if (isAccessibilityEnabled) View.GONE else View.VISIBLE
+        val isUsageStatsGranted = isUsageStatsPermissionGranted()
+        // Show the "grant accessibility" card if either permission is missing;
+        // the button opens the right settings screen for whichever is missing.
+        val missing = !isAccessibilityEnabled || !isUsageStatsGranted
+        binding.cardAccessibility.visibility = if (missing) View.VISIBLE else View.GONE
     }
 
     private fun checkAndRequestPermissions() {
-        if (!isAccessibilityServiceEnabled()) showAccessibilityDialog()
+        if (!isAccessibilityServiceEnabled()) {
+            showAccessibilityDialog()
+            return
+        }
+        if (!isUsageStatsPermissionGranted()) {
+            showUsageStatsDialog()
+        }
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {
         val am = requireContext().getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
         return enabledServices.any { it.resolveInfo.serviceInfo.packageName == requireContext().packageName }
+    }
+
+    /**
+     * The blocker service relies on UsageStatsManager to detect the foreground
+     * app. Without PACKAGE_USAGE_STATS granted through system settings the
+     * service silently fails (UsageEvents is always empty), so callers have to
+     * check this explicitly — it is NOT a runtime permission.
+     */
+    private fun isUsageStatsPermissionGranted(): Boolean {
+        val appOps = requireContext().getSystemService(Context.APP_OPS_SERVICE) as? AppOpsManager
+            ?: return false
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOps.unsafeCheckOpNoThrow(
+                AppOpsManager.OPSTR_GET_USAGE_STATS,
+                Process.myUid(),
+                requireContext().packageName
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            appOps.checkOpNoThrow(
+                AppOpsManager.OPSTR_GET_USAGE_STATS,
+                Process.myUid(),
+                requireContext().packageName
+            )
+        }
+        return mode == AppOpsManager.MODE_ALLOWED
+    }
+
+    private fun showUsageStatsDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.usage_stats_required)
+            .setMessage(R.string.usage_stats_description)
+            .setPositiveButton(R.string.grant_permission) { _, _ -> openUsageAccessSettings() }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun openUsageAccessSettings() {
+        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
+            // Deep-link to this app's entry where possible so the user doesn't
+            // have to scroll through every installed app.
+            data = Uri.fromParts("package", requireContext().packageName, null)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        runCatching { startActivity(intent) }.onFailure {
+            // Some OEMs (Xiaomi/MIUI in particular) don't honour the package URI.
+            startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
+        }
     }
 
     private fun showAccessibilityDialog() {
@@ -338,6 +402,12 @@ class BlockerFragment : Fragment() {
             if (!isAccessibilityServiceEnabled()) {
                 Snackbar.make(binding.root, R.string.zen_accessibility_required, Snackbar.LENGTH_LONG)
                     .setAction(R.string.enable_accessibility) { openAccessibilitySettings() }
+                    .show()
+                return@launch
+            }
+            if (!isUsageStatsPermissionGranted()) {
+                Snackbar.make(binding.root, R.string.usage_stats_required, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.grant_permission) { openUsageAccessSettings() }
                     .show()
                 return@launch
             }

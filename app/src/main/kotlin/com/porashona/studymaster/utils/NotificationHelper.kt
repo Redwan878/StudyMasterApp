@@ -12,6 +12,35 @@ import java.util.Calendar
 class NotificationHelper(private val context: Context) {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    /**
+     * Whether we can currently schedule exact alarms. On Android 12+ this
+     * requires the SCHEDULE_EXACT_ALARM special permission — UI callers should
+     * use [exactAlarmSettingsIntent] to send the user to the system settings
+     * screen if this returns false.
+     */
+    fun canScheduleExactAlarms(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms()
+
+    companion object {
+        /**
+         * Intent to the "Alarms & reminders" screen where the user can grant
+         * SCHEDULE_EXACT_ALARM. Only meaningful on API 31+; callers should
+         * still gate the launch on [canScheduleExactAlarms].
+         */
+        fun exactAlarmSettingsIntent(context: Context): Intent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                    data = android.net.Uri.fromParts("package", context.packageName, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            } else {
+                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = android.net.Uri.fromParts("package", context.packageName, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            }
+    }
+
     fun scheduleDailyReminder(hour: Int, minute: Int) {
         val calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
@@ -75,8 +104,7 @@ class NotificationHelper(private val context: Context) {
         // needs to be re-armed on every fire (done inside AlarmReceiver), but is
         // the only way to survive Doze. Fall back to inexact on older devices
         // where we don't hold SCHEDULE_EXACT_ALARM.
-        val canExact = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms()
-        if (canExact) {
+        if (canScheduleExactAlarms()) {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,

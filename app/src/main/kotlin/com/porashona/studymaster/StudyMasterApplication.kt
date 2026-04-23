@@ -89,4 +89,19 @@ class StudyMasterApplication : Application() {
             database.userProfileDao()
         )
     }
+
+    /**
+     * Single shared instance of the "core" study repository so every fragment
+     * doesn't spin up its own copy (each one was a tiny DAO-wrapper allocation
+     * per navigation — harmless, but wasteful).
+     */
+    val studyRepository: com.porashona.studymaster.data.repository.StudyRepository by lazy {
+        com.porashona.studymaster.data.repository.StudyRepository(
+            database.studySessionDao(),
+            database.subjectDao(),
+            database.routineDao(),
+            database.achievementDao(),
+            database.userProfileDao()
+        )
+    }
 }

@@ -366,6 +366,27 @@
     <string name="resources_title">রিসোর্স</string>
     <string name="calendar_title">ক্যালেন্ডার</string>
 
+    <!-- Blocker permissions -->
+    <string name="usage_stats_required">ইউসেজ অ্যাক্সেস অনুমতি দরকার</string>
+    <string name="usage_stats_description">অ্যাপ ব্লকার যেন সামনে চলা অ্যাপ বুঝতে পারে সেজন্য Usage access অনুমতি প্রয়োজন। সিস্টেম সেটিংসে গিয়ে অনুমতি দিন।</string>
+    <string name="grant_permission">অনুমতি দিন</string>
+
+    <!-- Exact alarm permission -->
+    <string name="exact_alarm_required">অ্যালার্ম অনুমতি দরকার</string>
+    <string name="exact_alarm_description">রুটিন অ্যালার্ম সঠিক সময়ে বাজাতে নির্দিষ্ট অ্যালার্মের অনুমতি দরকার।</string>
+
+    <!-- AI Assistant -->
+    <string name="assistant_title">স্টাডি সহকারী</string>
+    <string name="assistant_menu">স্টাডি সহকারী</string>
+    <string name="assistant_header">তোমার ব্যক্তিগত পরামর্শ</string>
+    <string name="assistant_no_data">যথেষ্ট ডেটা নেই। কিছুদিন পড়াশোনা করার পরে এখানে তোমার জন্য পরামর্শ দেখাব।</string>
+    <string name="assistant_refresh">রিফ্রেশ</string>
+    <string name="assistant_section_next">পরবর্তী সাজেশন</string>
+    <string name="assistant_section_insights">ইনসাইট</string>
+
+    <!-- Achievement -->
+    <string name="achievement_unlocked">অর্জন আনলক হয়েছে: %1$s</string>
+
     <!-- Notes screen -->
     <string name="notes_search_hint">নোট খুঁজুন</string>
     <string name="notes_empty">কোনো নোট নেই। যোগ করতে + বাটন চাপুন।</string>
