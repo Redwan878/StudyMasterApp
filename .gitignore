@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+app/build/
+gradle-app.setting
+.gradletasknamecache
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.navigation/
+captures/
+output.json
+
+# Local config (per-machine)
+local.properties
+
+# Keystores
+*.jks
+*.keystore
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.hprof

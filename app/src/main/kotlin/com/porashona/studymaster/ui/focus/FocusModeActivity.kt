@@ -1,9 +1,13 @@
 package com.porashona.studymaster.ui.focus
 
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.porashona.studymaster.databinding.ActivityFocusModeBinding
 
@@ -14,10 +18,21 @@ class FocusModeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Fullscreen immersive mode
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        // Immersive fullscreen. `systemUiVisibility` is deprecated in favour of
+        // WindowInsetsController on R+.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+            window.insetsController?.apply {
+                hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                systemBarsBehavior =
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding = ActivityFocusModeBinding.inflate(layoutInflater)
@@ -30,6 +45,14 @@ class FocusModeActivity : AppCompatActivity() {
             timer?.cancel()
             finish()
         }
+
+        // Require the user to tap the Exit button instead of letting a back
+        // gesture immediately kill the session.
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Intentionally empty — block the default back action.
+            }
+        })
     }
 
     private fun startTimer(duration: Long) {
@@ -48,8 +71,8 @@ class FocusModeActivity : AppCompatActivity() {
         isRunning = true
     }
 
-    override fun onBackPressed() {
-        // Prevent accidental exit
-        // Require explicit button press
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
     }
 }

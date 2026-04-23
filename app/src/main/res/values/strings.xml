@@ -344,4 +344,61 @@
     <string name="restart_now">এখনই রিস্টার্ট করুন</string>
     <string name="restart_later">পরে</string>
 
+    <!-- Zen Mode -->
+    <string name="zen_mode_title">জেন মোড</string>
+    <string name="zen_mode_desc">নির্বাচিত অ্যাপ ব্লক করে, সময় শেষ না হওয়া পর্যন্ত বন্ধ করা যাবে না। (Block selected apps until the timer ends — no early exit.)</string>
+    <string name="zen_duration_label">সময়কাল</string>
+    <string name="zen_dnd_label">Do Not Disturb</string>
+    <string name="zen_dnd_desc">সেশনের সময় কেবল জরুরি বিজ্ঞপ্তি</string>
+    <string name="zen_start">জেন মোড শুরু করুন</string>
+    <string name="zen_stop">জেন মোড বন্ধ করুন</string>
+    <string name="zen_active_message">জেন মোড চলছে</string>
+    <string name="zen_locked_hint">সেশন সম্পূর্ণ না হওয়া পর্যন্ত বন্ধ করা যাবে না।</string>
+    <string name="zen_duration_minutes">%1$d মিনিট</string>
+    <string name="zen_no_apps_selected">প্রথমে অন্তত একটি অ্যাপ নির্বাচন করুন</string>
+    <string name="zen_selected_apps">%1$d অ্যাপ নির্বাচিত</string>
+    <string name="zen_accessibility_required">জেন মোড শুরু করতে অ্যাক্সেসিবিলিটি সার্ভিস চালু করুন</string>
+    <string name="zen_dnd_permission_required">Do Not Disturb অ্যাক্সেস প্রয়োজন</string>
+    <string name="zen_grant_dnd">অনুমতি দিন</string>
+
+    <!-- Secondary feature titles (reached from toolbar overflow) -->
+    <string name="randomizer_title">র‍্যান্ডম সাবজেক্ট</string>
+    <string name="resources_title">রিসোর্স</string>
+    <string name="calendar_title">ক্যালেন্ডার</string>
+
+    <!-- Blocker permissions -->
+    <string name="usage_stats_required">ইউসেজ অ্যাক্সেস অনুমতি দরকার</string>
+    <string name="usage_stats_description">অ্যাপ ব্লকার যেন সামনে চলা অ্যাপ বুঝতে পারে সেজন্য Usage access অনুমতি প্রয়োজন। সিস্টেম সেটিংসে গিয়ে অনুমতি দিন।</string>
+    <string name="grant_permission">অনুমতি দিন</string>
+
+    <!-- Exact alarm permission -->
+    <string name="exact_alarm_required">অ্যালার্ম অনুমতি দরকার</string>
+    <string name="exact_alarm_description">রুটিন অ্যালার্ম সঠিক সময়ে বাজাতে নির্দিষ্ট অ্যালার্মের অনুমতি দরকার।</string>
+
+    <!-- AI Assistant -->
+    <string name="assistant_title">স্টাডি সহকারী</string>
+    <string name="assistant_menu">স্টাডি সহকারী</string>
+    <string name="assistant_header">তোমার ব্যক্তিগত পরামর্শ</string>
+    <string name="assistant_no_data">যথেষ্ট ডেটা নেই। কিছুদিন পড়াশোনা করার পরে এখানে তোমার জন্য পরামর্শ দেখাব।</string>
+    <string name="assistant_refresh">রিফ্রেশ</string>
+    <string name="assistant_section_next">পরবর্তী সাজেশন</string>
+    <string name="assistant_section_insights">ইনসাইট</string>
+
+    <!-- Achievement -->
+    <string name="achievement_unlocked">অর্জন আনলক হয়েছে: %1$s</string>
+
+    <!-- Notes screen -->
+    <string name="notes_search_hint">নোট খুঁজুন</string>
+    <string name="notes_empty">কোনো নোট নেই। যোগ করতে + বাটন চাপুন।</string>
+
+    <!-- Calendar screen -->
+    <string name="calendar_empty">কোনো ইভেন্ট নেই। যোগ করতে + বাটন চাপুন।</string>
+    <string name="calendar_add_event">ইভেন্ট যোগ করুন</string>
+    <string name="calendar_edit_event">ইভেন্ট সম্পাদনা</string>
+    <string name="calendar_event_title">শিরোনাম</string>
+    <string name="calendar_event_description">বিবরণ</string>
+    <string name="calendar_event_type">ইভেন্টের ধরন</string>
+    <string name="calendar_pick_date">তারিখ নির্বাচন</string>
+    <string name="calendar_pick_time">সময় নির্বাচন (ঐচ্ছিক)</string>
+
 </resources>

@@ -65,4 +65,27 @@
         android:label="@string/nav_exams"
         tools:layout="@layout/fragment_exams" />
 
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.porashona.studymaster.ui.calendar.CalendarFragment"
+        android:label="@string/calendar_title" />
+
+    <fragment
+        android:id="@+id/randomizerFragment"
+        android:name="com.porashona.studymaster.ui.randomizer.RandomizerFragment"
+        android:label="@string/randomizer_title"
+        tools:layout="@layout/fragment_randomizer" />
+
+    <fragment
+        android:id="@+id/resourcesFragment"
+        android:name="com.porashona.studymaster.ui.resources.ResourcesFragment"
+        android:label="@string/resources_title"
+        tools:layout="@layout/fragment_resources" />
+
+    <fragment
+        android:id="@+id/assistantFragment"
+        android:name="com.porashona.studymaster.ui.assistant.AssistantFragment"
+        android:label="@string/assistant_title"
+        tools:layout="@layout/fragment_assistant" />
+
 </navigation>

@@ -45,16 +45,8 @@ class StatsFragment : Fragment() {
         observeViewModel()
     }
 
-    private fun getRepository(): StudyRepository {
-        val database = (requireActivity().application as StudyMasterApplication).database
-        return StudyRepository(
-            database.studySessionDao(),
-            database.subjectDao(),
-            database.routineDao(),
-            database.achievementDao(),
-            database.userProfileDao()
-        )
-    }
+    private fun getRepository(): StudyRepository =
+        (requireActivity().application as StudyMasterApplication).studyRepository
 
     private fun setupCharts() {
         // Setup Pie Chart
@@ -192,7 +184,7 @@ class StatsFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.chart_5)
         )
 
-        val entries = data.mapIndexed { index, (name, value) ->
+        val entries = data.map { (name, value) ->
             PieEntry(value, name)
         }
 

@@ -49,6 +49,11 @@ class PreferencesManager(private val context: Context) {
         val AUTO_BLOCK_ON_TIMER = booleanPreferencesKey("auto_block_on_timer")
         val USE_ROOT_BLOCKING = booleanPreferencesKey("use_root_blocking")
 
+        // Zen Mode Settings
+        val ZEN_SESSION_END_TIME = longPreferencesKey("zen_session_end_time")
+        val ZEN_LAST_DURATION_MINUTES = intPreferencesKey("zen_last_duration_minutes")
+        val ZEN_ENABLE_DND = booleanPreferencesKey("zen_enable_dnd")
+
         // Goals Settings
         val DAILY_GOAL_MINUTES = intPreferencesKey("daily_goal_minutes")
         val WEEKLY_GOAL_MINUTES = intPreferencesKey("weekly_goal_minutes")
@@ -247,6 +252,34 @@ class PreferencesManager(private val context: Context) {
 
     suspend fun setUseRootBlocking(enabled: Boolean) {
         context.dataStore.edit { it[USE_ROOT_BLOCKING] = enabled }
+    }
+
+    // ==================== ZEN MODE ====================
+    /**
+     * Wall-clock end time (millis since epoch) of the currently running Zen
+     * session, or 0 if no session is active. Reading this as a Flow lets the
+     * UI update in real time when a session starts/ends from the service.
+     */
+    val zenSessionEndTime: Flow<Long> = context.dataStore.data
+        .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
+        .map { it[ZEN_SESSION_END_TIME] ?: 0L }
+
+    val zenLastDurationMinutes: Flow<Int> = context.dataStore.data
+        .map { it[ZEN_LAST_DURATION_MINUTES] ?: 25 }
+
+    val zenEnableDnd: Flow<Boolean> = context.dataStore.data
+        .map { it[ZEN_ENABLE_DND] ?: true }
+
+    suspend fun setZenSessionEndTime(endTime: Long) {
+        context.dataStore.edit { it[ZEN_SESSION_END_TIME] = endTime }
+    }
+
+    suspend fun setZenLastDurationMinutes(minutes: Int) {
+        context.dataStore.edit { it[ZEN_LAST_DURATION_MINUTES] = minutes }
+    }
+
+    suspend fun setZenEnableDnd(enabled: Boolean) {
+        context.dataStore.edit { it[ZEN_ENABLE_DND] = enabled }
     }
 
     // ==================== GOALS ====================

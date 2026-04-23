@@ -4,11 +4,42 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import com.porashona.studymaster.data.model.Routine
 import com.porashona.studymaster.receiver.AlarmReceiver
 import java.util.Calendar
 
 class NotificationHelper(private val context: Context) {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    /**
+     * Whether we can currently schedule exact alarms. On Android 12+ this
+     * requires the SCHEDULE_EXACT_ALARM special permission — UI callers should
+     * use [exactAlarmSettingsIntent] to send the user to the system settings
+     * screen if this returns false.
+     */
+    fun canScheduleExactAlarms(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms()
+
+    companion object {
+        /**
+         * Intent to the "Alarms & reminders" screen where the user can grant
+         * SCHEDULE_EXACT_ALARM. Only meaningful on API 31+; callers should
+         * still gate the launch on [canScheduleExactAlarms].
+         */
+        fun exactAlarmSettingsIntent(context: Context): Intent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                    data = android.net.Uri.fromParts("package", context.packageName, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            } else {
+                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = android.net.Uri.fromParts("package", context.packageName, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            }
+    }
 
     fun scheduleDailyReminder(hour: Int, minute: Int) {
         val calendar = Calendar.getInstance().apply {
@@ -34,4 +65,76 @@ class NotificationHelper(private val context: Context) {
             pendingIntent
         )
     }
+
+    /**
+     * Register (or replace) a repeating alarm for a routine. The alarm fires
+     * at the next occurrence of `hour:minute` and repeats daily — `repeatDays`
+     * filtering is done by [AlarmReceiver] on fire, which is simpler than
+     * scheduling one alarm per weekday.
+     */
+    fun scheduleRoutineAlarm(routine: Routine) {
+        if (!routine.isEnabled) {
+            cancelRoutineAlarm(routine.id)
+            return
+        }
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, routine.hour)
+            set(Calendar.MINUTE, routine.minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (before(Calendar.getInstance())) add(Calendar.DATE, 1)
+        }
+
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            action = AlarmReceiver.ACTION_ROUTINE_ALARM
+            putExtra(AlarmReceiver.EXTRA_ROUTINE_ID, routine.id)
+            putExtra(AlarmReceiver.EXTRA_TITLE, routine.title.ifBlank { routine.subjectName })
+            putExtra(AlarmReceiver.EXTRA_SUBJECT, routine.subjectName)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            routineRequestCode(routine.id),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // setRepeating is coalesced on modern Android; setExactAndAllowWhileIdle
+        // needs to be re-armed on every fire (done inside AlarmReceiver), but is
+        // the only way to survive Doze. Fall back to inexact on older devices
+        // where we don't hold SCHEDULE_EXACT_ALARM.
+        if (canScheduleExactAlarms()) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
+        }
+    }
+
+    fun cancelRoutineAlarm(routineId: Long) {
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            action = AlarmReceiver.ACTION_ROUTINE_ALARM
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            routineRequestCode(routineId),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun routineRequestCode(routineId: Long): Int =
+        // PendingIntent request codes must fit in an Int; Routine ids are Longs
+        // but in practice fit comfortably, so clip defensively.
+        (1_000_000 + routineId).toInt()
 }

@@ -54,4 +54,8 @@
     <!-- Common Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!-- Aliases used by newer components -->
+    <color name="card_background">@color/surface</color>
+    <color name="divider">#E2E8F0</color>
 </resources>
