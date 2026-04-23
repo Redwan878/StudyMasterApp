@@ -18,6 +18,8 @@ local.properties
 # Keystores
 *.jks
 *.keystore
+# ...except the dev-only self-signed release keystore that ships with the repo
+!app/release.keystore
 
 # Logs
 *.log
