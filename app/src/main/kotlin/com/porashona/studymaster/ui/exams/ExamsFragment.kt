@@ -88,6 +88,7 @@ class ExamsViewModel(private val repository: ExtendedRepository) : ViewModel() {
 }
 
 class ExamsViewModelFactory(private val repository: ExtendedRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = ExamsViewModel(repository) as T
 }
 

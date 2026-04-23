@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_tasks"
+        android:title="@string/nav_tasks"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_notes"
+        android:title="@string/nav_notes"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_goals"
+        android:title="@string/nav_goals"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_exams"
+        android:title="@string/nav_exams"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_blocker"
+        android:title="@string/nav_blocker"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_focus_mode"
+        android:title="@string/focus_mode"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_randomizer"
+        android:title="@string/randomizer_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_resources"
+        android:title="@string/resources_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_calendar"
+        android:title="@string/calendar_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/nav_settings"
+        app:showAsAction="never" />
+
+</menu>

@@ -182,8 +182,15 @@ class AppBlockerService : Service() {
             val event = UsageEvents.Event()
             usageEvents.getNextEvent(event)
 
-            if (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED ||
-                event.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+            // ACTIVITY_RESUMED was added in Q; pre-Q falls back to
+            // MOVE_TO_FOREGROUND (still emitted, just deprecated).
+            val isForegroundEvent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                event.eventType == UsageEvents.Event.ACTIVITY_RESUMED
+            } else {
+                @Suppress("DEPRECATION")
+                event.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND
+            }
+            if (isForegroundEvent) {
                 lastEvent = event
             }
         }

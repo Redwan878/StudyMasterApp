@@ -28,7 +28,7 @@ class RoutineFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: RoutineViewModel by viewModels {
-        RoutineViewModelFactory(getRepository())
+        RoutineViewModelFactory(getRepository(), requireContext().applicationContext)
     }
 
     private lateinit var adapter: RoutineAdapter
