@@ -380,6 +380,9 @@ class SettingsActivity : AppCompatActivity() {
                 db.studyResourceDao().deleteAll()
                 db.academicEventDao().deleteAll()
                 prefs.clearAllPreferences()
+                // Cancel every scheduled alarm — prefs are now default, but
+                // the PendingIntents would otherwise keep firing forever.
+                com.porashona.studymaster.utils.DailyReminderScheduler.cancel(applicationContext)
                 Snackbar.make(binding.root, R.string.data_cleared, Snackbar.LENGTH_LONG).show()
             } catch (t: Throwable) {
                 Snackbar.make(

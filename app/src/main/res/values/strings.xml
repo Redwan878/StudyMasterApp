@@ -582,4 +582,5 @@
     <string name="quote_notif_fallback">বড় কিছু তৈরি হতে সময় লাগে — চালিয়ে যান।</string>
     <string name="weekly_summary_title">এই সপ্তাহের পড়াশোনা</string>
     <string name="weekly_summary_body">গত ৭ দিন: %1$d ঘণ্টা %2$d মিনিট · %3$dটি সেশন।</string>
+    <string name="widget_streak_label">ধারা</string>
 </resources>
