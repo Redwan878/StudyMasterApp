@@ -347,4 +347,14 @@
     <string name="resources_title">Resources</string>
     <string name="calendar_title">Calendar</string>
 
+    <!-- Calendar screen -->
+    <string name="calendar_empty">No events yet. Tap + to add one.</string>
+    <string name="calendar_add_event">Add event</string>
+    <string name="calendar_edit_event">Edit event</string>
+    <string name="calendar_event_title">Title</string>
+    <string name="calendar_event_description">Description</string>
+    <string name="calendar_event_type">Event type</string>
+    <string name="calendar_pick_date">Pick date</string>
+    <string name="calendar_pick_time">Pick time (optional)</string>
+
 </resources>

@@ -366,4 +366,14 @@
     <string name="resources_title">রিসোর্স</string>
     <string name="calendar_title">ক্যালেন্ডার</string>
 
+    <!-- Calendar screen -->
+    <string name="calendar_empty">কোনো ইভেন্ট নেই। যোগ করতে + বাটন চাপুন।</string>
+    <string name="calendar_add_event">ইভেন্ট যোগ করুন</string>
+    <string name="calendar_edit_event">ইভেন্ট সম্পাদনা</string>
+    <string name="calendar_event_title">শিরোনাম</string>
+    <string name="calendar_event_description">বিবরণ</string>
+    <string name="calendar_event_type">ইভেন্টের ধরন</string>
+    <string name="calendar_pick_date">তারিখ নির্বাচন</string>
+    <string name="calendar_pick_time">সময় নির্বাচন (ঐচ্ছিক)</string>
+
 </resources>
