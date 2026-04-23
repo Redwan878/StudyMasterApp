@@ -21,6 +21,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            // Release keystore is committed to the repo for ease of local + CI
+            // builds; this is a dev-only self-signed key and is NOT the
+            // Play Store upload key. CI can override any of these via env vars:
+            //   RELEASE_KEYSTORE_FILE, RELEASE_KEYSTORE_PASSWORD,
+            //   RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD
+            def ksFile = System.getenv("RELEASE_KEYSTORE_FILE") ?: "release.keystore"
+            storeFile file(ksFile)
+            storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: "studymaster"
+            keyAlias System.getenv("RELEASE_KEY_ALIAS") ?: "studymaster"
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD") ?: "studymaster"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled = false
@@ -28,6 +43,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.release
         }
     }
     compileOptions {
