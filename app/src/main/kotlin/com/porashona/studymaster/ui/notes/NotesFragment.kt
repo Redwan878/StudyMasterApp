@@ -167,9 +167,9 @@ class NotesFragment : Fragment() {
         pdf.finishPage(page)
 
         runCatching {
-            requireContext().contentResolver.openOutputStream(uri)?.use { out ->
-                pdf.writeTo(out)
-            }
+            val out = requireContext().contentResolver.openOutputStream(uri)
+                ?: error("Could not open output stream for $uri")
+            out.use { pdf.writeTo(it) }
         }.onSuccess {
             Snackbar.make(binding.root, getString(R.string.export_pdf_done, notes.size), Snackbar.LENGTH_LONG).show()
         }.onFailure {

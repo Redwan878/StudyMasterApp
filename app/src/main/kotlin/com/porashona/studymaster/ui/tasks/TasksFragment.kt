@@ -159,15 +159,19 @@ class TasksFragment : Fragment() {
                 .setSelection(selectedDate ?: MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
             picker.addOnPositiveButtonClickListener { millis ->
-                selectedDate = millis
-                dialogBinding.btnDate.text = formatDateShort(millis)
+                // MaterialDatePicker returns UTC-midnight. Normalise to the
+                // user's local midnight so due-date comparisons (which all use
+                // local-tz Calendar) don't slip a day for negative UTC offsets.
+                val localMidnight = millis + java.util.TimeZone.getDefault().getOffset(millis)
+                selectedDate = localMidnight
+                dialogBinding.btnDate.text = formatDateShort(localMidnight)
             }
             picker.show(parentFragmentManager, "task_date_picker")
         }
 
         dialogBinding.btnSubject.text = selectedSubjectName ?: getString(R.string.pick_subject)
         dialogBinding.btnSubject.setOnClickListener {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 val studyRepo = (requireActivity().application as StudyMasterApplication).studyRepository
                 val subjects = studyRepo.allSubjects.first()
                 if (subjects.isEmpty()) {
