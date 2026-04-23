@@ -29,6 +29,16 @@ class BlockerViewModel(
     val useRoot: Flow<Boolean> = preferencesManager.useRootBlocking
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    // --- Zen Mode ---
+    val zenSessionEndTime: StateFlow<Long> = preferencesManager.zenSessionEndTime
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
+
+    val zenLastDurationMinutes: StateFlow<Int> = preferencesManager.zenLastDurationMinutes
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 25)
+
+    val zenEnableDnd: StateFlow<Boolean> = preferencesManager.zenEnableDnd
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
     fun addBlockedApp(app: BlockedApp) {
         viewModelScope.launch {
             blockedAppDao.insert(app)
@@ -68,6 +78,18 @@ class BlockerViewModel(
     fun setUseRoot(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.setUseRootBlocking(enabled)
+        }
+    }
+
+    fun setZenLastDurationMinutes(minutes: Int) {
+        viewModelScope.launch {
+            preferencesManager.setZenLastDurationMinutes(minutes)
+        }
+    }
+
+    fun setZenEnableDnd(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.setZenEnableDnd(enabled)
         }
     }
 }

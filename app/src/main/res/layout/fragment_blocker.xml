@@ -346,32 +346,180 @@
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_blocked_app" />
 
-        <!-- Manual Controls -->
-        <LinearLayout
+        <!-- Zen Mode -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardZenMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp">
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface">
 
-            <Button
-                android:id="@+id/btnStartBlocking"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="Start Now"
-                app:backgroundTint="@color/error" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <Button
-                android:id="@+id/btnStopBlocking"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Stop"
-                style="@style/Widget.Material3.Button.OutlinedButton" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
 
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_blocker"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/zen_mode_title"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/text_primary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zen_mode_desc"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_hint"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Setup UI: shown when no session is active -->
+                <LinearLayout
+                    android:id="@+id/zenSetupGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zen_duration_label"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="8dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/zen_dnd_label"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/zen_dnd_desc"
+                                android:textSize="12sp"
+                                android:textColor="@color/text_hint" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchZenDnd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvZenSelectedApps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_hint" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnStartZen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/zen_start" />
+
+                </LinearLayout>
+
+                <!-- Active UI: shown while a Zen session is running -->
+                <LinearLayout
+                    android:id="@+id/zenActiveGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvZenCountdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zen_active_message"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvZenLockedHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zen_locked_hint"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnStopZen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/zen_stop"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@ import com.porashona.studymaster.StudyMasterApplication
 import com.porashona.studymaster.ui.MainActivity
 import com.porashona.studymaster.ui.blocker.BlockOverlayActivity
 import com.porashona.studymaster.utils.RootUtils
+import com.porashona.studymaster.utils.ZenSessionManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
@@ -26,6 +27,7 @@ class AppBlockerService : Service() {
     private var isBlockingActive = false
     private var useRootBlocking = false
     private var strictModeEnabled = false
+    private var dndEnabledForSession = false
     private var sessionEndTime: Long = 0
 
     companion object {
@@ -34,6 +36,8 @@ class AppBlockerService : Service() {
         const val ACTION_UPDATE_BLOCKED_APPS = "com.porashona.studymaster.UPDATE_BLOCKED"
         const val EXTRA_SESSION_DURATION = "session_duration"
         const val EXTRA_BLOCKED_PACKAGES = "blocked_packages"
+        const val EXTRA_STRICT = "strict"
+        const val EXTRA_ENABLE_DND = "enable_dnd"
 
         private const val NOTIFICATION_ID = 3001
         private const val CHECK_INTERVAL = 500L // Check every 500ms
@@ -56,8 +60,15 @@ class AppBlockerService : Service() {
                 val duration = intent.getLongExtra(EXTRA_SESSION_DURATION, 25 * 60 * 1000L)
                 val packages = intent.getStringArrayListExtra(EXTRA_BLOCKED_PACKAGES)
                 packages?.let { blockedPackages = it.toSet() }
+                // Allow callers (TimerFragment auto-block, Zen mode UI) to force
+                // strict mode / DND for this specific session without having to
+                // mutate persistent settings first.
+                if (intent.hasExtra(EXTRA_STRICT)) {
+                    strictModeEnabled = intent.getBooleanExtra(EXTRA_STRICT, false)
+                }
+                val enableDnd = intent.getBooleanExtra(EXTRA_ENABLE_DND, false)
                 sessionEndTime = System.currentTimeMillis() + duration
-                startBlocking()
+                startBlocking(enableDnd)
             }
             ACTION_STOP_BLOCKING -> {
                 if (!strictModeEnabled || System.currentTimeMillis() >= sessionEndTime) {
@@ -72,7 +83,7 @@ class AppBlockerService : Service() {
         return START_STICKY
     }
 
-    private fun startBlocking() {
+    private fun startBlocking(enableDnd: Boolean) {
         isBlockingActive = true
         startForeground(NOTIFICATION_ID, createNotification())
         startMonitoring()
@@ -80,6 +91,18 @@ class AppBlockerService : Service() {
         // Update accessibility service if available
         AppBlockerAccessibilityService.instance?.updateBlockedApps(blockedPackages)
         AppBlockerAccessibilityService.instance?.enableBlocking()
+
+        // Persist session end time so the UI can render a live countdown even
+        // after a process restart, and flip DND if the caller asked for it
+        // (and we hold the runtime permission).
+        serviceScope.launch {
+            (application as StudyMasterApplication).preferencesManager
+                .setZenSessionEndTime(sessionEndTime)
+        }
+        if (enableDnd) {
+            ZenSessionManager.enableDnd(applicationContext)
+            dndEnabledForSession = true
+        }
     }
 
     private fun stopBlocking() {
@@ -98,6 +121,17 @@ class AppBlockerService : Service() {
                 }
             }
         }
+
+        // Clear persisted session + restore DND.
+        serviceScope.launch {
+            (application as StudyMasterApplication).preferencesManager
+                .setZenSessionEndTime(0L)
+        }
+        if (dndEnabledForSession) {
+            ZenSessionManager.disableDnd(applicationContext)
+            dndEnabledForSession = false
+        }
+        sessionEndTime = 0L
 
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()

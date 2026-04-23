@@ -344,4 +344,21 @@
     <string name="restart_now">এখনই রিস্টার্ট করুন</string>
     <string name="restart_later">পরে</string>
 
+    <!-- Zen Mode -->
+    <string name="zen_mode_title">জেন মোড</string>
+    <string name="zen_mode_desc">নির্বাচিত অ্যাপ ব্লক করে, সময় শেষ না হওয়া পর্যন্ত বন্ধ করা যাবে না। (Block selected apps until the timer ends — no early exit.)</string>
+    <string name="zen_duration_label">সময়কাল</string>
+    <string name="zen_dnd_label">Do Not Disturb</string>
+    <string name="zen_dnd_desc">সেশনের সময় কেবল জরুরি বিজ্ঞপ্তি</string>
+    <string name="zen_start">জেন মোড শুরু করুন</string>
+    <string name="zen_stop">জেন মোড বন্ধ করুন</string>
+    <string name="zen_active_message">জেন মোড চলছে</string>
+    <string name="zen_locked_hint">সেশন সম্পূর্ণ না হওয়া পর্যন্ত বন্ধ করা যাবে না।</string>
+    <string name="zen_duration_minutes">%1$d মিনিট</string>
+    <string name="zen_no_apps_selected">প্রথমে অন্তত একটি অ্যাপ নির্বাচন করুন</string>
+    <string name="zen_selected_apps">%1$d অ্যাপ নির্বাচিত</string>
+    <string name="zen_accessibility_required">জেন মোড শুরু করতে অ্যাক্সেসিবিলিটি সার্ভিস চালু করুন</string>
+    <string name="zen_dnd_permission_required">Do Not Disturb অ্যাক্সেস প্রয়োজন</string>
+    <string name="zen_grant_dnd">অনুমতি দিন</string>
+
 </resources>
