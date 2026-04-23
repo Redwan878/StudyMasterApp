@@ -140,9 +140,11 @@ class NotesFragment : Fragment() {
             for (w in words) {
                 val candidate = if (line.isEmpty()) w else "$line $w"
                 if (paint.measureText(candidate) > maxWidth) {
-                    if (y > pageHeight - margin) newPage()
-                    canvas.drawText(line.toString(), margin.toFloat(), y, paint)
-                    y += paint.textSize + 4
+                    if (line.isNotEmpty()) {
+                        if (y > pageHeight - margin) newPage()
+                        canvas.drawText(line.toString(), margin.toFloat(), y, paint)
+                        y += paint.textSize + 4
+                    }
                     line = StringBuilder(w)
                 } else {
                     line = StringBuilder(candidate)
