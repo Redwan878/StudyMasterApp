@@ -27,6 +27,13 @@ class AppBlockerService : Service() {
     private var isBlockingActive = false
     private var useRootBlocking = false
     private var strictModeEnabled = false
+    /**
+     * When true, the current session was started with an explicit
+     * EXTRA_STRICT intent extra, and the DataStore preference collector
+     * must NOT overwrite [strictModeEnabled] for the rest of the session.
+     * Cleared in [stopBlocking].
+     */
+    private var strictOverriddenByIntent = false
     private var dndEnabledForSession = false
     private var sessionEndTime: Long = 0
 
@@ -65,6 +72,10 @@ class AppBlockerService : Service() {
                 // mutate persistent settings first.
                 if (intent.hasExtra(EXTRA_STRICT)) {
                     strictModeEnabled = intent.getBooleanExtra(EXTRA_STRICT, false)
+                    // Pin this for the rest of the session; prevents the
+                    // preference collector in loadSettings() from racing
+                    // the intent-supplied value back to the persisted one.
+                    strictOverriddenByIntent = true
                 }
                 val enableDnd = intent.getBooleanExtra(EXTRA_ENABLE_DND, false)
                 sessionEndTime = System.currentTimeMillis() + duration
@@ -132,6 +143,8 @@ class AppBlockerService : Service() {
             dndEnabledForSession = false
         }
         sessionEndTime = 0L
+        // Allow the next session to pick up whichever value it wants.
+        strictOverriddenByIntent = false
 
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
@@ -261,7 +274,14 @@ class AppBlockerService : Service() {
 
                 launch {
                     prefs.strictModeEnabled.collect { strict ->
-                        strictModeEnabled = strict
+                        // An explicit EXTRA_STRICT in the start intent wins
+                        // for the lifetime of the session (cleared in
+                        // stopBlocking). Without this guard the async
+                        // DataStore read would overwrite a session-scoped
+                        // strict=true back to the persisted value.
+                        if (!strictOverriddenByIntent) {
+                            strictModeEnabled = strict
+                        }
                     }
                 }
 
