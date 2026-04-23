@@ -137,7 +137,10 @@ class InsightsFragment : Fragment() {
     private fun renderComparison(sessions: List<StudySession>) {
         val thisWeekStart = startOfDay(-6)
         val lastWeekStart = startOfDay(-13)
-        val lastWeekEnd = startOfDay(-7) - 1
+        // "Last week" must end at the millisecond just before this week begins,
+        // otherwise day -7 (startOfDay(-7)..thisWeekStart - 1) falls into
+        // neither range and an entire day of study is silently lost.
+        val lastWeekEnd = thisWeekStart - 1
         val thisWeekMin = sessions.filter { it.startTime.time >= thisWeekStart }
             .sumOf { it.durationInSeconds } / 60
         val lastWeekMin = sessions.filter {
