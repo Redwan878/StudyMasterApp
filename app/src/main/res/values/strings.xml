@@ -404,4 +404,66 @@
     <string name="calendar_pick_date">তারিখ নির্বাচন</string>
     <string name="calendar_pick_time">সময় নির্বাচন (ঐচ্ছিক)</string>
 
+
+    <!-- ==== Settings (Batch 1) ==== -->
+    <string name="settings_section_appearance">উপস্থাপন</string>
+    <string name="settings_section_notifications">নোটিফিকেশন</string>
+    <string name="settings_section_focus">ফোকাস ও জেন</string>
+    <string name="settings_section_accessibility">অ্যাক্সেসিবিলিটি</string>
+    <string name="settings_section_data">ডেটা</string>
+    <string name="settings_section_about">সম্পর্কে</string>
+
+    <string name="theme_option_light">হালকা</string>
+    <string name="theme_option_dark">গাঢ়</string>
+    <string name="theme_option_system">সিস্টেম ডিফল্ট</string>
+    <string name="theme_option_amoled">AMOLED (ট্রু ব্ল্যাক)</string>
+
+    <string name="accent_option_indigo">ইনডিগো</string>
+    <string name="accent_option_teal">টিল</string>
+    <string name="accent_option_orange">কমলা</string>
+    <string name="accent_option_pink">গোলাপি</string>
+    <string name="accent_option_green">সবুজ</string>
+
+    <string name="font_size_small">ছোট</string>
+    <string name="font_size_medium">মাঝারি</string>
+    <string name="font_size_large">বড়</string>
+
+    <string name="setting_notifications_enabled">নোটিফিকেশন চালু</string>
+    <string name="setting_sound_enabled">শব্দ</string>
+    <string name="setting_vibration_enabled">ভাইব্রেশন</string>
+    <string name="setting_daily_reminder">দৈনিক রিমাইন্ডার</string>
+    <string name="setting_streak_reminder">স্ট্রিক সুরক্ষা</string>
+    <string name="setting_break_reminder">ব্রেক রিমাইন্ডার</string>
+    <string name="setting_quote_notification">উক্তি নোটিফিকেশন</string>
+
+    <string name="setting_auto_block">টাইমার চালু হলে ব্লকার অন</string>
+    <string name="setting_strict_mode">স্ট্রিক্ট মোড</string>
+    <string name="setting_voice_commands">ভয়েস কমান্ড</string>
+    <string name="setting_daily_goal">দৈনিক লক্ষ্য</string>
+
+    <string name="setting_high_contrast">হাই কনট্রাস্ট</string>
+    <string name="setting_haptic_feedback">হ্যাপটিক ফিডব্যাক</string>
+
+    <string name="setting_backup_export">ব্যাকআপ এক্সপোর্ট</string>
+    <string name="setting_backup_export_hint">JSON ফাইল</string>
+    <string name="setting_backup_import">ব্যাকআপ রিস্টোর</string>
+    <string name="setting_backup_import_hint">পুরনো ফাইল থেকে</string>
+    <string name="setting_clear_data">সব ডেটা মুছে ফেল</string>
+    <string name="setting_clear_data_confirm">নিশ্চিত? সমস্ত সেশন, সাবজেক্ট, টাস্ক, নোট, পরীক্ষা এবং প্রোফাইল মুছে যাবে।</string>
+
+    <string name="about_version">সংস্করণ</string>
+    <string name="about_help">সাহায্য ও সম্পর্কে</string>
+    <string name="about_help_body">StudyMaster — বাংলা-মাধ্যমের শিক্ষার্থীদের জন্য গ্যামিফাইড পড়া-অ্যাপ। ওপেন সোর্স প্রজেক্ট: github.com/Redwan878/StudyMasterApp</string>
+    <string name="pick_minutes">মিনিট নির্বাচন</string>
+    <string name="minutes_suffix">মিনিট</string>
+
+    <string name="backup_exported_bytes">ব্যাকআপ সংরক্ষিত (%1$d বাইট)</string>
+    <string name="backup_imported_summary">রিস্টোর সম্পূর্ণ: %1$d সেশন · %2$d সাবজেক্ট · %3$d টাস্ক · %4$d নোট</string>
+    <string name="backup_failed">ব্যাকআপ ব্যর্থ: %1$s</string>
+    <string name="data_cleared">সমস্ত ডেটা মুছে ফেলা হয়েছে</string>
+    <string name="action_export">এক্সপোর্ট</string>
+    <string name="action_import">ইমপোর্ট</string>
+    <string name="action_clear">মুছে ফেল</string>
+    <string name="action_cancel">বাতিল</string>
+
 </resources>

@@ -55,4 +55,7 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE isCompleted = 1 AND completedAt < :before")
     suspend fun deleteOldCompletedTasks(before: Long)
+
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAll()
 }

@@ -329,8 +329,20 @@ class AppBlockerService : Service() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        // If the service is being killed while a Zen / block session is still
+        // "active" (e.g. user swiped it out of recents, low-memory kill, OEM
+        // aggressive background killing), make sure we don't leave DND on or
+        // the accessibility overlay stuck in blocking mode — the user would
+        // otherwise lose all notifications indefinitely until they manually
+        // toggle DND off.
+        if (dndEnabledForSession) {
+            runCatching { ZenSessionManager.disableDnd(applicationContext) }
+            dndEnabledForSession = false
+        }
+        runCatching { AppBlockerAccessibilityService.instance?.disableBlocking() }
+        isBlockingActive = false
         isRunning = false
         serviceScope.cancel()
+        super.onDestroy()
     }
 }

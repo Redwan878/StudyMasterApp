@@ -1,43 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Typography: the app uses Poppins for Latin and Hind Siliguri for Bengali.
-         Poppins doesn't cover Bengali glyphs, so Android falls back to the system
-         Bengali font (Noto Sans Bengali / Hind Siliguri UI) which matches well. -->
-    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
-
-    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
-
-    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
-
-    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
-
-    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="fontFamily">@font/poppins</item>
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="fontFamily">@font/poppins</item>
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
+    <!-- TextAppearance tokens extend Material3 defaults (Roboto on Latin,
+         Noto Sans Bengali / Hind Siliguri UI on Bengali). Poppins was
+         previously pulled via downloadable-fonts at the theme root, which
+         forces synchronous Google Fonts resolution on every activity
+         inflation and can hard-crash devices without GMS — so we rely on
+         system defaults instead. Poppins can be reintroduced later by
+         bundling a .ttf in res/font/. -->
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge" />
+    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium" />
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium" />
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium" />
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge" />
 
     <!-- Shape scheme: softer, more playful corners than default Material3 -->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.Corner.Small">
@@ -81,6 +58,69 @@
 
     <style name="Widget.App.Button.Text" parent="Widget.Material3.Button.TextButton">
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- ===== Settings screen reusable components ===== -->
+    <style name="Widget.App.SettingsSectionHeader" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.LabelLarge</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="Widget.App.SettingsCard" parent="Widget.Material3.CardView.Filled">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">18dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+    </style>
+
+    <style name="Widget.App.SettingsGroup" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Widget.App.SettingsRow" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">14dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Widget.App.SettingsLabel" parent="@android:style/Widget">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyLarge</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.App.SettingsValue" parent="@android:style/Widget">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyMedium</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="Widget.App.SettingsDivider" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/colorOutlineVariant</item>
+        <item name="android:layout_marginStart">16dp</item>
     </style>
 
     <!-- Bottom nav with active indicator animation (material3 default already

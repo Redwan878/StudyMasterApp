@@ -32,10 +32,10 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
 
-        <!-- Typography: Poppins for Latin. Bengali glyphs fall back to the
-             system Bengali font (Noto Sans Bengali / Hind Siliguri UI). -->
-        <item name="fontFamily">@font/poppins</item>
-        <item name="android:fontFamily">@font/poppins</item>
+        <!-- Typography is applied via TextAppearance styles only (see below).
+             Setting android:fontFamily at theme root would force a synchronous
+             downloadable-font fetch during every activity inflation, which can
+             crash or hang on devices without Google Play Services. -->
 
         <item name="textAppearanceHeadlineLarge">@style/TextAppearance.App.HeadlineLarge</item>
         <item name="textAppearanceHeadlineMedium">@style/TextAppearance.App.HeadlineMedium</item>

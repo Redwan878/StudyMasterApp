@@ -385,4 +385,66 @@
     <string name="calendar_pick_date">Pick date</string>
     <string name="calendar_pick_time">Pick time (optional)</string>
 
+
+    <!-- ==== Settings (Batch 1) ==== -->
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_notifications">Notifications</string>
+    <string name="settings_section_focus">Focus &amp; Zen</string>
+    <string name="settings_section_accessibility">Accessibility</string>
+    <string name="settings_section_data">Data</string>
+    <string name="settings_section_about">About</string>
+
+    <string name="theme_option_light">Light</string>
+    <string name="theme_option_dark">Dark</string>
+    <string name="theme_option_system">System default</string>
+    <string name="theme_option_amoled">AMOLED (true black)</string>
+
+    <string name="accent_option_indigo">Indigo</string>
+    <string name="accent_option_teal">Teal</string>
+    <string name="accent_option_orange">Orange</string>
+    <string name="accent_option_pink">Pink</string>
+    <string name="accent_option_green">Green</string>
+
+    <string name="font_size_small">Small</string>
+    <string name="font_size_medium">Medium</string>
+    <string name="font_size_large">Large</string>
+
+    <string name="setting_notifications_enabled">Notifications enabled</string>
+    <string name="setting_sound_enabled">Sound</string>
+    <string name="setting_vibration_enabled">Vibration</string>
+    <string name="setting_daily_reminder">Daily reminder</string>
+    <string name="setting_streak_reminder">Streak protection</string>
+    <string name="setting_break_reminder">Break reminder</string>
+    <string name="setting_quote_notification">Quote notifications</string>
+
+    <string name="setting_auto_block">Auto-block during timer</string>
+    <string name="setting_strict_mode">Strict mode</string>
+    <string name="setting_voice_commands">Voice commands</string>
+    <string name="setting_daily_goal">Daily goal</string>
+
+    <string name="setting_high_contrast">High contrast</string>
+    <string name="setting_haptic_feedback">Haptic feedback</string>
+
+    <string name="setting_backup_export">Export backup</string>
+    <string name="setting_backup_export_hint">JSON file</string>
+    <string name="setting_backup_import">Restore backup</string>
+    <string name="setting_backup_import_hint">From a previous file</string>
+    <string name="setting_clear_data">Clear all data</string>
+    <string name="setting_clear_data_confirm">Are you sure? This will delete every session, subject, task, note, exam and your profile.</string>
+
+    <string name="about_version">Version</string>
+    <string name="about_help">Help &amp; about</string>
+    <string name="about_help_body">StudyMaster — a gamified study app for Bangla-medium students. Open source: github.com/Redwan878/StudyMasterApp</string>
+    <string name="pick_minutes">Pick minutes</string>
+    <string name="minutes_suffix">min</string>
+
+    <string name="backup_exported_bytes">Backup saved (%1$d bytes)</string>
+    <string name="backup_imported_summary">Restored: %1$d sessions · %2$d subjects · %3$d tasks · %4$d notes</string>
+    <string name="backup_failed">Backup failed: %1$s</string>
+    <string name="data_cleared">All data cleared</string>
+    <string name="action_export">Export</string>
+    <string name="action_import">Import</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_cancel">Cancel</string>
+
 </resources>

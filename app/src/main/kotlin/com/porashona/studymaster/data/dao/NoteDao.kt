@@ -42,4 +42,7 @@ interface NoteDao {
 
     @Query("SELECT COUNT(*) FROM notes")
     fun getNotesCount(): Flow<Int>
+
+    @Query("DELETE FROM notes")
+    suspend fun deleteAll()
 }

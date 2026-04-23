@@ -199,6 +199,10 @@ class PreferencesManager(private val context: Context) {
         context.dataStore.edit { it[STREAK_REMINDER_ENABLED] = enabled }
     }
 
+    suspend fun setBreakReminderEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[BREAK_REMINDER_ENABLED] = enabled }
+    }
+
     suspend fun setQuoteNotificationEnabled(enabled: Boolean) {
         context.dataStore.edit { it[QUOTE_NOTIFICATION_ENABLED] = enabled }
     }
