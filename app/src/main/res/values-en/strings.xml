@@ -347,6 +347,10 @@
     <string name="resources_title">Resources</string>
     <string name="calendar_title">Calendar</string>
 
+    <!-- Notes screen -->
+    <string name="notes_search_hint">Search notes</string>
+    <string name="notes_empty">No notes yet. Tap + to add one.</string>
+
     <!-- Calendar screen -->
     <string name="calendar_empty">No events yet. Tap + to add one.</string>
     <string name="calendar_add_event">Add event</string>

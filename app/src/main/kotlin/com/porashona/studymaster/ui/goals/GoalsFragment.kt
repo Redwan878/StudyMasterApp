@@ -82,6 +82,7 @@ class GoalsViewModel(private val repository: ExtendedRepository) : ViewModel() {
 }
 
 class GoalsViewModelFactory(private val repository: ExtendedRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T = GoalsViewModel(repository) as T
 }
 

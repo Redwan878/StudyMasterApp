@@ -58,8 +58,19 @@ class NotesFragment : Fragment() {
 
         binding.fabAddNote.setOnClickListener { showAddNoteDialog() }
 
+        binding.etSearch.addTextChangedListener(object : android.text.TextWatcher {
+            override fun afterTextChanged(s: android.text.Editable?) {
+                viewModel.setQuery(s?.toString().orEmpty())
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+        })
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.notes.collectLatest { adapter.submitList(it) }
+            viewModel.notes.collectLatest { notes ->
+                adapter.submitList(notes)
+                binding.tvEmpty.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
+            }
         }
     }
 

@@ -1,13 +1,15 @@
 package com.porashona.studymaster.ui.blocker
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.porashona.studymaster.R
 import com.porashona.studymaster.databinding.ActivityBlockOverlayBinding
 import com.porashona.studymaster.ui.MainActivity
-import android.content.Intent
 
 class BlockOverlayActivity : AppCompatActivity() {
 
@@ -23,15 +25,30 @@ class BlockOverlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Make it a full-screen overlay
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-        )
+        // Show the overlay on top of the lockscreen and wake the screen if it
+        // was off. `FLAG_SHOW_WHEN_LOCKED` / `FLAG_TURN_SCREEN_ON` are
+        // deprecated in favour of the setShowWhenLocked / setTurnScreenOn
+        // activity methods on O_MR1+.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+        } else {
+            @Suppress("DEPRECATION")
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+            )
+        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding = ActivityBlockOverlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                goBackToStudy()
+            }
+        })
 
         setupUI()
     }
@@ -103,11 +120,6 @@ class BlockOverlayActivity : AppCompatActivity() {
             "Keep pushing! 🚀"
         )
         return motivations.random()
-    }
-
-    override fun onBackPressed() {
-        // Prevent going back, redirect to main app
-        goBackToStudy()
     }
 
     override fun onDestroy() {
