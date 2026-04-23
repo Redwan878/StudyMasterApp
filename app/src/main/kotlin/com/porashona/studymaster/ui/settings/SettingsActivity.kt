@@ -88,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
                     getString(R.string.theme_option_system),
                     getString(R.string.theme_option_amoled),
                 )
-                val selected = modes.indexOf(current).coerceAtLeast(2)
+                val selected = modes.indexOf(current).let { if (it < 0) 2 else it }
                 MaterialAlertDialogBuilder(this@SettingsActivity)
                     .setTitle(R.string.theme_settings)
                     .setSingleChoiceItems(labels, selected) { dialog, which ->
@@ -136,7 +136,7 @@ class SettingsActivity : AppCompatActivity() {
                     getString(R.string.font_size_medium),
                     getString(R.string.font_size_large),
                 )
-                val selected = sizes.indexOf(current).coerceAtLeast(1)
+                val selected = sizes.indexOf(current).let { if (it < 0) 1 else it }
                 MaterialAlertDialogBuilder(this@SettingsActivity)
                     .setTitle(R.string.font_size)
                     .setSingleChoiceItems(labels, selected) { dialog, which ->
@@ -261,14 +261,22 @@ class SettingsActivity : AppCompatActivity() {
             try {
                 exportLauncher.launch("studymaster-backup-$stamp.json")
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this, R.string.backup_failed, Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.backup_failed, getString(R.string.no_file_picker)),
+                    Toast.LENGTH_LONG,
+                ).show()
             }
         }
         binding.rowBackupImport.setOnClickListener {
             try {
                 importLauncher.launch(arrayOf("application/json", "*/*"))
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this, R.string.backup_failed, Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.backup_failed, getString(R.string.no_file_picker)),
+                    Toast.LENGTH_LONG,
+                ).show()
             }
         }
         binding.rowClearData.setOnClickListener {

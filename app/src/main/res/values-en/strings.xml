@@ -447,4 +447,5 @@
     <string name="action_clear">Clear</string>
     <string name="action_cancel">Cancel</string>
 
+    <string name="no_file_picker">no file picker available</string>
 </resources>

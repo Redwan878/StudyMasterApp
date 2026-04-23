@@ -466,4 +466,5 @@
     <string name="action_clear">মুছে ফেল</string>
     <string name="action_cancel">বাতিল</string>
 
+    <string name="no_file_picker">কোনো ফাইল পিকার পাওয়া যায়নি</string>
 </resources>

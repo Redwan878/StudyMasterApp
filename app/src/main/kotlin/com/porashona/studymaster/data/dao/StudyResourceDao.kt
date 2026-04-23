@@ -40,4 +40,7 @@ interface StudyResourceDao {
 
     @Query("SELECT * FROM study_resources WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchResources(query: String): Flow<List<StudyResource>>
+
+    @Query("DELETE FROM study_resources")
+    suspend fun deleteAll()
 }

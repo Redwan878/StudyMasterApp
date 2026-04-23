@@ -39,4 +39,7 @@ interface QuoteDao {
 
     @Query("SELECT COUNT(*) FROM quotes")
     suspend fun getQuotesCount(): Int
+
+    @Query("DELETE FROM quotes")
+    suspend fun deleteAll()
 }
