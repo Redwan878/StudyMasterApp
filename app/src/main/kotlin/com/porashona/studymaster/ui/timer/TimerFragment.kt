@@ -179,19 +179,10 @@ class TimerFragment : Fragment() {
     }
 
     private fun updateSessionTypeUI(type: SessionType) {
-        val selectedColor = ContextCompat.getColor(requireContext(), R.color.primary)
-        val defaultColor = ContextCompat.getColor(requireContext(), R.color.surface)
-        val selectedTextColor = ContextCompat.getColor(requireContext(), R.color.white)
-        val defaultTextColor = ContextCompat.getColor(requireContext(), R.color.text_primary)
-
-        binding.btnWork.setCardBackgroundColor(if (type == SessionType.WORK) selectedColor else defaultColor)
-        binding.tvWork.setTextColor(if (type == SessionType.WORK) selectedTextColor else defaultTextColor)
-        
-        binding.btnShortBreak.setCardBackgroundColor(if (type == SessionType.SHORT_BREAK) selectedColor else defaultColor)
-        binding.tvShortBreak.setTextColor(if (type == SessionType.SHORT_BREAK) selectedTextColor else defaultTextColor)
-        
-        binding.btnLongBreak.setCardBackgroundColor(if (type == SessionType.LONG_BREAK) selectedColor else defaultColor)
-        binding.tvLongBreak.setTextColor(if (type == SessionType.LONG_BREAK) selectedTextColor else defaultTextColor)
+        // ChipGroup handles visual selection; sync its checked state to VM.
+        binding.btnWork.isChecked = type == SessionType.WORK
+        binding.btnShortBreak.isChecked = type == SessionType.SHORT_BREAK
+        binding.btnLongBreak.isChecked = type == SessionType.LONG_BREAK
 
         // Update title based on session type
         binding.tvTitle.text = when (type) {

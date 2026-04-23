@@ -56,6 +56,16 @@
     <color name="black">#000000</color>
 
     <!-- Aliases used by newer components -->
-    <color name="card_background">@color/surface</color>
+    <color name="card_background">#FFFFFF</color>
     <color name="divider">#E2E8F0</color>
+
+    <!-- Material 3 container tokens (light) -->
+    <color name="primary_container">#E7E5FF</color>
+    <color name="on_primary_container">#1A0F57</color>
+    <color name="secondary_container">#FFE1E6</color>
+    <color name="on_secondary_container">#5A0A20</color>
+    <color name="surface_variant">#EEF0F6</color>
+    <color name="on_surface_variant">#43474E</color>
+    <color name="outline">#C4C7CF</color>
+    <color name="outline_variant">#E2E4EB</color>
 </resources>

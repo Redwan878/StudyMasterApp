@@ -19,6 +19,9 @@
     <string name="study_time">চলো পড়া শুরু করি</string>
     <string name="short_break">ছোট বিরতি</string>
     <string name="long_break">দীর্ঘ বিরতি</string>
+    <string name="session_work">পড়া</string>
+    <string name="session_short_break">ছোট বিরতি</string>
+    <string name="session_long_break">দীর্ঘ বিরতি</string>
     <string name="start">শুরু</string>
     <string name="pause">বিরতি</string>
     <string name="resume">আবার শুরু</string>
