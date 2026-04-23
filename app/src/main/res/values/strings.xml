@@ -467,4 +467,30 @@
     <string name="action_cancel">বাতিল</string>
 
     <string name="no_file_picker">কোনো ফাইল পিকার পাওয়া যায়নি</string>
+    <string name="quotes_title">উদ্ধৃতি</string>
+    <string name="achievements_title">অর্জনসমূহ</string>
+    <string name="refresh">নতুন উদ্ধৃতি</string>
+    <string name="favorite_quote">প্রিয়তে রাখুন</string>
+    <string name="custom_quote_text_bn">বাংলা টেক্সট</string>
+    <string name="custom_quote_text_en">ইংরেজি টেক্সট</string>
+    <string name="custom_quote_author">লেখক (ঐচ্ছিক)</string>
+    <string name="action_save">সংরক্ষণ</string>
+    <string name="action_delete">মুছুন</string>
+    <string name="action_close">বন্ধ</string>
+    <string name="filter_all">সব</string>
+    <string name="filter_favorites">প্রিয়</string>
+    <string name="filter_custom">নিজস্ব</string>
+    <string name="level_label">লেভেল %1$d</string>
+    <string name="xp_progress">%1$d / %2$d XP</string>
+    <string name="streak_days">%1$d দিন স্ট্রিক</string>
+    <string name="total_hours">মোট %1$d ঘণ্টা</string>
+    <string name="no_challenges">আজকের জন্য কোনো চ্যালেঞ্জ নেই। আগামীকাল আবার আসুন!</string>
+    <string name="challenge_reward">পুরস্কার: %1$d XP</string>
+    <string name="challenge_progress">%1$d / %2$d</string>
+    <string name="achievement_locked">লক থাকা</string>
+    <string name="achievement_unlocked_status">অর্জিত</string>
+    <string name="quote_empty_favorites">কোনো প্রিয় উদ্ধৃতি নেই</string>
+    <string name="quote_empty_custom">নিজের উদ্ধৃতি যোগ করুন</string>
+    <string name="badges_title">ব্যাজ</string>
+    <string name="quote_share_chooser">এই উদ্ধৃতিটি শেয়ার করুন</string>
 </resources>

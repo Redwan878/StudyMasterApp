@@ -88,4 +88,22 @@
         android:label="@string/assistant_title"
         tools:layout="@layout/fragment_assistant" />
 
+    <fragment
+        android:id="@+id/quotesFragment"
+        android:name="com.porashona.studymaster.ui.quotes.QuotesFragment"
+        android:label="@string/quotes_title"
+        tools:layout="@layout/fragment_quotes" />
+
+    <fragment
+        android:id="@+id/challengesFragment"
+        android:name="com.porashona.studymaster.ui.challenges.ChallengesFragment"
+        android:label="@string/challenges_title"
+        tools:layout="@layout/fragment_challenges" />
+
+    <fragment
+        android:id="@+id/achievementsFragment"
+        android:name="com.porashona.studymaster.ui.achievements.AchievementsFragment"
+        android:label="@string/achievements_title"
+        tools:layout="@layout/fragment_achievements" />
+
 </navigation>

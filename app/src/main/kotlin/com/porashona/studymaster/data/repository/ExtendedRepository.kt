@@ -214,6 +214,8 @@ class ExtendedRepository(
         quoteDao.setFavorite(quoteId, !quote.isFavorite)
     }
 
+    suspend fun deleteQuote(quote: Quote) = quoteDao.delete(quote)
+
     // ==================== STUDY RESOURCES ====================
     val allResources: Flow<List<StudyResource>> = resourceDao.getAllResources()
     val favoriteResources: Flow<List<StudyResource>> = resourceDao.getFavoriteResources()
