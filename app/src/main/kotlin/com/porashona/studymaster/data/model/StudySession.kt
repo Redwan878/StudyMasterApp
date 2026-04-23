@@ -15,7 +15,8 @@ data class StudySession(
     val endTime: Date = Date(),
     val sessionType: SessionType = SessionType.WORK,
     val completed: Boolean = true,
-    val xpEarned: Int = 0
+    val xpEarned: Int = 0,
+    val notes: String = ""
 )
 
 enum class SessionType {

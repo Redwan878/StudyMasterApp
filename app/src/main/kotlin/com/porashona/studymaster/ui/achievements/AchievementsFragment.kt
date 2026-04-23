@@ -52,7 +52,7 @@ class AchievementsFragment : Fragment() {
                     )
                     binding.tvStreak.text = getString(R.string.streak_days, p.currentStreak)
                     binding.tvLongestStreak.text =
-                        getString(R.string.longest_streak, p.longestStreak)
+                        getString(R.string.longest_streak_format, p.longestStreak)
                 }
             }
         }

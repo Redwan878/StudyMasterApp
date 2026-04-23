@@ -68,6 +68,16 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_session_history"
+        android:title="@string/session_history_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_insights"
+        android:title="@string/insights_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/nav_settings"

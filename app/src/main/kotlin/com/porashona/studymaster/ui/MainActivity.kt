@@ -124,6 +124,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_quotes -> navigate(R.id.quotesFragment)
                 R.id.menu_challenges -> navigate(R.id.challengesFragment)
                 R.id.menu_achievements -> navigate(R.id.achievementsFragment)
+                R.id.menu_session_history -> navigate(R.id.sessionHistoryFragment)
+                R.id.menu_insights -> navigate(R.id.insightsFragment)
                 R.id.menu_focus_mode -> {
                     startActivity(Intent(this, FocusModeActivity::class.java))
                     true

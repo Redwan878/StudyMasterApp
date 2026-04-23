@@ -26,7 +26,7 @@ import com.porashona.studymaster.data.model.*
         StudyResource::class,
         AcademicEvent::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

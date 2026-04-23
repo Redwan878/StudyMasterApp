@@ -18,6 +18,9 @@ class StudyRepository(
 ) {
     // Sessions
     val allSessions: Flow<List<StudySession>> = sessionDao.getAllSessions()
+
+    suspend fun updateSession(session: StudySession) = sessionDao.update(session)
+    suspend fun deleteSession(session: StudySession) = sessionDao.delete(session)
     val totalStudyTime: Flow<Long?> = sessionDao.getTotalStudyTime()
     val totalSessionCount: Flow<Int> = sessionDao.getTotalSessionCount()
     val timeBySubject: Flow<List<SubjectTime>> = sessionDao.getTimeBySubject()

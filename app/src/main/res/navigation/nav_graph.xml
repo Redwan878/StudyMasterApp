@@ -106,4 +106,16 @@
         android:label="@string/achievements_title"
         tools:layout="@layout/fragment_achievements" />
 
+    <fragment
+        android:id="@+id/sessionHistoryFragment"
+        android:name="com.porashona.studymaster.ui.history.SessionHistoryFragment"
+        android:label="@string/session_history_title"
+        tools:layout="@layout/fragment_session_history" />
+
+    <fragment
+        android:id="@+id/insightsFragment"
+        android:name="com.porashona.studymaster.ui.insights.InsightsFragment"
+        android:label="@string/insights_title"
+        tools:layout="@layout/fragment_insights" />
+
 </navigation>
