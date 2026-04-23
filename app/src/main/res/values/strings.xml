@@ -361,4 +361,9 @@
     <string name="zen_dnd_permission_required">Do Not Disturb অ্যাক্সেস প্রয়োজন</string>
     <string name="zen_grant_dnd">অনুমতি দিন</string>
 
+    <!-- Secondary feature titles (reached from toolbar overflow) -->
+    <string name="randomizer_title">র‍্যান্ডম সাবজেক্ট</string>
+    <string name="resources_title">রিসোর্স</string>
+    <string name="calendar_title">ক্যালেন্ডার</string>
+
 </resources>

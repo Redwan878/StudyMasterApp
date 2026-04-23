@@ -342,4 +342,9 @@
     <string name="subject_bgs">Bangladesh &amp; Global Studies</string>
     <string name="subject_islam">Islam &amp; Moral Education</string>
 
+    <!-- Secondary feature titles -->
+    <string name="randomizer_title">Subject Randomizer</string>
+    <string name="resources_title">Resources</string>
+    <string name="calendar_title">Calendar</string>
+
 </resources>
