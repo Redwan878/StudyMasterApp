@@ -1,43 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Typography: the app uses Poppins for Latin and Hind Siliguri for Bengali.
-         Poppins doesn't cover Bengali glyphs, so Android falls back to the system
-         Bengali font (Noto Sans Bengali / Hind Siliguri UI) which matches well. -->
-    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
+    <!-- Typography: we explicitly do NOT set a custom fontFamily here.
+         Downloadable fonts require Google Play Services and network on first
+         use; when they fail they can hard-crash during view inflation on some
+         ROMs. The system default (Roboto / Noto Sans Bengali) looks clean
+         enough across Latin + Bengali and avoids that whole class of bug.
+         If / when we ship a bundled .ttf in res/font, re-enable fontFamily. -->
 
-    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="fontFamily">@font/poppins_bold</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
-
-    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
-
-    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
-
-    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="fontFamily">@font/poppins</item>
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="fontFamily">@font/poppins</item>
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
-        <item name="fontFamily">@font/poppins_medium</item>
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge" />
+    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium" />
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium" />
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium" />
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge" />
 
     <!-- Shape scheme: softer, more playful corners than default Material3 -->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.Corner.Small">
@@ -65,7 +42,6 @@
         <item name="cardCornerRadius">20dp</item>
     </style>
 
-    <!-- Primary filled button -->
     <style name="Widget.App.Button" parent="Widget.Material3.Button">
         <item name="cornerRadius">14dp</item>
         <item name="android:paddingTop">14dp</item>
@@ -83,8 +59,6 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!-- Bottom nav with active indicator animation (material3 default already
-         handles this nicely — just forcing consistent background + typography). -->
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="itemTextAppearanceActive">@style/TextAppearance.App.LabelLarge</item>

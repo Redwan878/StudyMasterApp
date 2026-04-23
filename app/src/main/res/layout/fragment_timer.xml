@@ -115,7 +115,6 @@
                     android:id="@+id/tvTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_bold"
                     android:text="25:00"
                     android:textColor="?attr/colorOnSurface"
                     android:textSize="68sp" />
