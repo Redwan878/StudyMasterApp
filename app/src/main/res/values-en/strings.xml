@@ -558,4 +558,5 @@
     <string name="widget_level">Level</string>
     <string name="daily_reminder_notif_title">Time to study</string>
     <string name="daily_reminder_notif_body">Tap to jump into a focus session.</string>
+    <string name="widget_streak_label">Streak</string>
 </resources>

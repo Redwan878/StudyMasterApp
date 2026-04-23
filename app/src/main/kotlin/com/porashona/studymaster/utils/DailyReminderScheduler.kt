@@ -78,6 +78,21 @@ object DailyReminderScheduler {
 class DailyReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != DailyReminderScheduler.ACTION_FIRE) return
+
+        val app = context.applicationContext
+        val prefs = (app as? StudyMasterApplication)?.preferencesManager
+
+        // Respect the current toggle. A stale PendingIntent can still fire
+        // (e.g. after a Clear-All-Data that wiped prefs but didn't cancel the
+        // alarm) — bail silently in that case instead of re-arming forever.
+        val enabled = if (prefs != null) {
+            runCatching { runBlocking { prefs.dailyReminderEnabled.first() } }.getOrDefault(false)
+        } else false
+        if (!enabled) {
+            DailyReminderScheduler.cancel(app)
+            return
+        }
+
         val notifIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -96,15 +111,10 @@ class DailyReminderReceiver : BroadcastReceiver() {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.notify(DailyReminderScheduler.REQUEST_CODE, n)
 
-        // Re-arm for tomorrow at the same HH:mm. The scheduler computes
-        // next-day automatically since target <= now after firing.
-        val app = context.applicationContext
-        val prefs = (app as? StudyMasterApplication)?.preferencesManager
-        val current = if (prefs != null) {
-            runBlocking { prefs.dailyReminderTime.first() }
-        } else {
-            "09:00"
-        }
+        // Re-arm for tomorrow at the same HH:mm.
+        val current = runCatching {
+            runBlocking { prefs!!.dailyReminderTime.first() }
+        }.getOrDefault("09:00")
         DailyReminderScheduler.schedule(app, current)
     }
 }

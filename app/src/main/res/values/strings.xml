@@ -577,4 +577,5 @@
     <string name="widget_level">লেভেল</string>
     <string name="daily_reminder_notif_title">পড়াশোনার সময়</string>
     <string name="daily_reminder_notif_body">ট্যাপ করে একটি ফোকাস সেশন শুরু করুন।</string>
+    <string name="widget_streak_label">ধারা</string>
 </resources>
