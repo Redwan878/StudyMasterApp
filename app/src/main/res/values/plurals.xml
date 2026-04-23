@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="overdue_body">
+        <item quantity="one">আপনার %d টি ওভারডিউ টাস্ক আছে। পর্যালোচনা করতে ট্যাপ করুন।</item>
+        <item quantity="other">আপনার %d টি ওভারডিউ টাস্ক আছে। পর্যালোচনা করতে ট্যাপ করুন।</item>
+    </plurals>
+</resources>
