@@ -20,7 +20,22 @@ class StudyRepository(
     val allSessions: Flow<List<StudySession>> = sessionDao.getAllSessions()
 
     suspend fun updateSession(session: StudySession) = sessionDao.update(session)
-    suspend fun deleteSession(session: StudySession) = sessionDao.delete(session)
+
+    /**
+     * Deletes a session and reverses the profile/subject stats that [insertSession]
+     * accumulated. Without this, deleting sessions would leave inflated XP, level,
+     * total-study-time, total-sessions, and per-subject time behind.
+     */
+    suspend fun deleteSession(session: StudySession) {
+        if (session.sessionType == SessionType.WORK) {
+            profileDao.subtractStudyTime(session.durationInSeconds)
+            if (session.xpEarned > 0) profileDao.subtractXp(session.xpEarned)
+            if (session.subjectId > 0) {
+                subjectDao.subtractTimeFromSubject(session.subjectId, session.durationInSeconds)
+            }
+        }
+        sessionDao.delete(session)
+    }
     val totalStudyTime: Flow<Long?> = sessionDao.getTotalStudyTime()
     val totalSessionCount: Flow<Int> = sessionDao.getTotalSessionCount()
     val timeBySubject: Flow<List<SubjectTime>> = sessionDao.getTimeBySubject()

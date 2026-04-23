@@ -16,7 +16,6 @@ import com.porashona.studymaster.data.preferences.PreferencesManager
 import com.porashona.studymaster.data.repository.StudyRepository
 import com.porashona.studymaster.databinding.FragmentInsightsBinding
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -46,7 +45,6 @@ class InsightsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val dailyGoal = prefs.dailyGoalMinutes.first()
                 repo.allSessions.combine(prefs.dailyGoalMinutes) { sessions, goal ->
                     Pair(sessions.filter { it.sessionType == SessionType.WORK }, goal)
                 }.collect { (sessions, goal) ->
@@ -55,8 +53,6 @@ class InsightsFragment : Fragment() {
                     renderBestHour(sessions)
                     renderComparison(sessions)
                 }
-                // avoid warning
-                Unit.also { _ -> dailyGoal }
             }
         }
     }
@@ -80,12 +76,18 @@ class InsightsFragment : Fragment() {
     private fun renderHeatmap(sessions: List<StudySession>) {
         val weeks = 13
         val days = weeks * 7
-        val cal = Calendar.getInstance().apply {
+        // Snap the grid so the last column ends on the current week's Saturday.
+        // This way the start date always lands on a Sunday (firstDow == 0) and
+        // the full 13*7 cells line up with the 91 most-recent days without
+        // dropping any.
+        val endCal = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+            val daysToSaturday = (Calendar.SATURDAY - get(Calendar.DAY_OF_WEEK) + 7) % 7
+            add(Calendar.DAY_OF_YEAR, daysToSaturday)
         }
-        val endMs = cal.timeInMillis + TimeUnit.DAYS.toMillis(1) - 1
-        val startMs = cal.timeInMillis - TimeUnit.DAYS.toMillis((days - 1).toLong())
+        val endMs = endCal.timeInMillis + TimeUnit.DAYS.toMillis(1) - 1
+        val startMs = endCal.timeInMillis - TimeUnit.DAYS.toMillis((days - 1).toLong())
         val perDayMinutes = LongArray(days)
         sessions.forEach { s ->
             val t = s.startTime.time
@@ -97,20 +99,13 @@ class InsightsFragment : Fragment() {
             }
         }
         val max = perDayMinutes.maxOrNull()?.coerceAtLeast(1) ?: 1
-        // Build intensities in column-major order (col * 7 + row). Column 0 is
-        // the oldest week; row 0 is Sunday. Align calendar day-of-week of the
-        // first day to its row.
-        val firstDow = Calendar.getInstance().apply { timeInMillis = startMs }
-            .get(Calendar.DAY_OF_WEEK) - 1
+        // Column-major: column 0 = oldest week, row 0 = Sunday. Start is snapped
+        // to Sunday so day i goes directly to col = i/7, row = i%7.
         val intensities = FloatArray(days)
         for (i in 0 until days) {
-            val offset = firstDow + i
-            val col = offset / 7
-            val row = offset % 7
-            val idx = col * 7 + row
-            if (idx < intensities.size) {
-                intensities[idx] = (perDayMinutes[i].toFloat() / max.toFloat())
-            }
+            val col = i / 7
+            val row = i % 7
+            intensities[col * 7 + row] = perDayMinutes[i].toFloat() / max.toFloat()
         }
         binding.heatmap.submit(intensities, weeks)
         val totalMinutes = perDayMinutes.sum()
