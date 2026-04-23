@@ -524,4 +524,31 @@
     <string name="export_pdf_empty">No notes to export</string>
     <string name="export_pdf_done">Exported %1$d notes to PDF</string>
     <string name="export_pdf_failed">Could not create PDF</string>
+    <string name="break_coach_title">Break Coach</string>
+    <string name="break_breathing_title">4-7-8 Breathing</string>
+    <string name="break_breathing_ready">Tap start to begin</string>
+    <string name="break_breathing_inhale">Inhale…</string>
+    <string name="break_breathing_hold">Hold…</string>
+    <string name="break_breathing_exhale">Exhale…</string>
+    <string name="break_breathing_start">Start</string>
+    <string name="break_breathing_stop">Stop</string>
+    <string name="break_breathing_hint">Inhale 4s · Hold 7s · Exhale 8s · Repeat 4 cycles</string>
+    <string name="break_stretch_title">Stretch (3 min)</string>
+    <string name="break_stretch_body">• Neck rolls: 10 slow circles each direction
+• Shoulder shrugs: 10 reps
+• Seated side bend: 20s each side
+• Wrist + forearm stretch: 20s each hand
+• Seated spinal twist: 20s each side</string>
+    <string name="break_eye_title">20-20-20 Eye Rest</string>
+    <string name="break_eye_body">Every 20 minutes, look at something at least 20 feet (6 metres) away for 20 seconds. Blink intentionally 10 times. Your near-point muscles need the rest.</string>
+    <string name="break_hydration_title">Hydration</string>
+    <string name="break_hydration_body">A 250 ml glass of water every hour of studying. Carry a bottle to your desk. Add lemon or cucumber if plain water is boring.</string>
+    <string name="break_walk_title">Walk + Fresh Air</string>
+    <string name="break_walk_body">A 5-minute walk resets attention better than scrolling. Open a window or step outside; 20 deep breaths of outdoor air.</string>
+    <string name="break_snack_body">Healthy snacks: a handful of nuts, a banana, yogurt, dark chocolate square, roasted chickpeas. Avoid sugary drinks — the crash will hurt your next session.</string>
+    <string name="music_cat_lofi">Lo-Fi</string>
+    <string name="music_cat_nature">Nature</string>
+    <string name="music_cat_classical">Classical</string>
+    <string name="music_cat_ambient">Ambient</string>
+    <string name="music_cat_jazz">Jazz</string>
 </resources>

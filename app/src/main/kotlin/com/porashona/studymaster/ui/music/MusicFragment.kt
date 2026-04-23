@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.porashona.studymaster.R
 import com.porashona.studymaster.StudyMasterApplication
+import com.porashona.studymaster.data.model.MusicCategory
 import com.porashona.studymaster.data.model.MusicTrack
 import com.porashona.studymaster.data.model.StudyMusicLibrary
 import com.porashona.studymaster.databinding.FragmentMusicBinding
@@ -80,6 +81,20 @@ class MusicFragment : Fragment() {
         }
 
         adapter.submitList(StudyMusicLibrary.tracks)
+
+        binding.chipGroupMusicCategory.setOnCheckedStateChangeListener { _, checked ->
+            val category = when (checked.firstOrNull()) {
+                R.id.chipMusicLofi -> MusicCategory.LOFI
+                R.id.chipMusicNature -> MusicCategory.NATURE
+                R.id.chipMusicClassical -> MusicCategory.CLASSICAL
+                R.id.chipMusicAmbient -> MusicCategory.AMBIENT
+                R.id.chipMusicJazz -> MusicCategory.JAZZ
+                else -> null
+            }
+            val list = if (category == null) StudyMusicLibrary.tracks
+            else StudyMusicLibrary.tracks.filter { it.category == category }
+            adapter.submitList(list)
+        }
     }
 
     private fun setupControls() {
