@@ -43,4 +43,7 @@ interface GoalDao {
 
     @Query("DELETE FROM goals WHERE date < :date AND isCompleted = 1")
     suspend fun deleteOldCompletedGoals(date: String)
+
+    @Query("DELETE FROM goals")
+    suspend fun deleteAll()
 }

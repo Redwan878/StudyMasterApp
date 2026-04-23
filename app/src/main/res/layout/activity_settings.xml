@@ -1,35 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/surface">
-        <ImageButton android:id="@+id/btnBack" android:src="@drawable/ic_chevron_right" android:rotation="180" android:layout_width="48dp" android:layout_height="48dp" android:background="?selectableItemBackgroundBorderless"/>
-        <TextView android:text="@string/settings" android:textSize="20sp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/text_primary"/>
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:navigationIcon="@drawable/ic_chevron_right"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/TextAppearance.App.TitleLarge" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardLanguage"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp">
-        <LinearLayout android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <TextView android:text="@string/language_settings" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/tvCurrentLanguage" android:text="English" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp">
+
+            <!-- ===================== APPEARANCE ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_appearance" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout
+                        android:id="@+id/rowTheme"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/theme_settings" />
+                        <TextView
+                            android:id="@+id/tvCurrentTheme"
+                            style="@style/Widget.App.SettingsValue"
+                            tools:text="System" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowAccent"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/accent_color" />
+                        <View
+                            android:id="@+id/accentSwatch"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_accent_swatch" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowFontSize"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/font_size" />
+                        <TextView
+                            android:id="@+id/tvCurrentFontSize"
+                            style="@style/Widget.App.SettingsValue"
+                            tools:text="Medium" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowLanguage"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/language_settings" />
+                        <TextView
+                            android:id="@+id/tvCurrentLanguage"
+                            style="@style/Widget.App.SettingsValue"
+                            tools:text="বাংলা" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===================== NOTIFICATIONS ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_notifications" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_notifications_enabled" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchNotifications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_sound_enabled" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchSound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_vibration_enabled" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_daily_reminder" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchDailyReminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_streak_reminder" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchStreakReminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_break_reminder" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchBreakReminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_quote_notification" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchQuoteNotification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===================== FOCUS / BLOCKER ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_focus" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_auto_block" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchAutoBlock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_strict_mode" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchStrictMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_voice_commands" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchVoiceCommands"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowDailyGoal"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_daily_goal" />
+                        <TextView
+                            android:id="@+id/tvDailyGoal"
+                            style="@style/Widget.App.SettingsValue"
+                            tools:text="120 min" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===================== ACCESSIBILITY ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_accessibility" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_high_contrast" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchHighContrast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_haptic_feedback" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchHapticFeedback"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===================== DATA ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_data" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout
+                        android:id="@+id/rowBackupExport"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_backup_export" />
+                        <TextView style="@style/Widget.App.SettingsValue"
+                            android:text="@string/setting_backup_export_hint" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowBackupImport"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_backup_import" />
+                        <TextView style="@style/Widget.App.SettingsValue"
+                            android:text="@string/setting_backup_import_hint" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowClearData"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_clear_data"
+                            android:textColor="?attr/colorError" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===================== ABOUT ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_about" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/about_version" />
+                        <TextView
+                            android:id="@+id/tvVersion"
+                            style="@style/Widget.App.SettingsValue"
+                            tools:text="1.0 (1)" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowAboutHelp"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/about_help" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp">
-        <LinearLayout android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <TextView android:text="@string/theme_settings" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

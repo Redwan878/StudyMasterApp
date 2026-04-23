@@ -42,4 +42,7 @@ interface ExamDao {
 
     @Query("SELECT COUNT(*) FROM exams WHERE examDate >= :today AND isCompleted = 0")
     fun getUpcomingExamsCount(today: Long): Flow<Int>
+
+    @Query("DELETE FROM exams")
+    suspend fun deleteAll()
 }

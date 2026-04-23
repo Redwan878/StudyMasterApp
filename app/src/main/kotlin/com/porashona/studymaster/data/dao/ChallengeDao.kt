@@ -39,4 +39,10 @@ interface ChallengeDao {
 
     @Query("DELETE FROM challenges WHERE date < :date")
     suspend fun deleteOldChallenges(date: String)
+
+    @Query("SELECT * FROM challenges ORDER BY date DESC")
+    fun getAllChallenges(): Flow<List<Challenge>>
+
+    @Query("DELETE FROM challenges")
+    suspend fun deleteAll()
 }

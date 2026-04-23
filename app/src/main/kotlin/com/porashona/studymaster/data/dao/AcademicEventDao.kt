@@ -40,4 +40,7 @@ interface AcademicEventDao {
 
     @Query("SELECT COUNT(*) FROM academic_events WHERE date >= :today")
     fun getUpcomingEventsCount(today: Long): Flow<Int>
+
+    @Query("DELETE FROM academic_events")
+    suspend fun deleteAll()
 }

@@ -59,6 +59,12 @@ interface BlockedAppDao {
 
     @Query("DELETE FROM block_statistics WHERE blockedAt < :before")
     suspend fun deleteOldStats(before: Long)
+
+    @Query("DELETE FROM blocked_apps")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM block_statistics")
+    suspend fun deleteAllStats()
 }
 
 data class AppBlockCount(
