@@ -53,6 +53,21 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_quotes"
+        android:title="@string/quotes_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_challenges"
+        android:title="@string/challenges_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_achievements"
+        android:title="@string/achievements_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/nav_settings"

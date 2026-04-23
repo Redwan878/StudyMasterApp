@@ -2,6 +2,7 @@ package com.porashona.studymaster.data.backup
 
 import android.content.Context
 import android.net.Uri
+import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.porashona.studymaster.StudyMasterApplication
@@ -101,48 +102,47 @@ object BackupManager {
         val payload = gson.fromJson(json, BackupPayload::class.java)
             ?: throw IllegalArgumentException("Not a StudyMaster backup file")
 
-        // Wrap the full delete + insert cycle in a single Room transaction so
-        // a failure partway through rolls back to the pre-import state rather
-        // than leaving the DB in a half-cleared condition.
-        db.runInTransaction(
-            Runnable {
-                // Room doesn't let us call suspend DAO methods directly from
-                // runInTransaction — but calling the blocking equivalents
-                // wrapped in runBlocking inside an IO dispatcher is safe for
-                // these small datasets (~hundreds of rows, one-shot import).
-                kotlinx.coroutines.runBlocking {
-                    db.studySessionDao().deleteAll()
-                    db.subjectDao().deleteAll()
-                    db.routineDao().deleteAll()
-                    // Achievements are re-seeded by initializeAchievements; import overwrites.
-                    db.achievementDao().deleteAll()
-                    db.goalDao().deleteAll()
-                    db.taskDao().deleteAll()
-                    db.noteDao().deleteAll()
-                    db.examDao().deleteAll()
-                    db.challengeDao().deleteAll()
-                    db.blockedAppDao().deleteAll()
-                    db.quoteDao().deleteAll()
-                    db.studyResourceDao().deleteAll()
-                    db.academicEventDao().deleteAll()
+        // Wrap the full delete + insert cycle in a single coroutine-aware Room
+        // transaction so a failure partway through rolls back to the pre-import
+        // state rather than leaving the DB in a half-cleared condition.
+        //
+        // We must use db.withTransaction (room-ktx) rather than runInTransaction
+        // + runBlocking: the Java runInTransaction holds the SQLite write lock
+        // on the caller thread and then runBlocking would block that thread,
+        // while the Room-generated suspend DAO methods dispatch their SQL to
+        // Room's query executor on a different thread which then tries to
+        // acquire the same write lock — classic deadlock.
+        db.withTransaction {
+            db.studySessionDao().deleteAll()
+            db.subjectDao().deleteAll()
+            db.routineDao().deleteAll()
+            // Achievements are re-seeded by initializeAchievements; import overwrites.
+            db.achievementDao().deleteAll()
+            db.goalDao().deleteAll()
+            db.taskDao().deleteAll()
+            db.noteDao().deleteAll()
+            db.examDao().deleteAll()
+            db.challengeDao().deleteAll()
+            db.blockedAppDao().deleteAll()
+            db.quoteDao().deleteAll()
+            db.studyResourceDao().deleteAll()
+            db.academicEventDao().deleteAll()
 
-                    payload.subjects.forEach { db.subjectDao().insert(it) }
-                    payload.sessions.forEach { db.studySessionDao().insert(it) }
-                    payload.routines.forEach { db.routineDao().insert(it) }
-                    payload.achievements.forEach { db.achievementDao().insert(it) }
-                    payload.profile?.let { db.userProfileDao().insert(it) }
-                    payload.goals.forEach { db.goalDao().insert(it) }
-                    payload.tasks.forEach { db.taskDao().insert(it) }
-                    payload.notes.forEach { db.noteDao().insert(it) }
-                    payload.exams.forEach { db.examDao().insert(it) }
-                    payload.challenges.forEach { db.challengeDao().insert(it) }
-                    payload.blockedApps.forEach { db.blockedAppDao().insert(it) }
-                    payload.quotes.forEach { db.quoteDao().insert(it) }
-                    payload.resources.forEach { db.studyResourceDao().insert(it) }
-                    payload.academicEvents.forEach { db.academicEventDao().insert(it) }
-                }
-            }
-        )
+            payload.subjects.forEach { db.subjectDao().insert(it) }
+            payload.sessions.forEach { db.studySessionDao().insert(it) }
+            payload.routines.forEach { db.routineDao().insert(it) }
+            payload.achievements.forEach { db.achievementDao().insert(it) }
+            payload.profile?.let { db.userProfileDao().insert(it) }
+            payload.goals.forEach { db.goalDao().insert(it) }
+            payload.tasks.forEach { db.taskDao().insert(it) }
+            payload.notes.forEach { db.noteDao().insert(it) }
+            payload.exams.forEach { db.examDao().insert(it) }
+            payload.challenges.forEach { db.challengeDao().insert(it) }
+            payload.blockedApps.forEach { db.blockedAppDao().insert(it) }
+            payload.quotes.forEach { db.quoteDao().insert(it) }
+            payload.resources.forEach { db.studyResourceDao().insert(it) }
+            payload.academicEvents.forEach { db.academicEventDao().insert(it) }
+        }
 
         ImportResult(
             version = payload.version,

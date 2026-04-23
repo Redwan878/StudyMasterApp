@@ -448,4 +448,30 @@
     <string name="action_cancel">Cancel</string>
 
     <string name="no_file_picker">no file picker available</string>
+    <string name="quotes_title">Quotes</string>
+    <string name="achievements_title">Achievements</string>
+    <string name="refresh">New quote</string>
+    <string name="favorite_quote">Favourite</string>
+    <string name="custom_quote_text_bn">Bengali text</string>
+    <string name="custom_quote_text_en">English text</string>
+    <string name="custom_quote_author">Author (optional)</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_close">Close</string>
+    <string name="filter_all">All</string>
+    <string name="filter_favorites">Favourites</string>
+    <string name="filter_custom">Custom</string>
+    <string name="level_label">Level %1$d</string>
+    <string name="xp_progress">%1$d / %2$d XP</string>
+    <string name="streak_days">%1$d day streak</string>
+    <string name="total_hours">%1$d hours total</string>
+    <string name="no_challenges">No challenges today. Check back tomorrow!</string>
+    <string name="challenge_reward">Reward: %1$d XP</string>
+    <string name="challenge_progress">%1$d / %2$d</string>
+    <string name="achievement_locked">Locked</string>
+    <string name="achievement_unlocked_status">Unlocked</string>
+    <string name="quote_empty_favorites">No favourite quotes yet</string>
+    <string name="quote_empty_custom">Add your first custom quote</string>
+    <string name="badges_title">Badges</string>
+    <string name="quote_share_chooser">Share this quote</string>
 </resources>

@@ -351,6 +351,11 @@ class SettingsActivity : AppCompatActivity() {
                 db.taskDao().deleteAll()
                 db.noteDao().deleteAll()
                 db.examDao().deleteAll()
+                db.challengeDao().deleteAll()
+                db.blockedAppDao().deleteAll()
+                db.quoteDao().deleteAll()
+                db.studyResourceDao().deleteAll()
+                db.academicEventDao().deleteAll()
                 prefs.clearAllPreferences()
                 Snackbar.make(binding.root, R.string.data_cleared, Snackbar.LENGTH_LONG).show()
             } catch (t: Throwable) {

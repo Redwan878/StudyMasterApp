@@ -91,10 +91,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRepository() {
         repository = (application as StudyMasterApplication).studyRepository
+        val extended = (application as StudyMasterApplication).extendedRepository
 
         lifecycleScope.launch {
             repository.initializeProfile()
             repository.initializeAchievements()
+            extended.initializeQuotes()
+            extended.initializeDailyChallenges()
         }
     }
 
@@ -118,6 +121,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_randomizer -> navigate(R.id.randomizerFragment)
                 R.id.menu_resources -> navigate(R.id.resourcesFragment)
                 R.id.menu_assistant -> navigate(R.id.assistantFragment)
+                R.id.menu_quotes -> navigate(R.id.quotesFragment)
+                R.id.menu_challenges -> navigate(R.id.challengesFragment)
+                R.id.menu_achievements -> navigate(R.id.achievementsFragment)
                 R.id.menu_focus_mode -> {
                     startActivity(Intent(this, FocusModeActivity::class.java))
                     true
