@@ -366,6 +366,10 @@
     <string name="resources_title">রিসোর্স</string>
     <string name="calendar_title">ক্যালেন্ডার</string>
 
+    <!-- Notes screen -->
+    <string name="notes_search_hint">নোট খুঁজুন</string>
+    <string name="notes_empty">কোনো নোট নেই। যোগ করতে + বাটন চাপুন।</string>
+
     <!-- Calendar screen -->
     <string name="calendar_empty">কোনো ইভেন্ট নেই। যোগ করতে + বাটন চাপুন।</string>
     <string name="calendar_add_event">ইভেন্ট যোগ করুন</string>
