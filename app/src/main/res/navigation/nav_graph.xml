@@ -118,4 +118,10 @@
         android:label="@string/insights_title"
         tools:layout="@layout/fragment_insights" />
 
+    <fragment
+        android:id="@+id/breakCoachFragment"
+        android:name="com.porashona.studymaster.ui.wellness.BreakCoachFragment"
+        android:label="@string/break_coach_title"
+        tools:layout="@layout/fragment_break_coach" />
+
 </navigation>

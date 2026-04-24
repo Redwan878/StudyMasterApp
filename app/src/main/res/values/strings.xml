@@ -543,4 +543,49 @@
     <string name="export_pdf_empty">এখানে কোনো নোট নেই</string>
     <string name="export_pdf_done">%1$d টি নোট PDF-এ রপ্তানি হয়েছে</string>
     <string name="export_pdf_failed">PDF তৈরি ব্যর্থ হয়েছে</string>
+    <string name="break_coach_title">বিরতি কোচ</string>
+    <string name="break_breathing_title">৪-৭-৮ শ্বাস অনুশীলন</string>
+    <string name="break_breathing_ready">শুরু করতে ট্যাপ করুন</string>
+    <string name="break_breathing_inhale">শ্বাস নিন…</string>
+    <string name="break_breathing_hold">ধরে রাখুন…</string>
+    <string name="break_breathing_exhale">ছাড়ুন…</string>
+    <string name="break_breathing_start">শুরু</string>
+    <string name="break_breathing_stop">থামান</string>
+    <string name="break_breathing_hint">শ্বাস ৪ সেকেন্ড · ধরে রাখা ৭ সেকেন্ড · ছাড়া ৮ সেকেন্ড · ৪ বার</string>
+    <string name="break_stretch_title">স্ট্রেচ (৩ মিনিট)</string>
+    <string name="break_stretch_body">• ঘাড় ঘোরানো: দুই দিকে ১০ বার
+• কাঁধ তোলা-নামানো: ১০ বার
+• বসে পাশে হেলানো: দুই দিকে ২০ সেকেন্ড
+• কব্জি ও বাহু স্ট্রেচ: ২০ সেকেন্ড
+• মেরুদণ্ড টুইস্ট: দুই দিকে ২০ সেকেন্ড</string>
+    <string name="break_eye_title">২০-২০-২০ চোখের বিশ্রাম</string>
+    <string name="break_eye_body">প্রতি ২০ মিনিটে, ২০ ফুট (৬ মিটার) দূরের কিছুতে ২০ সেকেন্ড তাকান। ১০ বার ইচ্ছে করে চোখ পিটপিট করুন।</string>
+    <string name="break_hydration_title">পানি খাওয়া</string>
+    <string name="break_hydration_body">প্রতি ঘণ্টায় ২৫০ মিলি পানি। টেবিলে বোতল রাখুন। একঘেয়ে লাগলে লেবু বা শসা মেশান।</string>
+    <string name="break_walk_title">হাঁটা ও টাটকা বাতাস</string>
+    <string name="break_walk_body">৫ মিনিট হাঁটা স্ক্রল করার চেয়ে মনোযোগ ফিরিয়ে আনে ভালো। জানালা খুলুন বা বাইরে যান; ২০ বার গভীর শ্বাস নিন।</string>
+    <string name="break_snack_body">স্বাস্থ্যকর খাবার: মুঠো বাদাম, কলা, দই, এক টুকরো ডার্ক চকলেট, ভাজা ছোলা। মিষ্টি পানীয় এড়ান।</string>
+    <string name="music_cat_lofi">লো-ফাই</string>
+    <string name="music_cat_nature">প্রকৃতি</string>
+    <string name="music_cat_classical">ক্লাসিক্যাল</string>
+    <string name="music_cat_ambient">অ্যামবিয়েন্ট</string>
+    <string name="music_cat_jazz">জ্যাজ</string>
+    <string name="exam_done">শেষ</string>
+    <string name="exam_today">আজই</string>
+    <string name="exam_days_left">%1$d দিন বাকি</string>
+    <string name="widget_today">আজ</string>
+    <string name="widget_level">লেভেল</string>
+    <string name="daily_reminder_notif_title">পড়াশোনার সময়</string>
+    <string name="daily_reminder_notif_body">ট্যাপ করে একটি ফোকাস সেশন শুরু করুন।</string>
+    <string name="setting_weekly_summary">সাপ্তাহিক সারসংক্ষেপ (রবি রাত ৮টা)</string>
+    <string name="quote_notif_title">আজকের উদ্ধৃতি</string>
+    <string name="quote_notif_fallback">বড় কিছু তৈরি হতে সময় লাগে — চালিয়ে যান।</string>
+    <string name="weekly_summary_title">এই সপ্তাহের পড়াশোনা</string>
+    <string name="weekly_summary_body">গত ৭ দিন: %1$d ঘণ্টা %2$d মিনিট · %3$dটি সেশন।</string>
+    <string name="widget_streak_label">ধারা</string>
+    <string name="exam_reminder_title">পরীক্ষা %1$d দিন বাকি</string>
+    <string name="exam_reminder_body">%1$s · %2$s। প্রস্তুতি নিন।</string>
+    <string name="overdue_title">ওভারডিউ টাস্ক</string>
+    <string name="setting_exam_countdown">পরীক্ষা কাউন্টডাউন নোটিফিকেশন</string>
+    <string name="setting_overdue_reminder">ওভারডিউ টাস্ক রিমাইন্ডার (প্রতিদিন সকাল ৯টা)</string>
 </resources>
