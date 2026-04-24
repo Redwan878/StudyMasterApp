@@ -29,6 +29,12 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+    <!-- Drawer nav items use a full-pill shape so the active indicator matches Material 3 guidelines. -->
+    <style name="ShapeAppearance.App.DrawerItem" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+
     <!-- Material card with outlined style matching the app's flat-card aesthetic -->
     <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">20dp</item>

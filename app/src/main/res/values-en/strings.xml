@@ -603,4 +603,13 @@
     <string name="setting_export_pdf_hint">30-day sessions</string>
     <string name="pdf_report_title">Study report</string>
     <string name="pdf_report_no_sessions">No sessions in the last 30 days.</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_subtitle">Every feature, one tap away</string>
+    <string name="drawer_section_study">Study</string>
+    <string name="drawer_section_tools">Tools</string>
+    <string name="drawer_section_progress">Progress</string>
+    <string name="drawer_section_system">System</string>
 </resources>

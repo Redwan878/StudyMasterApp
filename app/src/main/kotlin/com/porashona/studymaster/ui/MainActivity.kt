@@ -9,9 +9,13 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -49,9 +53,79 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setupRepository()
         setupNavigation()
+        setupDrawer()
         setupToolbarMenu()
         requestNotificationPermission()
         observeAchievementUnlocks()
+    }
+
+    private fun setupDrawer() {
+        val toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.drawer_open,
+            R.string.drawer_close
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.isDrawerIndicatorEnabled = true
+        toggle.syncState()
+
+        binding.navDrawer.setNavigationItemSelectedListener { item ->
+            val handled = when (item.itemId) {
+                R.id.drawer_timer -> navigate(R.id.timerFragment)
+                R.id.drawer_stats -> navigate(R.id.statsFragment)
+                R.id.drawer_music -> navigate(R.id.musicFragment)
+                R.id.drawer_routine -> navigate(R.id.routineFragment)
+                R.id.drawer_profile -> navigate(R.id.profileFragment)
+                R.id.drawer_tasks -> navigate(R.id.tasksFragment)
+                R.id.drawer_notes -> navigate(R.id.notesFragment)
+                R.id.drawer_goals -> navigate(R.id.goalsFragment)
+                R.id.drawer_exams -> navigate(R.id.examsFragment)
+                R.id.drawer_blocker -> navigate(R.id.blockerFragment)
+                R.id.drawer_calendar -> navigate(R.id.calendarFragment)
+                R.id.drawer_randomizer -> navigate(R.id.randomizerFragment)
+                R.id.drawer_resources -> navigate(R.id.resourcesFragment)
+                R.id.drawer_assistant -> navigate(R.id.assistantFragment)
+                R.id.drawer_quotes -> navigate(R.id.quotesFragment)
+                R.id.drawer_challenges -> navigate(R.id.challengesFragment)
+                R.id.drawer_achievements -> navigate(R.id.achievementsFragment)
+                R.id.drawer_history -> navigate(R.id.sessionHistoryFragment)
+                R.id.drawer_insights -> navigate(R.id.insightsFragment)
+                R.id.drawer_break_coach -> navigate(R.id.breakCoachFragment)
+                R.id.drawer_focus -> {
+                    startActivity(Intent(this, FocusModeActivity::class.java))
+                    true
+                }
+                R.id.drawer_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+            if (handled) {
+                item.isChecked = true
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            }
+            handled
+        }
+
+        // Back button closes drawer when open instead of exiting the app.
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
+            }
+        })
+
+        // Dim scrim for a modern subtle-overlay feel.
+        binding.drawerLayout.setScrimColor(0x66000000)
+        binding.drawerLayout.setDrawerElevation(24f)
     }
 
     private fun observeAchievementUnlocks() {

@@ -622,4 +622,13 @@
     <string name="setting_export_pdf_hint">৩০ দিনের সেশন</string>
     <string name="pdf_report_title">পড়াশোনা রিপোর্ট</string>
     <string name="pdf_report_no_sessions">শেষ ৩০ দিনে কোনো সেশন নেই।</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">নেভিগেশন ড্রয়ার খুলুন</string>
+    <string name="drawer_close">নেভিগেশন ড্রয়ার বন্ধ করুন</string>
+    <string name="drawer_subtitle">সব ফিচার, এক ট্যাপ দূরে</string>
+    <string name="drawer_section_study">পড়াশোনা</string>
+    <string name="drawer_section_tools">টুলস</string>
+    <string name="drawer_section_progress">অগ্রগতি</string>
+    <string name="drawer_section_system">সিস্টেম</string>
 </resources>
