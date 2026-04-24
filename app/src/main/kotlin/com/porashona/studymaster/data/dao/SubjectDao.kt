@@ -28,6 +28,9 @@ interface SubjectDao {
     @Query("UPDATE subjects SET totalTimeInSeconds = totalTimeInSeconds + :seconds WHERE id = :subjectId")
     suspend fun addTimeToSubject(subjectId: Long, seconds: Long)
 
+    @Query("UPDATE subjects SET totalTimeInSeconds = CASE WHEN totalTimeInSeconds - :seconds < 0 THEN 0 ELSE totalTimeInSeconds - :seconds END WHERE id = :subjectId")
+    suspend fun subtractTimeFromSubject(subjectId: Long, seconds: Long)
+
     @Query("DELETE FROM subjects")
     suspend fun deleteAll()
 }

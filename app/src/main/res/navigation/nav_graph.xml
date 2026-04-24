@@ -106,4 +106,22 @@
         android:label="@string/achievements_title"
         tools:layout="@layout/fragment_achievements" />
 
+    <fragment
+        android:id="@+id/sessionHistoryFragment"
+        android:name="com.porashona.studymaster.ui.history.SessionHistoryFragment"
+        android:label="@string/session_history_title"
+        tools:layout="@layout/fragment_session_history" />
+
+    <fragment
+        android:id="@+id/insightsFragment"
+        android:name="com.porashona.studymaster.ui.insights.InsightsFragment"
+        android:label="@string/insights_title"
+        tools:layout="@layout/fragment_insights" />
+
+    <fragment
+        android:id="@+id/breakCoachFragment"
+        android:name="com.porashona.studymaster.ui.wellness.BreakCoachFragment"
+        android:label="@string/break_coach_title"
+        tools:layout="@layout/fragment_break_coach" />
+
 </navigation>

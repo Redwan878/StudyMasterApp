@@ -30,4 +30,10 @@ interface UserProfileDao {
 
     @Query("UPDATE user_profile SET name = :name WHERE id = 1")
     suspend fun updateName(name: String)
+
+    @Query("UPDATE user_profile SET totalXp = CASE WHEN totalXp - :xp < 0 THEN 0 ELSE totalXp - :xp END, level = (CASE WHEN totalXp - :xp < 0 THEN 0 ELSE totalXp - :xp END) / 1000 + 1 WHERE id = 1")
+    suspend fun subtractXp(xp: Int)
+
+    @Query("UPDATE user_profile SET totalStudyTimeSeconds = CASE WHEN totalStudyTimeSeconds - :seconds < 0 THEN 0 ELSE totalStudyTimeSeconds - :seconds END, totalSessions = CASE WHEN totalSessions - 1 < 0 THEN 0 ELSE totalSessions - 1 END WHERE id = 1")
+    suspend fun subtractStudyTime(seconds: Long)
 }
