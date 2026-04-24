@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="overdue_body">
+        <item quantity="one">You have %d overdue task. Tap to review.</item>
+        <item quantity="other">You have %d overdue tasks. Tap to review.</item>
+    </plurals>
+</resources>

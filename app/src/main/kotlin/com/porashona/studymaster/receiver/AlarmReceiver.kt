@@ -73,6 +73,16 @@ class AlarmReceiver : BroadcastReceiver() {
                 if (app.preferencesManager.weeklySummaryEnabled.first()) {
                     com.porashona.studymaster.utils.WeeklySummaryScheduler.schedule(ctx)
                 }
+                if (app.preferencesManager.overdueTaskReminderEnabled.first()) {
+                    com.porashona.studymaster.utils.OverdueTaskScheduler.schedule(ctx)
+                }
+                if (app.preferencesManager.examCountdownEnabled.first()) {
+                    val exams = runCatching { app.database.examDao().getAllExams().first() }
+                        .getOrDefault(emptyList())
+                    if (exams.isNotEmpty()) {
+                        com.porashona.studymaster.utils.ExamReminderScheduler.scheduleForAll(ctx, exams)
+                    }
+                }
             } finally {
                 pending.finish()
             }
