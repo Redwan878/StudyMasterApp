@@ -570,4 +570,22 @@
     <string name="music_cat_classical">ক্লাসিক্যাল</string>
     <string name="music_cat_ambient">অ্যামবিয়েন্ট</string>
     <string name="music_cat_jazz">জ্যাজ</string>
+    <string name="exam_done">শেষ</string>
+    <string name="exam_today">আজই</string>
+    <string name="exam_days_left">%1$d দিন বাকি</string>
+    <string name="widget_today">আজ</string>
+    <string name="widget_level">লেভেল</string>
+    <string name="daily_reminder_notif_title">পড়াশোনার সময়</string>
+    <string name="daily_reminder_notif_body">ট্যাপ করে একটি ফোকাস সেশন শুরু করুন।</string>
+    <string name="setting_weekly_summary">সাপ্তাহিক সারসংক্ষেপ (রবি রাত ৮টা)</string>
+    <string name="quote_notif_title">আজকের উদ্ধৃতি</string>
+    <string name="quote_notif_fallback">বড় কিছু তৈরি হতে সময় লাগে — চালিয়ে যান।</string>
+    <string name="weekly_summary_title">এই সপ্তাহের পড়াশোনা</string>
+    <string name="weekly_summary_body">গত ৭ দিন: %1$d ঘণ্টা %2$d মিনিট · %3$dটি সেশন।</string>
+    <string name="widget_streak_label">ধারা</string>
+    <string name="exam_reminder_title">পরীক্ষা %1$d দিন বাকি</string>
+    <string name="exam_reminder_body">%1$s · %2$s। প্রস্তুতি নিন।</string>
+    <string name="overdue_title">ওভারডিউ টাস্ক</string>
+    <string name="setting_exam_countdown">পরীক্ষা কাউন্টডাউন নোটিফিকেশন</string>
+    <string name="setting_overdue_reminder">ওভারডিউ টাস্ক রিমাইন্ডার (প্রতিদিন সকাল ৯টা)</string>
 </resources>

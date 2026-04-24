@@ -60,6 +60,29 @@ class AlarmReceiver : BroadcastReceiver() {
                 val helper = NotificationHelper(context.applicationContext)
                 val routines = app.database.routineDao().getEnabledRoutines().first()
                 routines.forEach { helper.scheduleRoutineAlarm(it) }
+
+                // Re-arm daily reminder / quote / weekly summary if the user had them on.
+                val ctx = context.applicationContext
+                if (app.preferencesManager.dailyReminderEnabled.first()) {
+                    val hhmm = app.preferencesManager.dailyReminderTime.first()
+                    com.porashona.studymaster.utils.DailyReminderScheduler.schedule(ctx, hhmm)
+                }
+                if (app.preferencesManager.quoteNotificationEnabled.first()) {
+                    com.porashona.studymaster.utils.QuoteNotificationScheduler.schedule(ctx)
+                }
+                if (app.preferencesManager.weeklySummaryEnabled.first()) {
+                    com.porashona.studymaster.utils.WeeklySummaryScheduler.schedule(ctx)
+                }
+                if (app.preferencesManager.overdueTaskReminderEnabled.first()) {
+                    com.porashona.studymaster.utils.OverdueTaskScheduler.schedule(ctx)
+                }
+                if (app.preferencesManager.examCountdownEnabled.first()) {
+                    val exams = runCatching { app.database.examDao().getAllExams().first() }
+                        .getOrDefault(emptyList())
+                    if (exams.isNotEmpty()) {
+                        com.porashona.studymaster.utils.ExamReminderScheduler.scheduleForAll(ctx, exams)
+                    }
+                }
             } finally {
                 pending.finish()
             }

@@ -20,14 +20,18 @@ import com.porashona.studymaster.data.repository.ExtendedRepository
 import com.porashona.studymaster.databinding.DialogAddExamBinding
 import com.porashona.studymaster.databinding.FragmentExamsBinding
 import com.porashona.studymaster.databinding.ItemExamBinding
+import com.porashona.studymaster.utils.ExamReminderScheduler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import android.graphics.Color
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class ExamsFragment : Fragment() {
     private var _binding: FragmentExamsBinding? = null
@@ -43,14 +47,35 @@ class ExamsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ExamAdapter { exam -> viewModel.deleteExam(exam) }
+        val adapter = ExamAdapter { exam ->
+            ExamReminderScheduler.cancelForExam(requireContext().applicationContext, exam.id)
+            viewModel.deleteExam(exam)
+        }
         binding.recyclerExams.layoutManager = LinearLayoutManager(context)
         binding.recyclerExams.adapter = adapter
 
         binding.fabAddExam.setOnClickListener { showAddExamDialog() }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.exams.collectLatest { adapter.submitList(it) }
+            viewModel.exams.collectLatest { raw ->
+                val now = System.currentTimeMillis()
+                // Sort: upcoming (closest first) before past (most recent first).
+                val sorted = raw.sortedWith(
+                    compareBy(
+                        { it.examDate < now },
+                        { if (it.examDate >= now) it.examDate else -it.examDate },
+                    ),
+                )
+                adapter.submitList(sorted)
+                // Re-arm exam countdown notifications every time the list
+                // changes (covers add, edit, delete, initial cold start).
+                val app = requireContext().applicationContext as StudyMasterApplication
+                val enabled = runCatching { app.preferencesManager.examCountdownEnabled.first() }
+                    .getOrDefault(true)
+                if (enabled) {
+                    ExamReminderScheduler.scheduleForAll(app, sorted)
+                }
+            }
         }
     }
 
@@ -59,10 +84,16 @@ class ExamsFragment : Fragment() {
         var selectedDate = System.currentTimeMillis()
 
         dialogBinding.btnDate.setOnClickListener {
-            val picker = MaterialDatePicker.Builder.datePicker().build()
-            picker.addOnPositiveButtonClickListener {
-                selectedDate = it
-                dialogBinding.btnDate.text = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(it))
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+            picker.addOnPositiveButtonClickListener { millis ->
+                // Normalise MaterialDatePicker's UTC-midnight timestamp to
+                // the device's local midnight so downstream countdown
+                // arithmetic lines up with the user's calendar day.
+                val localMidnight = millis + TimeZone.getDefault().getOffset(millis)
+                selectedDate = localMidnight
+                dialogBinding.btnDate.text = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(localMidnight))
             }
             picker.show(parentFragmentManager, "date")
         }
@@ -100,10 +131,23 @@ class ExamAdapter(private val onDelete: (Exam) -> Unit) : ListAdapter<Exam, Exam
 
     inner class ViewHolder(val binding: ItemExamBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(exam: Exam) {
+            val ctx = binding.root.context
             binding.tvName.text = exam.name
-            val daysLeft = ((exam.examDate - System.currentTimeMillis()) / (1000 * 60 * 60 * 24)).coerceAtLeast(0)
             binding.tvDate.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(exam.examDate))
-            binding.tvCountdown.text = "$daysLeft days left"
+            val diffMs = exam.examDate - System.currentTimeMillis()
+            val days = TimeUnit.MILLISECONDS.toDays(diffMs)
+
+            val (label, tint) = when {
+                diffMs < 0 -> ctx.getString(R.string.exam_done) to 0xFF9E9E9E.toInt()
+                days == 0L -> ctx.getString(R.string.exam_today) to 0xFFE53935.toInt()
+                days in 1..7 -> ctx.getString(R.string.exam_days_left, days.toInt()) to 0xFFE53935.toInt()
+                days in 8..30 -> ctx.getString(R.string.exam_days_left, days.toInt()) to 0xFFFB8C00.toInt()
+                else -> ctx.getString(R.string.exam_days_left, days.toInt()) to 0xFF43A047.toInt()
+            }
+            binding.tvCountdown.text = label
+            binding.tvCountdown.chipBackgroundColor = android.content.res.ColorStateList.valueOf(tint)
+            binding.tvCountdown.setTextColor(Color.WHITE)
+            binding.rail.setBackgroundColor(tint)
             binding.btnDelete.setOnClickListener { onDelete(exam) }
         }
     }
