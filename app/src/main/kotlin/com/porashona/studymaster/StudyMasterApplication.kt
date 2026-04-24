@@ -35,6 +35,45 @@ class StudyMasterApplication : Application() {
         createNotificationChannels()
         applyStoredThemeMode()
         observeSessionChangesForWidget()
+        primeNotificationSchedulers()
+    }
+
+    /**
+     * On first install / fresh launch, arm whichever notification schedulers
+     * are enabled in DataStore. Re-arming is idempotent — cancels any prior
+     * PendingIntent before scheduling.
+     */
+    private fun primeNotificationSchedulers() {
+        CoroutineScope(Dispatchers.Default).launch {
+            runCatching {
+                if (preferencesManager.quoteNotificationEnabled.first()) {
+                    com.porashona.studymaster.utils.QuoteNotificationScheduler
+                        .schedule(this@StudyMasterApplication)
+                }
+                if (preferencesManager.weeklySummaryEnabled.first()) {
+                    com.porashona.studymaster.utils.WeeklySummaryScheduler
+                        .schedule(this@StudyMasterApplication)
+                }
+                if (preferencesManager.dailyReminderEnabled.first()) {
+                    val hhmm = preferencesManager.dailyReminderTime.first()
+                    com.porashona.studymaster.utils.DailyReminderScheduler
+                        .schedule(this@StudyMasterApplication, hhmm)
+                }
+                if (preferencesManager.overdueTaskReminderEnabled.first()) {
+                    com.porashona.studymaster.utils.OverdueTaskScheduler
+                        .schedule(this@StudyMasterApplication)
+                }
+                if (preferencesManager.examCountdownEnabled.first()) {
+                    val exams = runCatching {
+                        database.examDao().getAllExams().first()
+                    }.getOrDefault(emptyList())
+                    if (exams.isNotEmpty()) {
+                        com.porashona.studymaster.utils.ExamReminderScheduler
+                            .scheduleForAll(this@StudyMasterApplication, exams)
+                    }
+                }
+            }
+        }
     }
 
     /**
