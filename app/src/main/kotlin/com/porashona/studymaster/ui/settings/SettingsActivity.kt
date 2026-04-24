@@ -213,10 +213,65 @@ class SettingsActivity : AppCompatActivity() {
         bindSwitch(binding.switchNotifications, prefs.notificationEnabled) { prefs.setNotificationEnabled(it) }
         bindSwitch(binding.switchSound, prefs.soundEnabled) { prefs.setSoundEnabled(it) }
         bindSwitch(binding.switchVibration, prefs.vibrationEnabled) { prefs.setVibrationEnabled(it) }
-        bindSwitch(binding.switchDailyReminder, prefs.dailyReminderEnabled) { prefs.setDailyReminderEnabled(it) }
+        bindSwitch(binding.switchDailyReminder, prefs.dailyReminderEnabled) { enabled ->
+            prefs.setDailyReminderEnabled(enabled)
+            val hhmm = prefs.dailyReminderTime.first()
+            if (enabled) {
+                com.porashona.studymaster.utils.DailyReminderScheduler.schedule(applicationContext, hhmm)
+            } else {
+                com.porashona.studymaster.utils.DailyReminderScheduler.cancel(applicationContext)
+            }
+        }
         bindSwitch(binding.switchStreakReminder, prefs.streakReminderEnabled) { prefs.setStreakReminderEnabled(it) }
         bindSwitch(binding.switchBreakReminder, prefs.breakReminderEnabled) { prefs.setBreakReminderEnabled(it) }
-        bindSwitch(binding.switchQuoteNotification, prefs.quoteNotificationEnabled) { prefs.setQuoteNotificationEnabled(it) }
+        bindSwitch(binding.switchQuoteNotification, prefs.quoteNotificationEnabled) { enabled ->
+            prefs.setQuoteNotificationEnabled(enabled)
+            if (enabled) {
+                com.porashona.studymaster.utils.QuoteNotificationScheduler.schedule(applicationContext)
+            } else {
+                com.porashona.studymaster.utils.QuoteNotificationScheduler.cancel(applicationContext)
+            }
+        }
+        bindSwitch(binding.switchWeeklySummary, prefs.weeklySummaryEnabled) { enabled ->
+            prefs.setWeeklySummaryEnabled(enabled)
+            if (enabled) {
+                com.porashona.studymaster.utils.WeeklySummaryScheduler.schedule(applicationContext)
+            } else {
+                com.porashona.studymaster.utils.WeeklySummaryScheduler.cancel(applicationContext)
+            }
+        }
+        bindSwitch(binding.switchOverdueReminder, prefs.overdueTaskReminderEnabled) { enabled ->
+            prefs.setOverdueTaskReminderEnabled(enabled)
+            if (enabled) {
+                com.porashona.studymaster.utils.OverdueTaskScheduler.schedule(applicationContext)
+            } else {
+                com.porashona.studymaster.utils.OverdueTaskScheduler.cancel(applicationContext)
+            }
+        }
+        bindSwitch(binding.switchExamCountdown, prefs.examCountdownEnabled) { enabled ->
+            prefs.setExamCountdownEnabled(enabled)
+            if (enabled) {
+                lifecycleScope.launch {
+                    val app = applicationContext as StudyMasterApplication
+                    val exams = runCatching { app.database.examDao().getAllExams().first() }
+                        .getOrDefault(emptyList())
+                    if (exams.isNotEmpty()) {
+                        com.porashona.studymaster.utils.ExamReminderScheduler
+                            .scheduleForAll(applicationContext, exams)
+                    }
+                }
+            } else {
+                lifecycleScope.launch {
+                    val app = applicationContext as StudyMasterApplication
+                    val exams = runCatching { app.database.examDao().getAllExams().first() }
+                        .getOrDefault(emptyList())
+                    exams.forEach {
+                        com.porashona.studymaster.utils.ExamReminderScheduler
+                            .cancelForExam(applicationContext, it.id)
+                    }
+                }
+            }
+        }
     }
 
     // ============================ FOCUS ============================
@@ -357,6 +412,15 @@ class SettingsActivity : AppCompatActivity() {
                 db.studyResourceDao().deleteAll()
                 db.academicEventDao().deleteAll()
                 prefs.clearAllPreferences()
+                // Cancel every scheduled alarm — prefs are now default, but
+                // the PendingIntents would otherwise keep firing forever.
+                com.porashona.studymaster.utils.DailyReminderScheduler.cancel(applicationContext)
+                com.porashona.studymaster.utils.QuoteNotificationScheduler.cancel(applicationContext)
+                com.porashona.studymaster.utils.WeeklySummaryScheduler.cancel(applicationContext)
+                com.porashona.studymaster.utils.OverdueTaskScheduler.cancel(applicationContext)
+                // Exam reminders are keyed by exam id and the exams table was
+                // just wiped, so any remaining PendingIntents will hit
+                // cancelled alarms and no-op.
                 Snackbar.make(binding.root, R.string.data_cleared, Snackbar.LENGTH_LONG).show()
             } catch (t: Throwable) {
                 Snackbar.make(

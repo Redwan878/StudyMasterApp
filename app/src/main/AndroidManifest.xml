@@ -139,6 +139,36 @@
             </intent-filter>
         </receiver>
 
+        <!-- Daily Study Reminder -->
+        <receiver
+            android:name=".utils.DailyReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Daily Quote Notification -->
+        <receiver
+            android:name=".utils.QuoteNotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Weekly Summary Notification -->
+        <receiver
+            android:name=".utils.WeeklySummaryReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Exam Reminder Notifications -->
+        <receiver
+            android:name=".utils.ExamReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Overdue Task Daily Check -->
+        <receiver
+            android:name=".utils.OverdueTaskReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Language Change Receiver -->
         <receiver
             android:name=".receiver.LocaleChangeReceiver"

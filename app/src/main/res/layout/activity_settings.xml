@@ -178,6 +178,39 @@
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_weekly_summary" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchWeeklySummary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_overdue_reminder" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchOverdueReminder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_exam_countdown" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchExamCountdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
