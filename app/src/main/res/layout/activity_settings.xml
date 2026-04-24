@@ -304,6 +304,52 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- ===================== EXTRAS / TOOLS ===================== -->
+            <TextView
+                style="@style/Widget.App.SettingsSectionHeader"
+                android:text="@string/settings_section_extras" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.SettingsCard">
+
+                <LinearLayout style="@style/Widget.App.SettingsGroup">
+
+                    <LinearLayout style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_floating_clock" />
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switchFloatingClock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowExportPdf"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_export_pdf" />
+                        <TextView
+                            style="@style/Widget.App.SettingsValue"
+                            android:text="@string/setting_export_pdf_hint" />
+                    </LinearLayout>
+
+                    <View style="@style/Widget.App.SettingsDivider" />
+
+                    <LinearLayout
+                        android:id="@+id/rowGoogleCalendar"
+                        style="@style/Widget.App.SettingsRow">
+                        <TextView style="@style/Widget.App.SettingsLabel"
+                            android:text="@string/setting_google_calendar_sync" />
+                        <TextView
+                            style="@style/Widget.App.SettingsValue"
+                            android:text="@string/google_calendar_open" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- ===================== DATA ===================== -->
             <TextView
                 style="@style/Widget.App.SettingsSectionHeader"

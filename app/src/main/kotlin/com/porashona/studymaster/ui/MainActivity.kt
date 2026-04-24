@@ -163,4 +163,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    /**
+     * Hardware keyboard shortcuts. Lets power users (and tablet users with a
+     * Bluetooth keyboard) jump between the main tabs without touching the
+     * screen. Mapped to `Ctrl + <number>` for the five bottom-nav screens
+     * plus a few letter shortcuts for drawer items.
+     */
+    override fun onKeyShortcut(keyCode: Int, event: android.view.KeyEvent): Boolean {
+        val handled = when (keyCode) {
+            android.view.KeyEvent.KEYCODE_1 -> navigate(R.id.timerFragment)
+            android.view.KeyEvent.KEYCODE_2 -> navigate(R.id.statsFragment)
+            android.view.KeyEvent.KEYCODE_3 -> navigate(R.id.musicFragment)
+            android.view.KeyEvent.KEYCODE_4 -> navigate(R.id.routineFragment)
+            android.view.KeyEvent.KEYCODE_5 -> navigate(R.id.profileFragment)
+            android.view.KeyEvent.KEYCODE_T -> navigate(R.id.tasksFragment)
+            android.view.KeyEvent.KEYCODE_N -> navigate(R.id.notesFragment)
+            android.view.KeyEvent.KEYCODE_G -> navigate(R.id.goalsFragment)
+            android.view.KeyEvent.KEYCODE_E -> navigate(R.id.examsFragment)
+            android.view.KeyEvent.KEYCODE_Q -> navigate(R.id.quotesFragment)
+            android.view.KeyEvent.KEYCODE_COMMA -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            else -> false
+        }
+        return handled || super.onKeyShortcut(keyCode, event)
+    }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Covers files written under context.getExternalFilesDir(...) which is
+         where PdfExporter + backup writers place generated artifacts. -->
+    <external-files-path
+        name="documents"
+        path="Documents/" />
+    <external-files-path
+        name="exports"
+        path="." />
+    <cache-path
+        name="cache"
+        path="." />
+    <files-path
+        name="files"
+        path="." />
+</paths>

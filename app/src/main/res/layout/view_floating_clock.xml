@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvFloatingClock"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_primary"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="8dp"
+    android:shadowColor="#80000000"
+    android:shadowDx="0"
+    android:shadowDy="1"
+    android:shadowRadius="4"
+    android:text="--:--"
+    android:textColor="@color/white"
+    android:textSize="20sp"
+    android:textStyle="bold" />
