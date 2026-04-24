@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/drawer_group_main" android:checkableBehavior="single">
+        <item android:id="@+id/drawer_timer"
+            android:icon="@drawable/ic_timer"
+            android:title="@string/nav_timer" />
+        <item android:id="@+id/drawer_stats"
+            android:icon="@drawable/ic_stats"
+            android:title="@string/nav_stats" />
+        <item android:id="@+id/drawer_music"
+            android:icon="@drawable/ic_music"
+            android:title="@string/nav_music" />
+        <item android:id="@+id/drawer_routine"
+            android:icon="@drawable/ic_routine"
+            android:title="@string/nav_routine" />
+        <item android:id="@+id/drawer_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/nav_profile" />
+    </group>
+
+    <item android:title="@string/drawer_section_study">
+        <menu>
+            <item android:id="@+id/drawer_tasks"
+                android:icon="@drawable/ic_tasks"
+                android:title="@string/nav_tasks" />
+            <item android:id="@+id/drawer_notes"
+                android:icon="@drawable/ic_notes"
+                android:title="@string/nav_notes" />
+            <item android:id="@+id/drawer_goals"
+                android:icon="@drawable/ic_goal"
+                android:title="@string/nav_goals" />
+            <item android:id="@+id/drawer_exams"
+                android:icon="@drawable/ic_exam"
+                android:title="@string/nav_exams" />
+            <item android:id="@+id/drawer_focus"
+                android:icon="@drawable/ic_focus"
+                android:title="@string/focus_mode" />
+            <item android:id="@+id/drawer_blocker"
+                android:icon="@drawable/ic_blocker"
+                android:title="@string/nav_blocker" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_tools">
+        <menu>
+            <item android:id="@+id/drawer_calendar"
+                android:icon="@drawable/ic_calendar"
+                android:title="@string/calendar_title" />
+            <item android:id="@+id/drawer_randomizer"
+                android:icon="@drawable/ic_random"
+                android:title="@string/randomizer_title" />
+            <item android:id="@+id/drawer_resources"
+                android:icon="@drawable/ic_book"
+                android:title="@string/resources_title" />
+            <item android:id="@+id/drawer_assistant"
+                android:icon="@drawable/ic_assistant"
+                android:title="@string/assistant_menu" />
+            <item android:id="@+id/drawer_quotes"
+                android:icon="@drawable/ic_quote"
+                android:title="@string/quotes_title" />
+            <item android:id="@+id/drawer_break_coach"
+                android:icon="@drawable/ic_coach"
+                android:title="@string/break_coach_title" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_progress">
+        <menu>
+            <item android:id="@+id/drawer_achievements"
+                android:icon="@drawable/ic_trophy"
+                android:title="@string/achievements_title" />
+            <item android:id="@+id/drawer_challenges"
+                android:icon="@drawable/ic_challenge"
+                android:title="@string/challenges_title" />
+            <item android:id="@+id/drawer_history"
+                android:icon="@drawable/ic_history"
+                android:title="@string/session_history_title" />
+            <item android:id="@+id/drawer_insights"
+                android:icon="@drawable/ic_insights"
+                android:title="@string/insights_title" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_system">
+        <menu>
+            <item android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/nav_settings" />
+        </menu>
+    </item>
+</menu>

@@ -92,8 +92,21 @@
             android:name=".ui.focus.FocusModeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|screenSize|screenLayout|smallestScreenSize|orientation"
+            android:supportsPictureInPicture="true"
+            android:resizeableActivity="true"
             android:parentActivityName=".ui.MainActivity" />
+
+        <!-- Floating Clock overlay service (SYSTEM_ALERT_WINDOW required) -->
+        <service
+            android:name=".service.FloatingClockService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="overlay_clock" />
+        </service>
 
         <!-- Timer Service -->
         <service
@@ -178,6 +191,17 @@
             </intent-filter>
         </receiver>
 
+        <!-- FileProvider so exported PDFs / notes can be shared to other apps. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
         <receiver android:name=".widget.StatsWidget"
             android:exported="false">
             <intent-filter>
@@ -186,6 +210,59 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stats_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.TimerWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.porashona.studymaster.widget.TIMER_TOGGLE" />
+                <action android:name="com.porashona.studymaster.widget.TIMER_STOP" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timer_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.ProgressWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/progress_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.QuickStartWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.porashona.studymaster.widget.QUICK_START" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/quick_start_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.StreakWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/streak_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.RoutineWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/routine_widget_info" />
         </receiver>
 
     </application>

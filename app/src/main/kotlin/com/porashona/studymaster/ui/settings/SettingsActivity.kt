@@ -69,8 +69,98 @@ class SettingsActivity : AppCompatActivity() {
         setupNotifications()
         setupFocus()
         setupAccessibility()
+        setupExtras()
         setupData()
         setupAbout()
+    }
+
+    // ============================ EXTRAS ============================
+
+    private fun setupExtras() {
+        // Floating clock switch. Requires SYSTEM_ALERT_WINDOW permission —
+        // if we don't have it, send the user to the settings page to grant it.
+        val fc = binding.switchFloatingClock
+        fc.isChecked = com.porashona.studymaster.service.FloatingClockService.canDrawOverlays(this) &&
+            isServiceRunning(com.porashona.studymaster.service.FloatingClockService::class.java)
+        fc.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                if (!com.porashona.studymaster.service.FloatingClockService.canDrawOverlays(this)) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.floating_clock_need_overlay,
+                        Snackbar.LENGTH_LONG,
+                    ).setAction(R.string.about_help) {
+                        runCatching {
+                            startActivity(
+                                Intent(
+                                    android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                    Uri.parse("package:$packageName"),
+                                )
+                            )
+                        }
+                    }.show()
+                    fc.isChecked = false
+                } else {
+                    com.porashona.studymaster.service.FloatingClockService.start(this)
+                }
+            } else {
+                com.porashona.studymaster.service.FloatingClockService.stop(this)
+            }
+        }
+
+        binding.rowExportPdf.setOnClickListener {
+            lifecycleScope.launch { exportLast30DaysPdf() }
+        }
+
+        binding.rowGoogleCalendar.setOnClickListener {
+            com.porashona.studymaster.utils.GoogleCalendarSync
+                .openCalendarAt(this, System.currentTimeMillis())
+        }
+    }
+
+    private fun isServiceRunning(cls: Class<*>): Boolean {
+        val am = getSystemService(ACTIVITY_SERVICE) as? android.app.ActivityManager ?: return false
+        @Suppress("DEPRECATION")
+        return am.getRunningServices(Int.MAX_VALUE).any { it.service.className == cls.name }
+    }
+
+    private suspend fun exportLast30DaysPdf() {
+        val db = com.porashona.studymaster.data.database.StudyDatabase.getDatabase(this)
+        val cutoff = System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000
+        val now = System.currentTimeMillis()
+        val sessions = runCatching {
+            db.studySessionDao().getSessionsBetween(cutoff, now).first()
+        }.getOrDefault(emptyList())
+
+        val totalMin = sessions.sumOf { it.durationInSeconds } / 60
+        val dateFmt = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US)
+        val body = buildString {
+            if (sessions.isEmpty()) {
+                append(getString(R.string.pdf_report_no_sessions))
+            } else {
+                append("Total: ").append(totalMin).append(" min across ")
+                append(sessions.size).append(" sessions\n\n")
+                sessions.sortedByDescending { it.startTime }.forEach { s ->
+                    append("- ").append(dateFmt.format(s.startTime))
+                    append(" · ").append(s.subjectName.ifBlank { "General" })
+                    append(" · ").append(s.durationInSeconds / 60).append(" min")
+                    if (s.notes.isNotBlank()) {
+                        append(" — ").append(s.notes)
+                    }
+                    append('\n')
+                }
+            }
+        }
+        val fileName = "study-report-${SimpleDateFormat("yyyyMMdd", Locale.US).format(Date())}"
+        val result = com.porashona.studymaster.utils.PdfExporter.export(
+            this,
+            fileName,
+            getString(R.string.pdf_report_title),
+            body,
+        )
+        if (result != null) {
+            runCatching { startActivity(result.shareIntent) }
+        }
     }
 
     // ============================ APPEARANCE ============================

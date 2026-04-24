@@ -588,4 +588,47 @@
     <string name="overdue_title">ওভারডিউ টাস্ক</string>
     <string name="setting_exam_countdown">পরীক্ষা কাউন্টডাউন নোটিফিকেশন</string>
     <string name="setting_overdue_reminder">ওভারডিউ টাস্ক রিমাইন্ডার (প্রতিদিন সকাল ৯টা)</string>
+
+    <!-- Widget labels -->
+    <string name="widget_timer_title">ফোকাস টাইমার</string>
+    <string name="widget_timer_toggle">চালু/বন্ধ</string>
+    <string name="widget_timer_stop">থামান</string>
+    <string name="widget_timer_description">চলমান টাইমার দেখুন এবং নিয়ন্ত্রণ করুন।</string>
+    <string name="widget_progress_title">আজকের অগ্রগতি</string>
+    <string name="widget_progress_label">%1$d / %2$d মিনিট</string>
+    <string name="widget_progress_description">আজকের দৈনিক লক্ষ্যের অগ্রগতি।</string>
+    <string name="widget_quick_start_title">দ্রুত শুরু</string>
+    <string name="widget_quick_start_description">এক ট্যাপে নতুন সেশন শুরু করুন।</string>
+    <string name="widget_streak_description">বর্তমান এবং সর্বোচ্চ স্ট্রিক দেখান।</string>
+    <string name="widget_streak_longest">সর্বোচ্চ: %1$d</string>
+    <string name="widget_routine_next">পরবর্তী রুটিন</string>
+    <string name="widget_routine_empty">আজ কোনো রুটিন নেই</string>
+    <string name="widget_routine_description">দিনের পরবর্তী রুটিন স্লট দেখান।</string>
+
+    <!-- Floating clock -->
+    <string name="floating_clock_notification_title">ফ্লোটিং ক্লক চালু</string>
+    <string name="floating_clock_notification_body">অন্য অ্যাপের উপর ঘড়ি ভাসছে</string>
+    <string name="floating_clock_need_overlay">ফ্লোটিং ক্লক চালাতে ওভারলে অনুমতি দরকার</string>
+    <string name="setting_floating_clock">ফ্লোটিং ক্লক</string>
+    <string name="setting_always_on">অলওয়েজ-অন ফোকাস</string>
+    <string name="setting_pip_mode">পিকচার-ইন-পিকচার (PiP) ফোকাস</string>
+    <string name="setting_google_calendar_sync">Google Calendar সিঙ্ক</string>
+    <string name="setting_export_pdf">PDF হিসেবে এক্সপোর্ট</string>
+    <string name="google_calendar_open">Google Calendar খুলুন</string>
+    <string name="google_calendar_not_installed">Google Calendar অ্যাপ ইনস্টল নেই</string>
+    <string name="pdf_export_success">PDF সংরক্ষিত: %1$s</string>
+    <string name="pdf_export_failure">PDF এক্সপোর্ট ব্যর্থ</string>
+    <string name="settings_section_extras">এক্সট্রা টুলস</string>
+    <string name="setting_export_pdf_hint">৩০ দিনের সেশন</string>
+    <string name="pdf_report_title">পড়াশোনা রিপোর্ট</string>
+    <string name="pdf_report_no_sessions">শেষ ৩০ দিনে কোনো সেশন নেই।</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">নেভিগেশন ড্রয়ার খুলুন</string>
+    <string name="drawer_close">নেভিগেশন ড্রয়ার বন্ধ করুন</string>
+    <string name="drawer_subtitle">সব ফিচার, এক ট্যাপ দূরে</string>
+    <string name="drawer_section_study">পড়াশোনা</string>
+    <string name="drawer_section_tools">টুলস</string>
+    <string name="drawer_section_progress">অগ্রগতি</string>
+    <string name="drawer_section_system">সিস্টেম</string>
 </resources>

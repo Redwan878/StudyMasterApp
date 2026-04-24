@@ -37,6 +37,14 @@ class TimerService : Service() {
             ACTION_PAUSE -> pauseTimer()
             ACTION_RESUME -> resumeTimer()
             ACTION_STOP -> stopTimer()
+            // Widget entry-points. TOGGLE: pause/resume depending on state;
+            // QUICK_START: begin a new session with the requested minutes.
+            ACTION_TOGGLE -> if (isRunning) pauseTimer() else resumeTimer()
+            ACTION_QUICK_START -> {
+                val minutes = intent.getIntExtra(EXTRA_DURATION_MINUTES, 25)
+                    .coerceIn(1, 240)
+                startTimer(minutes * 60 * 1000L)
+            }
         }
         return START_STICKY
     }
@@ -115,7 +123,10 @@ class TimerService : Service() {
         const val ACTION_PAUSE = "com.porashona.studymaster.PAUSE"
         const val ACTION_RESUME = "com.porashona.studymaster.RESUME"
         const val ACTION_STOP = "com.porashona.studymaster.STOP"
+        const val ACTION_TOGGLE = "com.porashona.studymaster.TOGGLE"
+        const val ACTION_QUICK_START = "com.porashona.studymaster.QUICK_START"
         const val EXTRA_DURATION = "duration"
+        const val EXTRA_DURATION_MINUTES = "duration_minutes"
         const val NOTIFICATION_ID = 1001
     }
 }
