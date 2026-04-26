@@ -36,9 +36,6 @@ class BlockerViewModel(
     val zenLastDurationMinutes: StateFlow<Int> = preferencesManager.zenLastDurationMinutes
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 25)
 
-    val zenEnableDnd: StateFlow<Boolean> = preferencesManager.zenEnableDnd
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-
     fun addBlockedApp(app: BlockedApp) {
         viewModelScope.launch {
             blockedAppDao.insert(app)
@@ -87,11 +84,6 @@ class BlockerViewModel(
         }
     }
 
-    fun setZenEnableDnd(enabled: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.setZenEnableDnd(enabled)
-        }
-    }
 }
 
 class BlockerViewModelFactory(

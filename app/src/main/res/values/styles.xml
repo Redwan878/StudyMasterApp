@@ -29,6 +29,11 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+    <style name="ShapeAppearance.App.Avatar" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <!-- Material card with outlined style matching the app's flat-card aesthetic -->
     <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">20dp</item>

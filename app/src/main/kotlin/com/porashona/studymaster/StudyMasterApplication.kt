@@ -36,6 +36,29 @@ class StudyMasterApplication : Application() {
         applyStoredThemeMode()
         observeSessionChangesForWidget()
         primeNotificationSchedulers()
+        mirrorAppearancePreferences()
+    }
+
+    /**
+     * Copies the DataStore-backed fontSize / highContrast prefs to a plain
+     * SharedPreferences cache. attachBaseContext / setTheme are called
+     * before DataStore Flows can resolve, so we need a synchronous source.
+     */
+    private fun mirrorAppearancePreferences() {
+        CoroutineScope(Dispatchers.Default).launch {
+            runCatching {
+                preferencesManager.fontSize.collect {
+                    com.porashona.studymaster.utils.AppearanceUtils.cacheFontSize(applicationContext, it)
+                }
+            }
+        }
+        CoroutineScope(Dispatchers.Default).launch {
+            runCatching {
+                preferencesManager.highContrastMode.collect {
+                    com.porashona.studymaster.utils.AppearanceUtils.cacheHighContrast(applicationContext, it)
+                }
+            }
+        }
     }
 
     /**

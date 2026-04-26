@@ -55,7 +55,6 @@ class PreferencesManager(private val context: Context) {
         // Zen Mode Settings
         val ZEN_SESSION_END_TIME = longPreferencesKey("zen_session_end_time")
         val ZEN_LAST_DURATION_MINUTES = intPreferencesKey("zen_last_duration_minutes")
-        val ZEN_ENABLE_DND = booleanPreferencesKey("zen_enable_dnd")
 
         // Goals Settings
         val DAILY_GOAL_MINUTES = intPreferencesKey("daily_goal_minutes")
@@ -295,19 +294,12 @@ class PreferencesManager(private val context: Context) {
     val zenLastDurationMinutes: Flow<Int> = context.dataStore.data
         .map { it[ZEN_LAST_DURATION_MINUTES] ?: 25 }
 
-    val zenEnableDnd: Flow<Boolean> = context.dataStore.data
-        .map { it[ZEN_ENABLE_DND] ?: true }
-
     suspend fun setZenSessionEndTime(endTime: Long) {
         context.dataStore.edit { it[ZEN_SESSION_END_TIME] = endTime }
     }
 
     suspend fun setZenLastDurationMinutes(minutes: Int) {
         context.dataStore.edit { it[ZEN_LAST_DURATION_MINUTES] = minutes }
-    }
-
-    suspend fun setZenEnableDnd(enabled: Boolean) {
-        context.dataStore.edit { it[ZEN_ENABLE_DND] = enabled }
     }
 
     // ==================== GOALS ====================

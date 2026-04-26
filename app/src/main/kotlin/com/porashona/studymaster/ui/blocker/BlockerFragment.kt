@@ -30,7 +30,7 @@ import com.porashona.studymaster.databinding.FragmentBlockerBinding
 import com.porashona.studymaster.databinding.ItemBlockedAppBinding
 import com.porashona.studymaster.service.AppBlockerService
 import com.porashona.studymaster.utils.RootUtils
-import com.porashona.studymaster.utils.ZenSessionManager
+import com.porashona.studymaster.utils.ZenSessionManager  // constants only after DND removal
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -120,13 +120,6 @@ class BlockerFragment : Fragment() {
             viewModel.setZenLastDurationMinutes(minutes)
         }
 
-        binding.switchZenDnd.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setZenEnableDnd(isChecked)
-            if (isChecked && !ZenSessionManager.isDndAccessGranted(requireContext())) {
-                showDndPermissionDialog()
-            }
-        }
-
         binding.btnStartZen.setOnClickListener { startZenSession() }
         binding.btnStopZen.setOnClickListener { onStopZenClicked() }
     }
@@ -170,13 +163,6 @@ class BlockerFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.totalBlockAttempts.collectLatest { count ->
                 binding.tvBlockAttempts.text = "${count ?: 0}"
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.zenEnableDnd.collectLatest { enabled ->
-                if (binding.switchZenDnd.isChecked != enabled) {
-                    binding.switchZenDnd.isChecked = enabled
-                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -337,17 +323,6 @@ class BlockerFragment : Fragment() {
         startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
     }
 
-    private fun showDndPermissionDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.zen_dnd_permission_required)
-            .setMessage(R.string.zen_dnd_desc)
-            .setPositiveButton(R.string.zen_grant_dnd) { _, _ ->
-                startActivity(ZenSessionManager.dndAccessSettingsIntent())
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
     private fun checkRootAccess() {
         viewLifecycleOwner.lifecycleScope.launch {
             if (RootUtils.isRootAvailable()) {
@@ -411,12 +386,6 @@ class BlockerFragment : Fragment() {
                     .show()
                 return@launch
             }
-            val enableDnd = viewModel.zenEnableDnd.value
-            if (enableDnd && !ZenSessionManager.isDndAccessGranted(requireContext())) {
-                showDndPermissionDialog()
-                return@launch
-            }
-
             val durationMs = selectedDurationMinutes * 60 * 1000L
             val intent = Intent(requireContext(), AppBlockerService::class.java).apply {
                 action = AppBlockerService.ACTION_START_BLOCKING
@@ -426,7 +395,6 @@ class BlockerFragment : Fragment() {
                 )
                 putExtra(AppBlockerService.EXTRA_SESSION_DURATION, durationMs)
                 putExtra(AppBlockerService.EXTRA_STRICT, true)
-                putExtra(AppBlockerService.EXTRA_ENABLE_DND, enableDnd)
             }
             requireContext().startService(intent)
             Snackbar.make(binding.root, R.string.blocking_active, Snackbar.LENGTH_SHORT).show()

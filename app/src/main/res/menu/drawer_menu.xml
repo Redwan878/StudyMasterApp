@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/nav_profile" />
+        <item
+            android:id="@+id/drawer_assistant"
+            android:icon="@drawable/ic_drawer_item"
+            android:title="@string/assistant_menu" />
+    </group>
+
+    <item android:title="@string/drawer_section_study">
+        <menu>
+            <item
+                android:id="@+id/drawer_tasks"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/nav_tasks" />
+            <item
+                android:id="@+id/drawer_notes"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/nav_notes" />
+            <item
+                android:id="@+id/drawer_goals"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/nav_goals" />
+            <item
+                android:id="@+id/drawer_exams"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/nav_exams" />
+            <item
+                android:id="@+id/drawer_session_history"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/session_history_title" />
+            <item
+                android:id="@+id/drawer_insights"
+                android:icon="@drawable/ic_stats"
+                android:title="@string/insights_title" />
+            <item
+                android:id="@+id/drawer_resources"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/resources_title" />
+            <item
+                android:id="@+id/drawer_calendar"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/calendar_title" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_focus">
+        <menu>
+            <item
+                android:id="@+id/drawer_focus_mode"
+                android:icon="@drawable/ic_timer"
+                android:title="@string/focus_mode" />
+            <item
+                android:id="@+id/drawer_break_coach"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/break_coach_title" />
+            <item
+                android:id="@+id/drawer_blocker"
+                android:icon="@drawable/ic_blocker"
+                android:title="@string/nav_blocker" />
+            <item
+                android:id="@+id/drawer_randomizer"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/randomizer_title" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_engage">
+        <menu>
+            <item
+                android:id="@+id/drawer_quotes"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/quotes_title" />
+            <item
+                android:id="@+id/drawer_challenges"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/challenges_title" />
+            <item
+                android:id="@+id/drawer_achievements"
+                android:icon="@drawable/ic_drawer_item"
+                android:title="@string/achievements_title" />
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_section_app">
+        <menu>
+            <item
+                android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/nav_settings" />
+        </menu>
+    </item>
+
+</menu>

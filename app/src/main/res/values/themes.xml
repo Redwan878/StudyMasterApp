@@ -56,6 +56,25 @@
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
     </style>
 
+    <!-- High-contrast variant: pure black/white surfaces + heavier text -->
+    <style name="Theme.StudyMaster.HighContrast" parent="Theme.StudyMaster">
+        <item name="colorPrimary">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#000000</item>
+        <item name="colorOnPrimaryContainer">#FFFFFF</item>
+        <item name="colorSecondary">#000000</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorSurfaceVariant">#E6E6E6</item>
+        <item name="colorOnSurfaceVariant">#000000</item>
+        <item name="colorOutline">#000000</item>
+        <item name="colorOutlineVariant">#000000</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
+    </style>
+
     <!-- Block Overlay Theme (preserved) -->
     <style name="Theme.StudyMaster.BlockOverlay" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>

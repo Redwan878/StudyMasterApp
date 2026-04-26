@@ -8,6 +8,13 @@
     <string name="nav_music">মিউজিক</string>
     <string name="nav_routine">রুটিন</string>
     <string name="nav_profile">প্রোফাইল</string>
+    <string name="drawer_open">মেনু খুলুন</string>
+    <string name="drawer_close">মেনু বন্ধ করুন</string>
+    <string name="drawer_subtitle">Stay focused. Stay ahead.</string>
+    <string name="drawer_section_study">পড়াশোনা</string>
+    <string name="drawer_section_focus">ফোকাস</string>
+    <string name="drawer_section_engage">উৎসাহ</string>
+    <string name="drawer_section_app">অ্যাপ</string>
     <string name="nav_tasks">টাস্ক</string>
     <string name="nav_notes">নোটস</string>
     <string name="nav_goals">লক্ষ্য</string>
@@ -30,6 +37,11 @@
     <string name="select_subject">বিষয় নির্বাচন করুন</string>
     <string name="add_subject">বিষয় যোগ করুন</string>
     <string name="focus_mode">ফোকাস মোড</string>
+    <string name="focus_mode_hero">Deep Focus</string>
+    <string name="focus_session_complete">সেশন সম্পূর্ণ</string>
+    <string name="focus_pause">Pause</string>
+    <string name="focus_resume">Resume</string>
+    <string name="focus_exit">Exit session</string>
     <string name="stopwatch_mode">স্টপওয়াচ মোড</string>
     <string name="timer_mode">টাইমার মোড</string>
     <string name="select_timer_mode">টাইমার মোড নির্বাচন করুন</string>
@@ -351,8 +363,6 @@
     <string name="zen_mode_title">জেন মোড</string>
     <string name="zen_mode_desc">নির্বাচিত অ্যাপ ব্লক করে, সময় শেষ না হওয়া পর্যন্ত বন্ধ করা যাবে না। (Block selected apps until the timer ends — no early exit.)</string>
     <string name="zen_duration_label">সময়কাল</string>
-    <string name="zen_dnd_label">Do Not Disturb</string>
-    <string name="zen_dnd_desc">সেশনের সময় কেবল জরুরি বিজ্ঞপ্তি</string>
     <string name="zen_start">জেন মোড শুরু করুন</string>
     <string name="zen_stop">জেন মোড বন্ধ করুন</string>
     <string name="zen_active_message">জেন মোড চলছে</string>
@@ -361,8 +371,6 @@
     <string name="zen_no_apps_selected">প্রথমে অন্তত একটি অ্যাপ নির্বাচন করুন</string>
     <string name="zen_selected_apps">%1$d অ্যাপ নির্বাচিত</string>
     <string name="zen_accessibility_required">জেন মোড শুরু করতে অ্যাক্সেসিবিলিটি সার্ভিস চালু করুন</string>
-    <string name="zen_dnd_permission_required">Do Not Disturb অ্যাক্সেস প্রয়োজন</string>
-    <string name="zen_grant_dnd">অনুমতি দিন</string>
 
     <!-- Secondary feature titles (reached from toolbar overflow) -->
     <string name="randomizer_title">র‍্যান্ডম সাবজেক্ট</string>

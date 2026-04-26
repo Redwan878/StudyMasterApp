@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:padding="24dp">
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Deep Focus"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        android:text="@string/focus_mode_hero"
+        android:textAllCaps="true"
+        android:letterSpacing="0.2"
+        android:textColor="#8CFFFFFF"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/tvTimer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/tvTimer"
@@ -22,21 +27,55 @@
         android:layout_height="wrap_content"
         android:text="25:00"
         android:textColor="@color/white"
-        android:textSize="96sp"
-        android:textStyle="bold"
+        android:textSize="104sp"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnExit"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressFocus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:indicatorColor="@color/white"
+        app:trackColor="#33FFFFFF"
+        app:trackCornerRadius="6dp"
+        app:trackThickness="4dp"
+        app:indicatorInset="0dp"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTimer" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPauseResume"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Give Up"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@string/focus_pause"
+        android:textAllCaps="false"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toTopOf="@id/btnExit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExit"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/focus_exit"
         android:textColor="@color/white"
-        android:backgroundTint="@android:color/transparent"
-        android:layout_marginBottom="32dp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

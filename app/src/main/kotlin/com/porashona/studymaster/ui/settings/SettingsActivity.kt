@@ -58,7 +58,14 @@ class SettingsActivity : AppCompatActivity() {
         ActivityResultContracts.OpenDocument()
     ) { uri: Uri? -> if (uri != null) confirmAndImport(uri) }
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.porashona.studymaster.utils.AppearanceUtils.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (com.porashona.studymaster.utils.AppearanceUtils.shouldUseHighContrast(this)) {
+            setTheme(R.style.Theme_StudyMaster_HighContrast)
+        }
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -143,6 +150,10 @@ class SettingsActivity : AppCompatActivity() {
                         dialog.dismiss()
                         lifecycleScope.launch {
                             prefs.setFontSize(sizes[which])
+                            com.porashona.studymaster.utils.AppearanceUtils.cacheFontSize(
+                                this@SettingsActivity,
+                                sizes[which]
+                            )
                             recreate()
                         }
                     }
@@ -304,7 +315,16 @@ class SettingsActivity : AppCompatActivity() {
     // ============================ ACCESSIBILITY ============================
 
     private fun setupAccessibility() {
-        bindSwitch(binding.switchHighContrast, prefs.highContrastMode) { prefs.setHighContrastMode(it) }
+        bindSwitch(binding.switchHighContrast, prefs.highContrastMode) { enabled ->
+            prefs.setHighContrastMode(enabled)
+            // Sync to the synchronous SharedPreferences cache so the value is
+            // available at attachBaseContext / setTheme time on the next launch.
+            com.porashona.studymaster.utils.AppearanceUtils.cacheHighContrast(
+                this@SettingsActivity,
+                enabled
+            )
+            recreate()
+        }
         bindSwitch(binding.switchHapticFeedback, prefs.hapticFeedback) { prefs.setHapticFeedback(it) }
     }
 

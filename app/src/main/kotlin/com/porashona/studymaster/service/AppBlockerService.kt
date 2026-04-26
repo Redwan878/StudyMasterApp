@@ -14,7 +14,6 @@ import com.porashona.studymaster.StudyMasterApplication
 import com.porashona.studymaster.ui.MainActivity
 import com.porashona.studymaster.ui.blocker.BlockOverlayActivity
 import com.porashona.studymaster.utils.RootUtils
-import com.porashona.studymaster.utils.ZenSessionManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
@@ -34,7 +33,6 @@ class AppBlockerService : Service() {
      * Cleared in [stopBlocking].
      */
     private var strictOverriddenByIntent = false
-    private var dndEnabledForSession = false
     private var sessionEndTime: Long = 0
 
     companion object {
@@ -44,7 +42,6 @@ class AppBlockerService : Service() {
         const val EXTRA_SESSION_DURATION = "session_duration"
         const val EXTRA_BLOCKED_PACKAGES = "blocked_packages"
         const val EXTRA_STRICT = "strict"
-        const val EXTRA_ENABLE_DND = "enable_dnd"
 
         private const val NOTIFICATION_ID = 3001
         private const val CHECK_INTERVAL = 500L // Check every 500ms
@@ -77,9 +74,8 @@ class AppBlockerService : Service() {
                     // the intent-supplied value back to the persisted one.
                     strictOverriddenByIntent = true
                 }
-                val enableDnd = intent.getBooleanExtra(EXTRA_ENABLE_DND, false)
                 sessionEndTime = System.currentTimeMillis() + duration
-                startBlocking(enableDnd)
+                startBlocking()
             }
             ACTION_STOP_BLOCKING -> {
                 if (!strictModeEnabled || System.currentTimeMillis() >= sessionEndTime) {
@@ -94,7 +90,7 @@ class AppBlockerService : Service() {
         return START_STICKY
     }
 
-    private fun startBlocking(enableDnd: Boolean) {
+    private fun startBlocking() {
         isBlockingActive = true
         startForeground(NOTIFICATION_ID, createNotification())
         startMonitoring()
@@ -104,15 +100,10 @@ class AppBlockerService : Service() {
         AppBlockerAccessibilityService.instance?.enableBlocking()
 
         // Persist session end time so the UI can render a live countdown even
-        // after a process restart, and flip DND if the caller asked for it
-        // (and we hold the runtime permission).
+        // after a process restart.
         serviceScope.launch {
             (application as StudyMasterApplication).preferencesManager
                 .setZenSessionEndTime(sessionEndTime)
-        }
-        if (enableDnd) {
-            ZenSessionManager.enableDnd(applicationContext)
-            dndEnabledForSession = true
         }
     }
 
@@ -133,14 +124,10 @@ class AppBlockerService : Service() {
             }
         }
 
-        // Clear persisted session + restore DND.
+        // Clear persisted session.
         serviceScope.launch {
             (application as StudyMasterApplication).preferencesManager
                 .setZenSessionEndTime(0L)
-        }
-        if (dndEnabledForSession) {
-            ZenSessionManager.disableDnd(applicationContext)
-            dndEnabledForSession = false
         }
         sessionEndTime = 0L
         // Allow the next session to pick up whichever value it wants.
@@ -329,16 +316,10 @@ class AppBlockerService : Service() {
     }
 
     override fun onDestroy() {
-        // If the service is being killed while a Zen / block session is still
+        // If the service is being killed while a block session is still
         // "active" (e.g. user swiped it out of recents, low-memory kill, OEM
-        // aggressive background killing), make sure we don't leave DND on or
-        // the accessibility overlay stuck in blocking mode — the user would
-        // otherwise lose all notifications indefinitely until they manually
-        // toggle DND off.
-        if (dndEnabledForSession) {
-            runCatching { ZenSessionManager.disableDnd(applicationContext) }
-            dndEnabledForSession = false
-        }
+        // aggressive background killing), make sure the accessibility overlay
+        // isn't left stuck in blocking mode.
         runCatching { AppBlockerAccessibilityService.instance?.disableBlocking() }
         isBlockingActive = false
         isRunning = false
