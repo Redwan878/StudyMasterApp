@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Internal cache for shared files (notes PDFs, images, etc.) -->
+    <cache-path name="shared_cache" path="shared/" />
+
+    <!-- External files for exports -->
+    <external-files-path name="exports" path="exports/" />
+
+    <!-- External cache for camera captures (OCR) -->
+    <external-cache-path name="camera_captures" path="camera/" />
+
+    <!-- Internal files for backup files -->
+    <files-path name="backups" path="backups/" />
+</paths>

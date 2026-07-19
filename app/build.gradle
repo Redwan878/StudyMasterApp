@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    // Add the Google services Gradle plugin
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -15,19 +15,17 @@ android {
         applicationId = "com.porashona.studymaster"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0.0-compose"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     signingConfigs {
         release {
-            // Release keystore is committed to the repo for ease of local + CI
-            // builds; this is a dev-only self-signed key and is NOT the
-            // Play Store upload key. CI can override any of these via env vars:
-            //   RELEASE_KEYSTORE_FILE, RELEASE_KEYSTORE_PASSWORD,
-            //   RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD
             def ksFile = System.getenv("RELEASE_KEYSTORE_FILE") ?: "release.keystore"
             storeFile file(ksFile)
             storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: "studymaster"
@@ -55,63 +53,129 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
+    // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    
-    // Navigation
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
-    
-    // Room Database
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
-    
-    // Lifecycle
+
+    // ── Jetpack Compose ──
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    // ── Navigation Compose ──
+    implementation(libs.androidx.navigation.compose)
+
+    // ── Lifecycle Compose ──
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.androidx.lifecycle.runtime)
-    
-    // Coroutines
+
+    // ── Room Database ──
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // ── Hilt DI ──
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // ── Coroutines ──
     implementation(libs.kotlinx.coroutines.android)
-    
-    // DataStore
+    implementation(libs.kotlinx.coroutines.core)
+
+    // ── DataStore ──
     implementation(libs.androidx.datastore)
-    
-    // WorkManager
+
+    // ── WorkManager ──
     implementation(libs.androidx.work.runtime)
-    
-    // Charts
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.work.compiler)
+
+    // ── Navigation Legacy (kept for gradual migration, old XML layouts need it) ──
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+
+    // ── Charts ──
     implementation(libs.mpandroidchart)
-    
-    // Gson
+
+    // ── Gson ──
     implementation(libs.gson)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // ── Coil Image Loading ──
+    implementation(libs.coil.compose)
 
-    // Import the Firebase BoM
+    // ── Accompanist ──
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.permissions)
+
+    // ── Biometric ── (removed - causes duplicate class with AndroidX core; can re-enable with exclude)
+    // implementation(libs.androidx.biometric)
+
+    // ── Firebase BoM ──
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
 
+    // ── Media3 ExoPlayer ──
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.session)
 
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
-    // https://firebase.google.com/docs/android/setup#available-libraries
-    // ADD EXOPLAYER FOR MUSIC
-    implementation("androidx.media3:media3-exoplayer:1.2.0")
-    implementation("androidx.media3:media3-ui:1.2.0")
-    implementation("androidx.media3:media3-session:1.2.0")
+    // ── Media ──
+    implementation(libs.androidx.media)
 
+    // ── Splash Screen (Compose migration) ──
+    implementation(libs.androidx.core.splashscreen)
+
+    // ── App Startup ──
+    implementation(libs.androidx.startup.runtime)
+
+    // ── Google Play Services Auth (for Drive backup) ──
+    // implementation(libs.google.play.services.auth) // Removed: causes duplicate support/AndroidX classes
+
+    // ── PDF Viewer (exclude legacy support libs that conflict with AndroidX) ──
+    implementation(libs.pdf.viewer) {
+        exclude group: 'com.android.support'
+    }
+
+    // ── CameraX (for OCR) ──
+    implementation(libs.cameraX.core)
+    implementation(libs.cameraX.camera2)
+    implementation(libs.cameraX.lifecycle)
+    implementation(libs.cameraX.view)
+
+    // ── ML Kit Text Recognition (for OCR) ──
+    implementation(libs.mlkit.text.recognition)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.media:media:1.7.0")
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
 }

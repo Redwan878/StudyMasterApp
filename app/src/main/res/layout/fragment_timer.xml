@@ -127,6 +127,7 @@
                     android:text="🍅 0"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
                     android:textColor="?attr/colorOnSurfaceVariant" />
+
             </LinearLayout>
         </FrameLayout>
 
@@ -175,6 +176,18 @@
                     android:contentDescription="@string/add_subject"
                     android:src="@drawable/ic_add"
                     app:tint="?attr/colorPrimary" />
+
+                <!-- Music button -->
+                <ImageButton
+                    android:id="@+id/btnMusic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/music"
+                    android:src="@drawable/ic_music_note"
+                    app:tint="?attr/colorPrimary" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -1,0 +1,622 @@
+package com.porashona.studymaster.data.backup
+
+import android.content.Context
+import android.util.Log
+import androidx.core.content.FileProvider
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.services.drive.Drive
+import com.google.api.services.drive.Drive.Files.Get
+import com.google.api.services.drive.Drive.Files.List
+import com.google.api.services.drive.DriveScope
+import com.google.api.services.drive.model.File
+import com.google.api.services.drive.model.FileList
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+
+class GoogleDriveBackupManager(
+    private val context: Context,
+    private val backupManager: BackupManager
+) {
+    private val TAG = "GoogleDriveBackupManager"
+    private val executorService: ExecutorService = Executors.newFixedThreadPool(4)
+
+    // Drive API scopes
+    private val SCOPES = arrayOf(DriveScope.DRIVE_FILE, DriveScope.DRIVE_APPDATA)
+
+    // Folder constants
+    private val BACKUP_FOLDER_NAME = "StudyMasterBackups"
+    private val BACKUP_FILE_PREFIX = "studymaster_backup_"
+    private val MAX_BACKUPS_PER_DAY = 5
+
+    // Google Drive service
+    private var driveService: Drive? = null
+
+    data class DriveBackupInfo(
+        val fileId: String,
+        val name: String,
+        val createdTime: Long,
+        val modifiedTime: Long,
+        val size: Long,
+        val mimeType: String,
+        val version: Int,
+        val appVersion: String
+    )
+
+    data class SyncResult(
+        val success: Boolean,
+        val message: String,
+        val backupInfo: DriveBackupInfo? = null,
+        val conflicts: List<String> = emptyList()
+    )
+
+    // Initialize Google Drive client
+    fun initializeDriveClient(): Boolean {
+        try {
+            // Create Google Account credential
+            val credential = GoogleAccountCredential.from(context)
+                .setScopes(*SCOPES)
+
+            // Build Drive service
+            driveService = Drive.Builder(
+                context,
+                com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuth.getClient(context),
+                credential
+            )
+                .setApplicationName("StudyMasterApp")
+                .build()
+
+            Log.d(TAG, "Google Drive client initialized successfully")
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to initialize Google Drive client", e)
+            return false
+        }
+    }
+
+    // Check if user is signed in to Google Drive
+    fun isDriveAuthenticated(): Boolean {
+        return try {
+            if (driveService == null) initializeDriveClient()
+
+            val accountList = com.google.android.gms.auth.GoogleAuth.getAccount(context)
+            accountList != null
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking Drive authentication", e)
+            false
+        }
+    }
+
+    // Get or create backup folder
+    suspend fun getOrCreateBackupFolder(): String? {
+        return try {
+            if (!isDriveAuthenticated()) {
+                throw BackupException("User not authenticated to Google Drive")
+            }
+
+            // Check if folder already exists
+            val folderId = findExistingFolder(BACKUP_FOLDER_NAME)
+            if (folderId != null) {
+                return folderId
+            }
+
+            // Create new folder
+            val folderMetadata = File().apply {
+                name = BACKUP_FOLDER_NAME
+                mimeType = "application/vnd.google-apps.folder"
+            }
+
+            val folder = driveService?.files()?.create(folderMetadata)?.execute()
+            folder?.id
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to get or create backup folder", e)
+            null
+        }
+    }
+
+    // Upload current backup to Google Drive
+    suspend fun uploadBackupToDrive(): SyncResult {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return SyncResult(false, "User not authenticated to Google Drive")
+            }
+
+            val backupFolderId = getOrCreateBackupFolder()
+                ?: return SyncResult(false, "Failed to get backup folder")
+
+            // Get local backup data
+            val backupData = backupManager.export(context)
+
+            // Generate backup filename
+            val timestamp = System.currentTimeMillis()
+            val appVersion = getAppVersionName()
+            val backupVersion = getLatestBackupVersion() + 1
+
+            val fileName = "${BACKUP_FILE_PREFIX}${timestamp}_app${appVersion}_v${backupVersion}.json"
+
+            // Upload to Google Drive
+            val fileId = uploadFileToDrive(
+                backupFolderId,
+                fileName,
+                backupData.toByteArray(Charsets.UTF_8)
+            )
+
+            if (fileId.isNotEmpty()) {
+                // Clean up old backups
+                cleanOldBackups()
+
+                val backupInfo = DriveBackupInfo(
+                    fileId = fileId,
+                    name = fileName,
+                    createdTime = timestamp,
+                    modifiedTime = timestamp,
+                    size = backupData.length.toLong(),
+                    mimeType = "application/json",
+                    version = backupVersion,
+                    appVersion = appVersion
+                )
+
+                Log.d(TAG, "Backup uploaded successfully to Google Drive")
+                return SyncResult(true, "Backup uploaded to Google Drive", backupInfo)
+            } else {
+                SyncResult(false, "Failed to upload backup to Google Drive")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error uploading backup to Google Drive", e)
+            SyncResult(false, "Error uploading backup: ${e.message}")
+        }
+    }
+
+    // Download backup from Google Drive
+    suspend fun downloadBackupFromDrive(fileId: String): SyncResult {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return SyncResult(false, "User not authenticated to Google Drive")
+            }
+
+            val backupData = downloadFileFromDrive(fileId)
+
+            if (backupData.isNotEmpty()) {
+                // Save local backup
+                val localFile = backupManager.saveLocalBackup(backupData)
+
+                Log.d(TAG, "Backup downloaded successfully from Google Drive")
+                return SyncResult(
+                    true,
+                    "Backup downloaded from Google Drive",
+                    DriveBackupInfo(
+                        fileId = fileId,
+                        name = "local_backup.json",
+                        createdTime = System.currentTimeMillis(),
+                        modifiedTime = System.currentTimeMillis(),
+                        size = backupData.size.toLong(),
+                        mimeType = "application/json",
+                        version = 0,
+                        appVersion = ""
+                    )
+                )
+            } else {
+                SyncResult(false, "Failed to download backup from Google Drive")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading backup from Google Drive", e)
+            SyncResult(false, "Error downloading backup: ${e.message}")
+        }
+    }
+
+    // Restore backup from Google Drive to local storage
+    suspend fun restoreBackupFromDrive(fileId: String): SyncResult {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return SyncResult(false, "User not authenticated to Google Drive")
+            }
+
+            val backupData = downloadFileFromDrive(fileId)
+
+            if (backupData.isNotEmpty()) {
+                // Parse backup data and restore
+                val importResult = backupManager.importFromUri(
+                    context,
+                    createTemporaryUri(backupData)
+                )
+
+                Log.d(TAG, "Backup restored successfully from Google Drive")
+                return SyncResult(
+                    true,
+                    "Backup restored from Google Drive",
+                    DriveBackupInfo(
+                        fileId = fileId,
+                        name = "restored_backup.json",
+                        createdTime = System.currentTimeMillis(),
+                        modifiedTime = System.currentTimeMillis(),
+                        size = backupData.size.toLong(),
+                        mimeType = "application/json",
+                        version = importResult.version,
+                        appVersion = ""
+                    )
+                )
+            } else {
+                SyncResult(false, "Failed to restore backup from Google Drive")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error restoring backup from Google Drive", e)
+            SyncResult(false, "Error restoring backup: ${e.message}")
+        }
+    }
+
+    // Get list of all backups on Google Drive
+    suspend fun getBackupList(): List<DriveBackupInfo> {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return emptyList()
+            }
+
+            val backupFolderId = findExistingFolder(BACKUP_FOLDER_NAME) ?: return emptyList()
+            val backupFiles = listFilesInFolder(backupFolderId)
+
+            backupFiles.filter { it.name.startsWith(BACKUP_FILE_PREFIX) }
+                .map { file ->
+                    DriveBackupInfo(
+                        fileId = file.id ?: "",
+                        name = file.name ?: "",
+                        createdTime = file.createdTime?.value?.toLongOrNull() ?: 0,
+                        modifiedTime = file.modifiedTime?.value?.toLongOrNull() ?: 0,
+                        size = file.size?.toLongOrNull() ?: 0,
+                        mimeType = file.mimeType ?: "",
+                        version = extractVersionFromFilename(file.name ?: ""),
+                        appVersion = extractAppVersionFromFilename(file.name ?: "")
+                    )
+                }
+                .sortedByDescending { it.createdTime }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting backup list from Google Drive", e)
+            emptyList()
+        }
+    }
+
+    // Delete backup from Google Drive
+    suspend fun deleteBackupFromDrive(fileId: String): SyncResult {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return SyncResult(false, "User not authenticated to Google Drive")
+            }
+
+            driveService?.files()?.delete(fileId)?.execute()
+
+            Log.d(TAG, "Backup deleted successfully from Google Drive")
+            SyncResult(true, "Backup deleted from Google Drive")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting backup from Google Drive", e)
+            SyncResult(false, "Error deleting backup: ${e.message}")
+        }
+    }
+
+    // Sync all local backups to Google Drive
+    suspend fun syncAllBackups(): SyncResult {
+        return try {
+            if (!isDriveAuthenticated()) {
+                return SyncResult(false, "User not authenticated to Google Drive")
+            }
+
+            val backupFolderId = getOrCreateBackupFolder()
+                ?: return SyncResult(false, "Failed to get backup folder")
+
+            // Get current backup list
+            val existingBackups = getBackupList()
+
+            // Upload current backup
+            val uploadResult = uploadBackupToDrive()
+
+            if (uploadResult.success) {
+                // Clean up old backups
+                cleanOldBackups()
+
+                SyncResult(
+                    true,
+                    "All backups synced successfully to Google Drive",
+                    uploadResult.backupInfo
+                )
+            } else {
+                SyncResult(false, "Failed to sync backups: ${uploadResult.message}")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error syncing backups to Google Drive", e)
+            SyncResult(false, "Error syncing backups: ${e.message}")
+        }
+    }
+
+    // Check internet connectivity
+    private fun isNetworkAvailable(): Boolean {
+        try {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
+            val activeNetwork = connectivityManager.activeNetworkInfo
+            return activeNetwork?.isConnectedOrConnecting == true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking network availability", e)
+            return false
+        }
+    }
+
+    // Find existing folder by name
+    private fun findExistingFolder(folderName: String): String? {
+        try {
+            val query = "name = '$folderName' and mimeType = 'application/vnd.google-apps.folder' and trashed = false"
+            val request = driveService?.files()?.list(query)
+
+            if (request == null) return null
+
+            val fileList = request.execute()
+            fileList.files?.forEach { file ->
+                if (file.name == folderName && file.id != null) {
+                    return file.id
+                }
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error finding existing folder", e)
+        }
+
+        return null
+    }
+
+    // List all files in a folder
+    private fun listFilesInFolder(folderId: String): List<File> {
+        try {
+            val query = "'${folderId}' in parents and trashed = false"
+            val request: Get = driveService?.files()?.list(query) as? Get ?: return emptyList()
+
+            val fileList = request.execute() as? FileList ?: return emptyList()
+            return fileList.files ?: emptyList()
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error listing files in folder", e)
+            return emptyList()
+        }
+    }
+
+    // Upload file to Google Drive
+    private fun uploadFileToDrive(folderId: String, fileName: String, data: ByteArray): String {
+        try {
+            val fileMetadata = File().apply {
+                name = fileName
+                parents = listOf(folderId)
+                mimeType = "application/json"
+            }
+
+            val mediaContent = com.google.api.services.drive.model.MediaContent(
+                InputStreamReader(data.toString(Charsets.UTF_8).byteInputStream())
+            )
+
+            val uploadedFile = driveService?.files()?.create(fileMetadata, mediaContent)?.execute()
+            uploadedFile?.id ?: throw Exception("Upload failed - no file ID returned")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error uploading file to Google Drive", e)
+            throw e
+        }
+    }
+
+    // Download file from Google Drive
+    private fun downloadFileFromDrive(fileId: String): ByteArray {
+        try {
+            val request = driveService?.files()?.get(fileId) as? Get ?: throw Exception("Failed to create download request")
+
+            val content = request.execute()
+                .getContent(driveService?.getRequestFactory())
+
+            content ?: throw Exception("Failed to get file content")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading file from Google Drive", e)
+            throw e
+        }
+    }
+
+    // Create temporary Uri for backup data
+    private fun createTemporaryUri(data: ByteArray): android.net.Uri {
+        val tempFile = File(context.cacheDir, "temp_backup.json")
+        FileOutputStream(tempFile).use { fos ->
+            fos.write(data)
+        }
+
+        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", tempFile)
+    }
+
+    // Extract version from filename
+    private fun extractVersionFromFilename(filename: String): Int {
+        val regex = "_v(\d+)".toRegex()
+        val match = regex.find(filename)
+        return match?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+    }
+
+    // Extract app version from filename
+    private fun extractAppVersionFromFilename(filename: String): String {
+        val regex = "_app(\d+\.\d+\.\d+)".toRegex()
+        val match = regex.find(filename)
+        return match?.groupValues?.getOrNull(1) ?: ""
+    }
+
+    // Get app version name
+    private fun getAppVersionName(): String {
+        try {
+            return context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.0"
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting app version name", e)
+            return "1.0.0"
+        }
+    }
+
+    // Get latest backup version
+    private fun getLatestBackupVersion(): Int {
+        try {
+            val backupList = getBackupList()
+            return backupList.maxOfOrNull { it.version } ?: 0
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting latest backup version", e)
+            return 0
+        }
+    }
+
+    // Clean up old backups
+    private suspend fun cleanOldBackups() {
+        try {
+            val backupList = getBackupList()
+
+            // Keep only MAX_BACKUPS_PER_DAY most recent backups
+            val backupsToDelete = backupList.drop(MAX_BACKUPS_PER_DAY)
+
+            for (backup in backupsToDelete) {
+                deleteBackupFromDrive(backup.fileId)
+                    Log.d(TAG, "Deleted old backup: ${backup.name}")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error cleaning old backups", e)
+        }
+    }
+
+    // Get backup storage quota info
+    suspend fun getStorageInfo(): com.google.api.services.drive.model.About? {
+        return try {
+            driveService?.about()?.get()?.execute()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting storage info", e)
+            null
+        }
+    }
+
+    // Check if backup is up to date
+    suspend fun isBackupUpToDate(): Boolean {
+        return try {
+            val backupList = getBackupList()
+            backupList.isNotEmpty() && (System.currentTimeMillis() - backupList.first().createdTime) < TimeUnit.DAYS.toMillis(1)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking if backup is up to date", e)
+            false
+        }
+    }
+
+    // Force backup and sync
+    suspend fun forceBackupAndSync(): SyncResult {
+        try {
+            if (!isNetworkAvailable()) {
+                return SyncResult(false, "No network connection available")
+            }
+
+            val uploadResult = uploadBackupToDrive()
+
+            if (uploadResult.success) {
+                SyncResult(
+                    true,
+                    "Force backup and sync completed",
+                    uploadResult.backupInfo
+                )
+            } else {
+                SyncResult(false, "Force backup failed: ${uploadResult.message}")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in force backup and sync", e)
+            SyncResult(false, "Error in force backup and sync: ${e.message}")
+        }
+    }
+
+    // Configure backup settings
+    data class BackupConfig(
+        val autoBackup: Boolean = true,
+        val backupFrequency: BackupFrequency = BackupFrequency.DAILY,
+        val backupLocation: BackupLocation = BackupLocation.GOOGLE_DRIVE,
+        val backupWifiOnly: Boolean = true,
+        val keepLocalBackup: Boolean = true,
+        val maxBackups: Int = 10
+    )
+
+    enum class BackupFrequency {
+        ON_DEMAND,
+        HOURLY,
+        DAILY,
+        WEEKLY
+    }
+
+    enum class BackupLocation {
+        LOCAL_ONLY,
+        GOOGLE_DRIVE_ONLY,
+        BOTH
+    }
+
+    // Backup configuration
+    private var backupConfig: BackupConfig = BackupConfig()
+
+    fun updateBackupConfig(config: BackupConfig) {
+        backupConfig = config
+    }
+
+    fun getBackupConfig(): BackupConfig {
+        return backupConfig
+    }
+
+    // Schedule automatic backups
+    fun scheduleAutomaticBackups() {
+        // TODO: Implement automatic backup scheduling using WorkManager
+        Log.d(TAG, "Automatic backup scheduling not yet implemented")
+    }
+
+    // Cancel automatic backups
+    fun cancelAutomaticBackups() {
+        // TODO: Implement cancellation of automatic backups
+        Log.d(TAG, "Automatic backup cancellation not yet implemented")
+    }
+
+    // Get backup status
+    data class BackupStatus(
+        val isBackupInProgress: Boolean = false,
+        val lastBackupTime: Long = 0,
+        val backupSize: Long = 0,
+        val isCloudSyncEnabled: Boolean = false,
+        val lastSyncTime: Long = 0,
+        val syncStatus: String = "idle"
+    ) {
+        fun isHealthy(): Boolean {
+            return !isBackupInProgress && lastBackupTime > 0
+        }
+    }
+
+    // Get backup status
+    fun getBackupStatus(): BackupStatus {
+        return BackupStatus(
+            isBackupInProgress = false,
+            lastBackupTime = System.currentTimeMillis(),
+            backupSize = backupManager.getLocalBackupSize(),
+            isCloudSyncEnabled = isDriveAuthenticated(),
+            lastSyncTime = System.currentTimeMillis(),
+            syncStatus = "healthy"
+        )
+    }
+
+    // Cleanup resources
+    fun cleanup() {
+        executorService.shutdown()
+        driveService = null
+    }
+
+    companion object {
+        private const val TAG = "GoogleDriveBackupManager"
+    }
+}
+
+sealed class BackupException(message: String) : Exception(message) {
+    class AuthenticationException(message: String) : BackupException(message)
+    class NetworkException(message: String) : BackupException(message)
+    class StorageException(message: String) : BackupException(message)
+    class ConfigurationException(message: String) : BackupException(message)
+    class GeneralBackupException(message: String) : BackupException(message)
+}

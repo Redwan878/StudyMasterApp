@@ -87,6 +87,31 @@ class RoutineFragment : Fragment() {
         }
     }
 
+    private fun setupDaySelectionListeners() {
+        // Setup listeners for day selection chips
+        dialogBinding.chipSunday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Sunday selection
+        }
+        dialogBinding.chipMonday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Monday selection
+        }
+        dialogBinding.chipTuesday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Tuesday selection
+        }
+        dialogBinding.chipWednesday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Wednesday selection
+        }
+        dialogBinding.chipThursday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Thursday selection
+        }
+        dialogBinding.chipFriday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Friday selection
+        }
+        dialogBinding.chipSaturday.setOnCheckedChangeListener { _, isChecked ->
+            // Handle Saturday selection
+        }
+    }
+
     private fun showExactAlarmDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.exact_alarm_required)
@@ -177,6 +202,12 @@ class RoutineFragment : Fragment() {
                 .show()
         }
 
+        // Add listeners for day selection chips
+        setupDaySelectionListeners()
+
+        // Setup initial day selection state
+        setupDaySelectionListeners()
+
         // Set existing subject name
         existingRoutine?.let { routine ->
             dialogBinding.tvSelectedSubject.text = routine.subjectName.ifEmpty { "বিষয় নির্বাচন করুন" }
@@ -186,15 +217,45 @@ class RoutineFragment : Fragment() {
         dialogBinding.chipDaily.isChecked = selectedRepeatType == RepeatType.DAILY
         dialogBinding.chipWeekly.isChecked = selectedRepeatType == RepeatType.WEEKLY
         dialogBinding.chipOnce.isChecked = selectedRepeatType == RepeatType.ONCE
+        dialogBinding.chipCustom.isChecked = selectedRepeatType == RepeatType.CUSTOM
 
         dialogBinding.chipGroupRepeat.setOnCheckedStateChangeListener { _, checkedIds ->
             selectedRepeatType = when {
                 checkedIds.contains(R.id.chipDaily) -> RepeatType.DAILY
                 checkedIds.contains(R.id.chipWeekly) -> RepeatType.WEEKLY
                 checkedIds.contains(R.id.chipOnce) -> RepeatType.ONCE
+                checkedIds.contains(R.id.chipCustom) -> RepeatType.CUSTOM
                 else -> RepeatType.DAILY
             }
+            // Show/hide day selection based on repeat type
+            dialogBinding.daySelectionContainer.visibility = if (selectedRepeatType == RepeatType.CUSTOM) View.VISIBLE else View.GONE
         }
+
+        // Day selection initialization
+        fun initDaySelection() {
+            when (selectedRepeatType) {
+                RepeatType.DAILY -> dialogBinding.daySelectionContainer.visibility = View.GONE
+                RepeatType.WEEKLY -> {
+                    dialogBinding.daySelectionContainer.visibility = View.VISIBLE
+                    // Default to all days for weekly
+                    dialogBinding.chipSunday.isChecked = true
+                    dialogBinding.chipMonday.isChecked = true
+                    dialogBinding.chipTuesday.isChecked = true
+                    dialogBinding.chipWednesday.isChecked = true
+                    dialogBinding.chipThursday.isChecked = true
+                    dialogBinding.chipFriday.isChecked = true
+                    dialogBinding.chipSaturday.isChecked = true
+                }
+                RepeatType.CUSTOM -> {
+                    dialogBinding.daySelectionContainer.visibility = View.VISIBLE
+                    // Store selected days for CUSTOM type
+                }
+                else -> dialogBinding.daySelectionContainer.visibility = View.GONE
+            }
+        }
+
+        // Show/hide day selection based on current repeat type
+        initDaySelection()
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(if (existingRoutine == null) getString(R.string.create_routine) else getString(R.string.edit_routine))

@@ -145,37 +145,136 @@
             android:textSize="14sp"
             android:layout_marginTop="16dp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupRepeat"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:singleSelection="true"
-            app:selectionRequired="true">
+            android:orientation="vertical">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipDaily"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
+            <!-- Repeat Type Chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupRepeat"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="প্রতিদিন"
-                android:checked="true" />
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipWeekly"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDaily"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="প্রতিদিন"
+                    android:checked="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipWeekly"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="সাপ্তাহিক" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipOnce"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="একবার" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCustom"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="কাস্টম" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Day of Week Selection (for Custom repeat) -->
+            <LinearLayout
+                android:id="@+id/daySelectionContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="সাপ্তাহিক" />
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipOnce"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="একবার" />
+                <!-- Sun -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSunday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="র"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
 
-        </com.google.android.material.chip.ChipGroup>
+                <!-- Mon -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMonday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="স"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+                <!-- Tue -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTuesday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="ম"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+                <!-- Wed -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipWednesday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="ব"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+                <!-- Thu -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipThursday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="গ"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+                <!-- Fri -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipFriday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="শু"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+                <!-- Sat -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSaturday"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="শ"
+                    android:textSize="14sp"
+                    android:layout_margin="2dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
