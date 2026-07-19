@@ -349,6 +349,7 @@
 
     <!-- Zen Mode -->
     <string name="zen_mode_title">জেন মোড</string>
+    <string name="zen_mode_tile_label">জেন মোড</string>
     <string name="zen_mode_desc">নির্বাচিত অ্যাপ ব্লক করে, সময় শেষ না হওয়া পর্যন্ত বন্ধ করা যাবে না। (Block selected apps until the timer ends — no early exit.)</string>
     <string name="zen_duration_label">সময়কাল</string>
     <string name="zen_dnd_label">Do Not Disturb</string>
@@ -395,7 +396,32 @@
     <string name="notes_empty">কোনো নোট নেই। যোগ করতে + বাটন চাপুন।</string>
 
     <!-- Calendar screen -->
-    <string name="calendar_empty">কোনো ইভেন্ট নেই। যোগ করতে + বাটন চাপুন।</string>
+    <string name="calendar_empty">কোনো ইভেন্ট নেই। যোগ করততে + বাটন চাপুন।</string>
+
+    <!-- Focus Mode -->
+    <string name="focus_mode_title">ফোকাস মোড</string>
+    <string name="focus_mode_desc">বিরক্বিকর অ্যাপস ব্লক করে পডাশোনায় মনোযােগ বাড়ান</string>
+    <string name="blocked_apps">ব্লক করা অ্যাপ</string>
+    <string name="blocked_apps_count">%dটি অ্যাপ ব্লক করা আছে</string>
+    <string name="select_apps_to_block">ব্লক করার জন্য অ্যাপ নিকাশন করুন</string>
+    <string name="app_blocked_message">এই অ্যাপটি এখন ব্লক করা আছে। পডাশোনায় ফিরে আসুন!</string>
+    <string name="accessibility_service_label">পডাশোনা মাস্টার অ্যাপ ব্লকার</string>
+    <string name="strict_mode">কঠোর মোড</string>
+    <string name="strict_mode_desc">অ্যাপ ব্লক করার পর তা বন্ধ করা যাবে না</string>
+    <string name="auto_block">অটো ব্লক</string>
+    <string name="auto_block_desc">টাইমার শুরুর সাথে সাথে অ্যাপ ব্লকিং চালু হবে</string>
+    <string name="use_root">রুট অ্যাক্সেস ব্যবহার করুন</string>
+    <string name="use_root_desc">শক্তিশালী ব্লকিংয়ের জন্য রুট অ্যাক্সেস প্রয়োজন</string>
+    <string name="block_attempts">ব্লক চেষ্টা: %d</string>
+    <string name="session_duration">সেশনের সময়কাল</string>
+    <string name="select_duration">সময়কাল নিকাশন করুন</string>
+    <string name="custom_duration_label">কাস্টম সময়কাল (মিনিট)</string>
+    <string name="focus_score_title">ফোকাস স্কোর</string>
+    <string name="focus_score_desc">আপনার ফোকাসের মান পরিমাপ করে</string>
+    <string name="emergency_unlock">জরুরি আনলক</string>
+    <string name="emergency_unlock_desc">জরুরি প্রয়োজনে অ্যাপ ব্লকিং সাময়িক বন্ধ করুন</string>
+    <string name="emergency_reason">কারণ লিখুন</string>
+    <string name="emergency_unlocked">জরুরি আনলক সক্রিয়</string>
     <string name="calendar_add_event">ইভেন্ট যোগ করুন</string>
     <string name="calendar_edit_event">ইভেন্ট সম্পাদনা</string>
     <string name="calendar_event_title">শিরোনাম</string>

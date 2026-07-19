@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ExamCountdownWidget — compact lock-screen-friendly widget showing
+  days until the next exam with color-coded urgency.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/exam_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_exam_widget"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp">
+
+    <!-- Subject name -->
+    <TextView
+        android:id="@+id/tvExamSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="—"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <!-- "days remaining" label -->
+    <TextView
+        android:id="@+id/tvExamCountdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="—"
+        android:textColor="#B0BEC5"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Exam name -->
+    <TextView
+        android:id="@+id/tvExamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="—"
+        android:textColor="#90A4AE"
+        android:textSize="11sp" />
+
+</LinearLayout>

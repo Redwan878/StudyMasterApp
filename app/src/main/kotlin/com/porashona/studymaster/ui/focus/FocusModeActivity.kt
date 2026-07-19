@@ -1,5 +1,10 @@
 package com.porashona.studymaster.ui.focus
 
+import android.app.Service
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,12 +14,18 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.porashona.studymaster.databinding.ActivityFocusModeBinding
+import com.porashona.studymaster.data.preferences.PreferencesManager
+import com.porashona.studymaster.service.MusicService
+import kotlinx.coroutines.launch
 
 class FocusModeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFocusModeBinding
     private var timer: CountDownTimer? = null
     private var isRunning = false
+    private var musicService: MusicService? = null
+    private var isBound = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +52,14 @@ class FocusModeActivity : AppCompatActivity() {
         val duration = intent.getLongExtra("duration", 25 * 60 * 1000L)
         startTimer(duration)
 
+        bindMusicService()
+
         binding.btnExit.setOnClickListener {
             timer?.cancel()
+            musicService?.pause()
+            if (isBound) {
+                unbindMusicService()
+            }
             finish()
         }
 
@@ -53,6 +70,38 @@ class FocusModeActivity : AppCompatActivity() {
                 // Intentionally empty — block the default back action.
             }
         })
+    }
+
+    private fun bindMusicService() {
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent, musicServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    private val musicServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as MusicService.MusicBinder
+            musicService = binder.getService()
+            isBound = true
+            observeMusicSettings()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            musicService = null
+            isBound = false
+        }
+    }
+
+    private fun observeMusicSettings() {
+        lifecycleScope.launch {
+            val prefs = (application as com.porashona.studymaster.StudyMasterApplication).preferencesManager
+            prefs.musicEnabled.collectLatest { musicEnabled ->
+                if (musicEnabled && isRunning) {
+                    musicService?.play()
+                } else if (!musicEnabled) {
+                    musicService?.pause()
+                }
+            }
+        }
     }
 
     private fun startTimer(duration: Long) {
@@ -74,5 +123,15 @@ class FocusModeActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
+        if (isBound) {
+            unbindMusicService()
+        }
+    }
+
+    private fun unbindMusicService() {
+        if (isBound) {
+            unbindService(musicServiceConnection)
+            isBound = false
+        }
     }
 }

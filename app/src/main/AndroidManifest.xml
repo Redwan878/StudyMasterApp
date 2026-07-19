@@ -40,6 +40,13 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
+    <!-- Camera for OCR -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Biometric (fingerprint / face unlock) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <!-- Language Change -->
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"
         tools:ignore="ProtectedPermissions" />
@@ -53,23 +60,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:theme="@style/Theme.StudyMaster"
         android:usesCleartextTraffic="true"
         android:localeConfig="@xml/locales_config"
-        tools:targetApi="34">
+        tools:targetApi="34"
+        tools:replace="android:appComponentFactory">
 
-        <!-- Main Activity -->
+        <!-- ═══════════════════════════════════════════════════════════════════
+             Activities
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- NEW: Compose-based launcher activity -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.ComposeMainActivity"
             android:exported="true"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.StudyMaster"
+            android:windowSoftInputMode="adjustResize"
+            android:turnScreenOn="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- LEGACY: Old MainActivity kept for backward compatibility (no launcher) -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:configChanges="locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Block Overlay Activity -->
         <activity
@@ -85,7 +108,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:exported="false"
             android:configChanges="locale|layoutDirection"
-            android:parentActivityName=".ui.MainActivity" />
+            android:parentActivityName=".ui.ComposeMainActivity" />
 
         <!-- Focus Mode Activity -->
         <activity
@@ -93,16 +116,20 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="locale|layoutDirection"
-            android:parentActivityName=".ui.MainActivity" />
+            android:parentActivityName=".ui.ComposeMainActivity" />
 
-        <!-- Timer Service -->
+        <!-- ═══════════════════════════════════════════════════════════════════
+             Services
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- Timer Service (special-use foreground) -->
         <service
             android:name=".service.TimerService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Music Service -->
+        <!-- Music Service (media playback foreground) -->
         <service
             android:name=".service.MusicService"
             android:enabled="true"
@@ -129,7 +156,23 @@
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Alarm Receiver -->
+        <!-- Quick Settings Tile: Zen Mode -->
+        <service
+            android:name=".service.ZenModeTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_notification"
+            android:label="@string/zen_mode_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             Broadcast Receivers
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- Alarm Receiver (boot, routine, daily reminder) -->
         <receiver
             android:name=".receiver.AlarmReceiver"
             android:enabled="true"
@@ -138,6 +181,18 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <!-- Routine Alarm Receiver -->
+        <receiver
+            android:name=".receiver.RoutineAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Routine Alarm Receiver -->
+        <receiver
+            android:name=".receiver.RoutineAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
 
         <!-- Daily Study Reminder -->
         <receiver
@@ -169,6 +224,12 @@
             android:enabled="true"
             android:exported="false" />
 
+        <!-- Enhanced Notification Receiver (exam countdown at 30/14 days) -->
+        <receiver
+            android:name=".utils.EnhancedNotifReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Language Change Receiver -->
         <receiver
             android:name=".receiver.LocaleChangeReceiver"
@@ -178,6 +239,11 @@
             </intent-filter>
         </receiver>
 
+        <!-- ═══════════════════════════════════════════════════════════════════
+             App Widgets
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <!-- Legacy Stats Widget (kept for backward compat) -->
         <receiver android:name=".widget.StatsWidget"
             android:exported="false">
             <intent-filter>
@@ -187,6 +253,57 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stats_widget_info" />
         </receiver>
+
+        <!-- NEW: Compose Stats Widget (glassmorphic, with quick-start timer) -->
+        <receiver android:name=".widget.ComposeStatsWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/compose_stats_widget_info" />
+        </receiver>
+
+        <!-- NEW: Exam Countdown Widget (lock-screen & home-screen) -->
+        <receiver android:name=".widget.ExamCountdownWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/exam_countdown_widget_info" />
+        </receiver>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             File Provider (for sharing notes, exports, camera captures)
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             WorkManager Initialization (App Startup)
+             ═══════════════════════════════════════════════════════════════════ -->
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name=".WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="replace" />
+        </provider>
 
     </application>
 

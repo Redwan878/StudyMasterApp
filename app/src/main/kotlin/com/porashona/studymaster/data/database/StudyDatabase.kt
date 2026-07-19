@@ -10,6 +10,7 @@ import com.porashona.studymaster.data.model.*
 
 @Database(
     entities = [
+        // ── Original entities ──────────────────────────────────────────────
         StudySession::class,
         Subject::class,
         Routine::class,
@@ -24,22 +25,60 @@ import com.porashona.studymaster.data.model.*
         BlockStatistic::class,
         Quote::class,
         StudyResource::class,
-        AcademicEvent::class
+        AcademicEvent::class,
+
+        // ── Flashcard entities ─────────────────────────────────────────────
+        FlashcardDeck::class,
+        Flashcard::class,
+
+        // ── Practice test entities ─────────────────────────────────────────
+        QuestionBank::class,
+        PracticeTest::class,
+        PracticeTestResult::class,
+
+        // ── Formula ────────────────────────────────────────────────────────
+        Formula::class,
+
+        // ── Syllabus ───────────────────────────────────────────────────────
+        SyllabusChapter::class,
+
+        // ── Gamification entities ──────────────────────────────────────────
+        XPGain::class,
+        UserLevel::class,
+        DailyChallenge::class,
+
+        // ── Collaboration entities ─────────────────────────────────────────
+        StudyRoom::class,
+        SharedNote::class,
+        DiscussionPost::class,
+
+        // ── Media resource entities ────────────────────────────────────────
+        VideoLink::class,
+        AudioLecture::class,
+        DiagramEntry::class,
+
+        // ── Board question ─────────────────────────────────────────────────
+        BoardQuestion::class,
+
+        // ── App lock ───────────────────────────────────────────────────────
+        AppLockConfig::class,
+
+        // ── Backup & notification preference ───────────────────────────────
+        BackupRecord::class,
+        NotificationPreference::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class StudyDatabase : RoomDatabase() {
 
-    // Existing DAOs
+    // ── Original DAOs ─────────────────────────────────────────────────────
     abstract fun studySessionDao(): StudySessionDao
     abstract fun subjectDao(): SubjectDao
     abstract fun routineDao(): RoutineDao
     abstract fun achievementDao(): AchievementDao
     abstract fun userProfileDao(): UserProfileDao
-
-    // New DAOs
     abstract fun goalDao(): GoalDao
     abstract fun taskDao(): TaskDao
     abstract fun noteDao(): NoteDao
@@ -49,6 +88,36 @@ abstract class StudyDatabase : RoomDatabase() {
     abstract fun quoteDao(): QuoteDao
     abstract fun studyResourceDao(): StudyResourceDao
     abstract fun academicEventDao(): AcademicEventDao
+
+    // ── Flashcard DAO ─────────────────────────────────────────────────────
+    abstract fun flashcardDao(): FlashcardDao
+
+    // ── Practice test DAO ─────────────────────────────────────────────────
+    abstract fun practiceTestDao(): PracticeTestDao
+
+    // ── Formula DAO ───────────────────────────────────────────────────────
+    abstract fun formulaDao(): FormulaDao
+
+    // ── Syllabus chapter DAO ──────────────────────────────────────────────
+    abstract fun syllabusChapterDao(): SyllabusChapterDao
+
+    // ── Gamification DAO ──────────────────────────────────────────────────
+    abstract fun gamificationDao(): GamificationDao
+
+    // ── Collaboration DAO ─────────────────────────────────────────────────
+    abstract fun collaborationDao(): CollaborationDao
+
+    // ── Media resource DAO ────────────────────────────────────────────────
+    abstract fun mediaResourceDao(): MediaResourceDao
+
+    // ── Board question DAO ────────────────────────────────────────────────
+    abstract fun boardQuestionDao(): BoardQuestionDao
+
+    // ── Backup DAO (BackupRecord + NotificationPreference) ────────────────
+    abstract fun backupDao(): BackupDao
+
+    // ── App lock DAO ──────────────────────────────────────────────────────
+    abstract fun appLockDao(): AppLockDao
 
     companion object {
         @Volatile
