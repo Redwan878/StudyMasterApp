@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
@@ -1308,4 +1308,3 @@ private fun WeeklyGoalCard(
         }
     }
 }
-*/

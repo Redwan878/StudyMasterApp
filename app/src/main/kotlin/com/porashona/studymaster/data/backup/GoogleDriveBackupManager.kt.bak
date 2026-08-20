@@ -1,20 +1,4 @@
-package com.porashona.studymaster.data.backup
-
-import android.content.Context
-import android.util.Log
-import androidx.core.content.FileProvider
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.services.drive.Drive
-import com.google.api.services.drive.Drive.Files.Get
-import com.google.api.services.drive.Drive.Files.List
-import com.google.api.services.drive.DriveScope
-import com.google.api.services.drive.model.File
-import com.google.api.services.drive.model.FileList
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+// Google Drive backup removed due to API dependency and build conflicts
 
 class GoogleDriveBackupManager(
     private val context: Context,

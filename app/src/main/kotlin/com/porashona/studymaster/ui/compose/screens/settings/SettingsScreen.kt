@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.settings
 
 import android.content.Intent
@@ -1067,4 +1067,3 @@ private fun SettingsActionRow(
 private fun SettingsViewModel.clearAllData() {
     // In production, this would wipe the Room database and clear all preferences
 }
-*/

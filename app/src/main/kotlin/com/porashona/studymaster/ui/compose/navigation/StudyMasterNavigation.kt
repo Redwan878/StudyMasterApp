@@ -47,9 +47,6 @@ import com.porashona.studymaster.ui.compose.screens.collaboration.CollaborationS
 import com.porashona.studymaster.ui.compose.screens.BlockerScreen
 import com.porashona.studymaster.ui.compose.screens.MusicScreen
 import com.porashona.studymaster.ui.compose.screens.AchievementsScreen
-import com.porashona.studymaster.ui.compose.screens.ChallengesScreen
-import com.porashona.studymaster.ui.compose.screens.InsightsScreen
-import com.porashona.studymaster.ui.compose.screens.BreakCoachScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -175,24 +172,9 @@ sealed interface ScreenRoute {
         override val displayNameBn = "চ্যালেঞ্জ"
     }
 
-    data object Insights : ScreenRoute {
-        override val route = "insights"
-        override val displayNameBn = "ইনসাইটস"
-    }
-
-    data object BreakCoach : ScreenRoute {
-        override val route = "break_coach"
-        override val displayNameBn = "বিরতি কোচ"
-    }
-
     data object ZenMode : ScreenRoute {
         override val route = "zen_mode"
         override val displayNameBn = "জেন মোড"
-    }
-
-    data object Notifications : ScreenRoute {
-        override val route = "notifications"
-        override val displayNameBn = "বিজ্ঞপ্তি"
     }
 
     companion object {
@@ -200,7 +182,7 @@ sealed interface ScreenRoute {
             Home, Timer, Routine, Calendar, Notes, Tasks, Goals, Exams,
             Flashcards, Assistant, Practice, Analytics, Gamification, Settings,
             Profile, Tools, Resources, Collaboration, Blocker, Music,
-            Achievements, Challenges, Insights, BreakCoach, ZenMode,
+            Achievements, Challenges, ZenMode,
         )
 
         val bottomNavRoutes = setOf(
@@ -440,23 +422,6 @@ fun StudyMasterNavigation(
         // ── Challenges ──────────────────────────────────────────────────
         composable(ScreenRoute.Challenges.route) {
             ChallengesScreen()
-        }
-
-        // ── Insights ────────────────────────────────────────────────────
-        composable(ScreenRoute.Insights.route) {
-            InsightsScreen()
-        }
-
-        // ── Break Coach ─────────────────────────────────────────────────
-        composable(ScreenRoute.BreakCoach.route) {
-            BreakCoachScreen()
-        }
-
-        // ── Notifications ───────────────────────────────────────────────
-        composable(ScreenRoute.Notifications.route) {
-            NotificationsScreen(
-                onDismiss = { navController.popBackStack() }
-            )
         }
     }
 }

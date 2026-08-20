@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screen.notifications
 
 import android.os.Bundle
@@ -653,4 +653,3 @@ private fun Long.formatDateTime(): String {
     val minute = calendar.get(java.util.Calendar.MINUTE)
     return String.format("%02d:%02d", hour, minute)
 }
-*/

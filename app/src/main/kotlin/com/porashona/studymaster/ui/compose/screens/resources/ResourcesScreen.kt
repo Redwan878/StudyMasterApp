@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.resources
 
 import android.net.Uri
@@ -883,4 +883,3 @@ private data class DiagramItem(
     val color: Color,
     val tags: String = "",
 )
-*/

@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.timer
 
 import androidx.compose.animation.AnimatedVisibility
@@ -1277,4 +1277,3 @@ private fun ConfettiCelebrationOverlay(
         }
     }
 }
-*/

@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens
 
 import androidx.compose.animation.animateColorAsState
@@ -373,4 +373,3 @@ private val achDateFormat = SimpleDateFormat("dd MMM yyyy", Locale("bn", "BD"))
 private fun formatAchievementDate(timestamp: Long): String {
     return try { achDateFormat.format(Date(timestamp)) } catch (_: Exception) { "" }
 }
-*/

@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.routine
 
 import androidx.compose.animation.AnimatedVisibility
@@ -1559,4 +1559,3 @@ private fun getActivityColorForRoutine(routine: Routine, isExamDay: Boolean): Co
         routine.subjectName.hashCode().mod(SubjectPalette.colors.size)
     )
 }
-*/

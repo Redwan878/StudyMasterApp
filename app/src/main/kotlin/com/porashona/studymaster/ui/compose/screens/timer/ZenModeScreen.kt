@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.timer
 
 import androidx.compose.animation.AnimatedVisibility
@@ -64,7 +64,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.porashona.studymaster.ui.compose.components.GlassFilledCard
 import com.porashona.studymaster.ui.compose.theme.*
 import com.porashona.studymaster.ui.compose.viewmodels.ComposeTimerState
 import com.porashona.studymaster.ui.compose.viewmodels.TimerViewModel
@@ -876,4 +878,3 @@ private data class AmbientParticle(
     val alpha: Float,
     val phase: Float,
 )
-*/

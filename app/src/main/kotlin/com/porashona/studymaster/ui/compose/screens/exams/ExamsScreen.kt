@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.exams
 
 import androidx.compose.animation.AnimatedVisibility
@@ -2100,4 +2100,3 @@ private fun ExamEmptyState(onAdd: () -> Unit) {
         }
     }
 }
-*/

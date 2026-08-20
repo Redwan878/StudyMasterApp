@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens.notes
 
 import android.Manifest
@@ -1860,4 +1860,3 @@ private fun copyUriToAppStorage(context: Context, uri: Uri, name: String): Strin
 private fun Int.toBengaliDigits(): String = toString().map { digit ->
     if (digit.isDigit()) "০১২৩৪৫৬৭৮৯"[digit.digitToInt()] else digit
 }.joinToString("")
-*/

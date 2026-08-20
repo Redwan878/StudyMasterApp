@@ -1,4 +1,4 @@
-/*
+
 package com.porashona.studymaster.ui.compose.screens
 
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -674,4 +674,3 @@ private fun getBengaliMonth(month: Int): String {
         else -> ""
     }
 }
-*/
