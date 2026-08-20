@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.blocker
 
 import android.accessibilityservice.AccessibilityServiceInfo
@@ -491,3 +492,5 @@ class InstalledAppsAdapter(
 
     override fun getItemCount() = apps.size
 }
+
+*/

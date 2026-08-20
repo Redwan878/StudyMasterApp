@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.profile
 
 import androidx.compose.animation.AnimatedVisibility
@@ -535,3 +536,4 @@ private fun inferBoard(profile: UserProfile): String {
     // In production, this would be stored in the profile
     return "ssc_science"
 }
+*/

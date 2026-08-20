@@ -38,8 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/ivBlockingStatus"

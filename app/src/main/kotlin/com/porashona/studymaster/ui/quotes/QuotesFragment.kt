@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.quotes
 
 import android.content.Intent
@@ -177,3 +178,5 @@ class QuotesFragment : Fragment() {
         _binding = null
     }
 }
+
+*/

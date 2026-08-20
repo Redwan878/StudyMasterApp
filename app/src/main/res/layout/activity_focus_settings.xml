@@ -385,8 +385,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:thumbColor="@color/primary"
-                    android:trackTint="@color/primary" />
+                    app:thumbTint="@color/primary"
+                    app:trackTint="@color/primary" />
 
             </LinearLayout>
 
@@ -410,8 +410,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:thumbColor="@color/primary"
-                    android:trackTint="@color/primary" />
+                    app:thumbTint="@color/primary"
+                    app:trackTint="@color/primary" />
 
             </LinearLayout>
 

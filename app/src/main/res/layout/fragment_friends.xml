@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:background="?android:attr/colorSurfaceVariant">
+        android:background="?attr/colorSurfaceVariant">
 
         <ImageView
             android:layout_width="32dp"
@@ -44,7 +44,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorSurface"
+        android:background="?attr/colorSurface"
         app:tabMode="fixed"
         app:tabGravity="fill" />
 

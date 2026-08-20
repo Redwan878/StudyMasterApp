@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.social
 
 import android.view.LayoutInflater
@@ -111,3 +112,4 @@ class FriendsAdapter(
         }
     }
 }
+*/

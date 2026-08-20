@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.adapters
 
 import android.view.LayoutInflater
@@ -100,3 +101,4 @@ class StudyHistoryAdapter(
         }
     }
 }
+*/

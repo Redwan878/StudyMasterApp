@@ -1,27 +1,5 @@
 package com.porashona.studymaster.data.model
 
-import java.io.Serializable
-
-data class MusicTrack(
-    val id: Int,
-    val title: String,
-    val artist: String,
-    val streamUrl: String,
-    val category: MusicCategory
-) : Serializable
-
-enum class MusicCategory {
-    LOFI,
-    NATURE,
-    CLASSICAL,
-    AMBIENT,
-    JAZZ,
-    PIANO,
-    RAIN,
-    FOCUS,
-    MEDITATION
-}
-
 object StudyMusicLibrary {
     val tracks = listOf(
         MusicTrack(1, "Lofi Study Beats", "Focus Music", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", MusicCategory.LOFI),

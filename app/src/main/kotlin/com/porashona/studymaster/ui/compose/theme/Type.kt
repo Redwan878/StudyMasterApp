@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.theme
 
 import androidx.compose.material3.Typography
@@ -456,3 +457,4 @@ fun Double.toBengaliDigits(decimalPlaces: Int = 1): String =
     String.format("%.${decimalPlaces}f", this).map { digit ->
         if (digit.isDigit()) bengaliDigits[digit.digitToInt()] else digit
     }.joinToString("")
+*/

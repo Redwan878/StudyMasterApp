@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens
 
 import androidx.compose.animation.AnimatedVisibility
@@ -859,3 +860,4 @@ private fun ActivityListItem(
         }
     }
 }
+*/

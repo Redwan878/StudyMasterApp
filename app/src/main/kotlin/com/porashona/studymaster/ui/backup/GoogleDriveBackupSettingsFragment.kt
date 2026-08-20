@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.backup
 
 import android.app.Activity
@@ -202,7 +203,7 @@ class GoogleDriveBackupSettingsFragment : Fragment() {
     private fun showDeleteBackupConfirmation(backupInfo: GoogleDriveBackupManager.DriveBackupInfo) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("ব্যাকআপ মুছুন")
-            .setMessage("আপনি কি নিশ্চিত যে আপনি "${backupInfo.name}" মুছতে চান? এই কাজটি পূণরায় করা যাবে না।")
+            .setMessage("আপনি কি নিশ্চিত যে আপনি \"${backupInfo.name}\" মুছে চান? এই কাজটি পূণরায় করা যাবে না।")
             .setPositiveButton("হ্যাঁ, মুছুন") { _, _ ->
                 viewModel.deleteBackupFromDrive(backupInfo.fileId)
             }
@@ -213,7 +214,7 @@ class GoogleDriveBackupSettingsFragment : Fragment() {
     private fun showDownloadBackupConfirmation(backupInfo: GoogleDriveBackupManager.DriveBackupInfo) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("ব্যাকআপ ডাউনলোড করুন")
-            .setMessage("আপনি কি নিশ্চিত যে আপনি "${backupInfo.name}" ডাউনলোড করতে চান?")
+            .setMessage("আপনি কি নিশ্চিত যে আপনি \"${backupInfo.name}\" ডাউনলোড করতে চান?")
             .setPositiveButton("ডাউনলোড করুন") { _, _ ->
                 viewModel.downloadBackupFromDrive(backupInfo.fileId)
             }
@@ -593,3 +594,4 @@ class GoogleDriveBackupViewModel(
         backupManager.cleanup()
     }
 }
+*/

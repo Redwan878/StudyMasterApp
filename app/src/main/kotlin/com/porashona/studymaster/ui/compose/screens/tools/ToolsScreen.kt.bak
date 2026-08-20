@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.tools
 
 import android.content.Intent
@@ -1705,3 +1706,4 @@ private fun InfoRow(label: String, value: String) {
         Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
     }
 }
+*/

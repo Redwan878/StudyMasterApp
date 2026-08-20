@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.analytics
 
 import androidx.compose.animation.animateColorAsState
@@ -1433,3 +1434,4 @@ private fun generateMockCalendarData(): List<HeatmapDay> {
     }
     return data
 }
+*/

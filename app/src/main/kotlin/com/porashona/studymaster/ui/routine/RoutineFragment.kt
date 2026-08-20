@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.routine
 
 import android.app.TimePickerDialog
@@ -309,3 +310,4 @@ class RoutineFragment : Fragment() {
         _binding = null
     }
 }
+*/

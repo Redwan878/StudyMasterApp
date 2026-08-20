@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.randomizer
 
 import android.os.Bundle
@@ -56,3 +57,5 @@ class RandomizerFragment : Fragment() {
         _binding = null
     }
 }
+
+*/

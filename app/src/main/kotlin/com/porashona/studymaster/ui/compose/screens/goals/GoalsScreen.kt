@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.goals
 
 import androidx.compose.animation.AnimatedContent
@@ -1834,3 +1835,4 @@ private fun Int.toBengaliDigits(): String = toString().map { digit ->
 private fun Long.toBengaliDigits(): String = toString().map { digit ->
     if (digit.isDigit()) "০১২৩৪৫৬৭৮৯"[digit.digitToInt()] else digit
 }.joinToString("")
+*/

@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.timer
 
 import androidx.compose.animation.AnimatedVisibility
@@ -875,3 +876,4 @@ private data class AmbientParticle(
     val alpha: Float,
     val phase: Float,
 )
+*/

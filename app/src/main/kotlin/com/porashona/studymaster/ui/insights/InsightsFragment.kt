@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.insights
 
 import android.os.Bundle
@@ -186,3 +187,5 @@ class InsightsFragment : Fragment() {
         _binding = null
     }
 }
+
+*/

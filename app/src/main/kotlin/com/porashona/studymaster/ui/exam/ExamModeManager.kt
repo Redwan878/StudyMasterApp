@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.exam
 
 import com.porashona.studymaster.data.dao.ExamModeDao
@@ -142,3 +143,5 @@ class ExamModeManager(private val examModeDao: ExamModeDao, private val preferen
         )
     }
 }
+
+*/

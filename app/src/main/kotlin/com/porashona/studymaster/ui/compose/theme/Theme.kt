@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.theme
 
 import android.app.Activity
@@ -400,3 +401,4 @@ val MaterialTheme.glassBorder: Color
 /** Returns the glass surface with 80 % opacity */
 val MaterialTheme.glassSurface80: Color
     get() = if (isSystemInDarkTheme()) GlassDarkAlpha80 else GlassLightAlpha90
+*/

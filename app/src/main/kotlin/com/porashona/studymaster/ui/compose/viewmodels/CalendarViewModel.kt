@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.viewmodels
 
 import androidx.lifecycle.ViewModel
@@ -335,3 +336,4 @@ fun DayEvents.Companion.empty() = DayEvents(
     tasks = emptyList(),
     routines = emptyList()
 )
+*/

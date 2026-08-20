@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.exams
 
 import android.os.Bundle
@@ -156,3 +157,4 @@ class ExamAdapter(private val onDelete: (Exam) -> Unit) : ListAdapter<Exam, Exam
         override fun areContentsTheSame(old: Exam, new: Exam) = old == new
     }
 }
+*/

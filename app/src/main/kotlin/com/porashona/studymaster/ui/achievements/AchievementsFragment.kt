@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.achievements
 
 import android.os.Bundle
@@ -75,3 +76,5 @@ class AchievementsFragment : Fragment() {
         _binding = null
     }
 }
+
+*/

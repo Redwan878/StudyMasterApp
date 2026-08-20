@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.timer
 
 import androidx.compose.animation.AnimatedVisibility
@@ -1248,9 +1249,9 @@ private fun ConfettiCelebrationOverlay(
             modifier = Modifier
                 .size(280.dp)
                 .graphicsLayer {
-                    this.scaleX = scale * pulseScale
-                    this.scaleY = scale * pulseScale
-                    this.rotationZ = rotation * 0.1f
+                    this.scaleX = scale.toFloat() * pulseScale.toFloat()
+                    this.scaleY = scale.toFloat() * pulseScale.toFloat()
+                    this.rotationZ = (rotation * 0.1f).toFloat()
                     alpha = scale
                 },
         ) {
@@ -1261,18 +1262,19 @@ private fun ConfettiCelebrationOverlay(
             )
             val size = 8.dp.toPx()
             for (i in 0 until 24) {
-                val angle = (i * 15f).toRadians() + (rotation * 0.02f)
-                val distance = (100 + i * 4) * scale
-                val x = center.x + kotlin.math.cos(angle) * distance
-                val y = center.y + kotlin.math.sin(angle) * distance
+                val angle = Math.toRadians((i * 15f).toDouble()).toFloat() + (rotation * 0.02f)
+                val distance = ((100 + i * 4) * scale).toFloat()
+                val x = center.x + kotlin.math.cos(angle.toDouble()) * distance
+                val y = center.y + kotlin.math.sin(angle.toDouble()) * distance
                 drawCircle(
                     color = confettiColors[i % confettiColors.size].copy(
                         alpha = (0.8f - i * 0.03f).coerceAtLeast(0.1f)
                     ),
                     radius = size * (1f - i * 0.02f).coerceAtLeast(0.3f),
-                    center = Offset(x, y),
+                    center = Offset(x.toFloat(), y.toFloat()),
                 )
             }
         }
     }
 }
+*/

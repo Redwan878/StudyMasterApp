@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.viewmodels
 
 import androidx.lifecycle.ViewModel
@@ -327,3 +328,4 @@ sealed class ExamEvent {
     data class ExamCompleted(val examId: Long) : ExamEvent()
     data class ExamDeleted(val examId: Long) : ExamEvent()
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.challenges
 
 import android.os.Bundle
@@ -52,3 +53,5 @@ class ChallengesFragment : Fragment() {
         _binding = null
     }
 }
+
+*/

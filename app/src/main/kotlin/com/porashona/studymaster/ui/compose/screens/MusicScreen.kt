@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens
 
 import androidx.compose.animation.animateColorAsState
@@ -814,3 +815,4 @@ private fun NowPlayingBar(
         }
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.stats
 
 import android.graphics.Color
@@ -233,3 +234,4 @@ class StatsFragment : Fragment() {
         _binding = null
     }
 }
+*/

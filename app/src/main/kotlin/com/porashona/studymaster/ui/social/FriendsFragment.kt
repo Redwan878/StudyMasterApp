@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.social
 
 import android.os.Bundle
@@ -125,3 +126,4 @@ class FriendsFragment : Fragment() {
         _binding = null
     }
 }
+*/

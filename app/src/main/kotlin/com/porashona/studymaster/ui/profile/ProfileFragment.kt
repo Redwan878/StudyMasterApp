@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.profile
 
 import android.os.Bundle
@@ -217,3 +218,4 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screens.gamification
 
 import androidx.compose.animation.AnimatedVisibility
@@ -1801,3 +1802,4 @@ private fun ChallengeCelebrationOverlay(challenge: Challenge) {
         }
     }
 }
+*/

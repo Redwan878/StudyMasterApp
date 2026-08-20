@@ -188,11 +188,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <!-- Routine Alarm Receiver -->
-        <receiver
-            android:name=".receiver.RoutineAlarmReceiver"
-            android:enabled="true"
-            android:exported="false" />
 
         <!-- Daily Study Reminder -->
         <receiver
@@ -302,7 +297,7 @@
             <meta-data
                 android:name=".WorkManagerInitializer"
                 android:value="androidx.startup"
-                tools:node="replace" />
+                />
         </provider>
 
     </application>

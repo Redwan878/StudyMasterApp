@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.sync
 
 import android.content.Context
@@ -95,3 +96,4 @@ class SyncSettingsFragment : Fragment() {
         _binding = null
     }
 }
+*/

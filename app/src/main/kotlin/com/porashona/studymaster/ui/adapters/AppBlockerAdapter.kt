@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.adapters
 
 import android.content.Context
@@ -70,3 +71,4 @@ class AppBlockerAdapter(
         }
     }
 }
+*/

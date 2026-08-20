@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.viewmodels
 
 import android.app.AlarmManager
@@ -91,15 +92,15 @@ class NotificationsViewModel @Inject constructor(
                 val weeklyNotifications = generateWeeklyNotifications()
                 notifications.addAll(weeklyNotifications)
 
-                # Add task deadline notifications
+                // Add task deadline notifications
                 val taskNotifications = generateTaskNotifications()
                 notifications.addAll(taskNotifications)
 
-                # Add study session reminders
+                // Add study session reminders
                 val sessionNotifications = generateSessionReminders()
                 notifications.addAll(sessionNotifications)
 
-                # Sort by timestamp (newest first)
+                // Sort by timestamp (newest first)
                 _notifications.value = notifications.sortedByDescending { it.timestamp }
                 _unreadCount.value = _notifications.value.count { !it.isRead }
             } finally {
@@ -319,7 +320,7 @@ class NotificationsViewModel @Inject constructor(
 class NotificationUpdateReceiver : android.content.BroadcastReceiver() {
     override fun onReceive(context: android.content.Context, intent: android.content.Intent?) {
         // Trigger notification refresh via shared preferences or other mechanism
-        # In production, this would use WorkManager or similar
+        // In production, this would use WorkManager or similar
         val prefs = context.getSharedPreferences("notification_updates", Context.MODE_PRIVATE)
         prefs.edit().putLong("last_update", System.currentTimeMillis()).apply()
     }
@@ -343,3 +344,4 @@ sealed class NotificationEvent {
     data class NotificationMarkedRead(val id: String) : NotificationEvent()
     object AllNotificationsCleared : NotificationEvent()
 }
+*/

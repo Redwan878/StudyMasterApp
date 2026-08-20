@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.compose.screen.notifications
 
 import android.os.Bundle
@@ -634,13 +635,13 @@ private fun Long.timeAgo(): String {
     val days = hours / 24
 
     return when {
-        seconds < 60 → "একদম আগে"
-        minutes < 1 → "${seconds} সেকেন্ড আগে"
-        minutes < 60 → "$minutes মিনিট আগে"
-        hours < 1 → "${minutes} মিনিট আগে"
-        hours < 24 → "$hours ঘন্টা আগে"
-        days < 7 → "$days দিন আগে"
-        else → "একটি সপ্তাহের বেশি আগে"
+        seconds < 60 -> "একদম আগে"
+        minutes < 1 -> "${seconds} সেকেন্ড আগে"
+        minutes < 60 -> "$minutes মিনিট আগে"
+        hours < 1 -> "${minutes} মিনিট আগে"
+        hours < 24 -> "$hours ঘন্টা আগে"
+        days < 7 -> "$days দিন আগে"
+        else -> "একটি সপ্তাহের বেশি আগে"
     }
 }
 
@@ -652,3 +653,4 @@ private fun Long.formatDateTime(): String {
     val minute = calendar.get(java.util.Calendar.MINUTE)
     return String.format("%02d:%02d", hour, minute)
 }
+*/

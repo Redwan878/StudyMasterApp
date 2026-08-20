@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.resources
 
 import android.content.Intent
@@ -104,3 +105,4 @@ class ResourceAdapter(private val onClick: (StudyResource) -> Unit) : androidx.r
         holder.itemView.setOnClickListener { onClick(item) }
     }
 }
+*/

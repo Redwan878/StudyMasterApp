@@ -30,3 +30,6 @@ Thumbs.db
 
 # Misc
 *.hprof
+
+.git-credentials
+local.properties

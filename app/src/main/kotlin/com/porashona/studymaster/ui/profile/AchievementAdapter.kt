@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.ui.profile
 
 import android.view.LayoutInflater
@@ -102,3 +103,4 @@ class AchievementAdapter : ListAdapter<Achievement, AchievementAdapter.Achieveme
         }
     }
 }
+*/

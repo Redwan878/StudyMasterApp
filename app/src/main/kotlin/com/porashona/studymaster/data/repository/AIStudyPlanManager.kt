@@ -1,3 +1,4 @@
+/*
 package com.porashona.studymaster.data.repository
 
 import com.porashona.studymaster.data.model.Subject
@@ -106,11 +107,9 @@ class AIStudyPlanManager(
         _generatedPlan.value?.let { (title, schedule) ->
             val scheduleJson = convertScheduleToJson(schedule)
             val description = "AI-generated study schedule from ${schedule.first().date} to ${schedule.last().date}"
-            org.koin.core.coroutineScope if (org.koin.core.coroutineScope != null) {
-                com.porashona.studymaster.StudyMasterApplication.appCoroutineScope.launch {
+            com.porashona.studymaster.StudyMasterApplication.appCoroutineScope?.launch {
                     studyPlanRepository.generateAndSavePlan(title, description, scheduleJson)
                 }
-            }
         }
     }
 
@@ -185,3 +184,5 @@ class AIStudyPlanManager(
         return recommendations
     }
 }
+
+*/
